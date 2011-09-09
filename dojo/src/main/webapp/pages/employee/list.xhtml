@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/templates/mainlayout.xhtml">
+	<ui:define name="container">
+		<h:form>
+			<p:messages id="a" />
+			<p:dataTable id="dataTable" var="employee"
+				value="#{employeeService.allEmployees}" paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" paginatorPosition="bottom">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="id" />
+					</f:facet>
+					<h:link outcome="view" includeViewParams="true"
+						value="#{employee.id}">
+						<f:param name="id" value="#{employee.id}" />
+					</h:link>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs.name}" />
+					</f:facet>
+					<h:outputText value="#{employee.name}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs.employeeTitle}" />
+					</f:facet>
+					<h:outputText value="#{employee.title.name}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs.startDate}" />
+					</f:facet>
+					<h:outputText value="#{employee.startDate}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs.phone}" />
+					</f:facet>
+					<h:outputText value="#{employee.phone}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs.email}" />
+					</f:facet>
+					<h:outputText value="#{employee.email}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

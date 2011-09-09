@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:forms="http://java.sun.com/jsf/composite/forms">
+<head>
+<meta http-equiv="
+	Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+	<ui:composition template="/templates/mainlayout.xhtml">
+		<ui:define name="container">
+			<div class="new-form">
+				<h:form id="form">
+					<p:messages id="msgs" showDetail="true" />
+					<p:panel header="#{msgs.newEquipment}">
+						<forms:equipment equipment="#{equipmentController.equipment}"
+							disabled="false" />
+					</p:panel>
+					<p:commandButton value="#{msgs.add}" image="ui-icon ui-icon-disk"
+						action="add" ajax="true"
+						update="form" />
+
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

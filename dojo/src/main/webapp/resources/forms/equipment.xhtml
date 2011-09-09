@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<composite:interface>
+	<composite:attribute name="equipment"
+		type="com.yuksekisler.domain.equipment.Equipment" />
+	<composite:attribute name="disabled" type="java.lang.Boolean" />
+</composite:interface>
+<composite:implementation>
+	<h:panelGrid columns="3">
+		<h:outputLabel for="productName" value="#{msgs.productName}" />
+		<p:inputText id="productName"
+			value="#{cc.attrs.equipment.productName}" maxlength="500"
+			disabled="#{cc.attrs.disabled}" />
+		<p:message for="productName" />
+
+		<h:outputLabel for="productCode" value="#{msgs.productCode}" />
+		<p:inputText id="productCode"
+			value="#{cc.attrs.equipment.productCode}" maxlength="500"
+			disabled="#{cc.attrs.disabled}" />
+		<p:message for="productCode" />
+
+		<h:outputLabel for="brand" value="#{msgs.brand}" />
+		<h:selectOneMenu id="brand" value="#{cc.attrs.equipment.brand}"
+			required="true" requiredMessage="#{msgs.brandRequired}"
+			disabled="#{cc.attrs.disabled}">
+			<f:selectItem itemLabel="#{msgs.selectBrand}"
+				noSelectionOption="true" />
+			<f:selectItems value="#{equipmentService.brands}" var="brand"
+				itemLabel="#{brand.name}" itemValue="#{brand}" />
+		</h:selectOneMenu>
+		<p:message for="brand" />
+
+		<h:outputLabel for="category" value="#{msgs.category}" />
+		<h:selectOneMenu id="category" value="#{cc.attrs.equipment.category}"
+			required="true" requiredMessage="#{msgs.categoryRequired}"
+			disabled="#{cc.attrs.disabled}">
+			<f:selectItem itemLabel="#{msgs.selectCategory}" noSelectionOption="true"/>
+			<f:selectItems value="#{equipmentService.categories}" var="category"
+				itemLabel="#{category.name}" itemValue="#{category}" />
+		</h:selectOneMenu>
+		<p:message for="category" />
+
+		<h:outputLabel for="stockEntrance" value="#{msgs.stockEntrance}" />
+		<p:calendar id="stockEntrance" required="true"
+			requiredMessage="#{msgs.stockEntranceRequired}"
+			value="#{cc.attrs.equipment.stockEntrance}"
+			disabled="#{cc.attrs.disabled}" />
+		<p:message for="stockEntrance" />
+
+		<h:outputLabel for="bestBeforeDate" value="#{msgs.bestBeforeDate}" />
+		<p:calendar id="bestBeforeDate" required="true"
+			requiredMessage="#{msgs.bestBeforeDateRequired}"
+			value="#{cc.attrs.equipment.bestBeforeDate}"
+			disabled="#{cc.attrs.disabled}" />
+		<p:message for="bestBeforeDate" />
+
+		<h:outputLabel for="productionDate" value="#{msgs.productionDate}" />
+		<p:calendar id="productionDate" required="true"
+			requiredMessage="#{msgs.productionDateRequired}"
+			value="#{cc.attrs.equipment.productionDate}"
+			disabled="#{cc.attrs.disabled}" />
+		<p:message for="productionDate" />
+	</h:panelGrid>
+</composite:implementation>
+</html>

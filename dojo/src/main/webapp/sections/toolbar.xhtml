@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+	<ui:composition>
+		<h:form>
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton type="button" value="#{msgs.home}"
+						image="ui-icon-home" />
+
+					<p:commandButton value="#{msgs.equipments}" action="equipment" />
+					<p:menuButton value="#{msgs.settings}">
+						<p:menuitem value="#{msgs.administration}" action="administration" />
+						<p:menuitem value="#{msgs.employees}" action="employee" />
+						<p:menuitem value="Works"
+							url="http://www.primefaces.org/showcase/touch" />
+					</p:menuButton>
+				</p:toolbarGroup>
+
+				<p:divider />
+
+				<p:toolbarGroup align="right">
+					<p:menuButton value="Navigate">
+						<p:menuitem value="Equipment" url="http://www.primefaces.org" />
+						<p:menuitem value="Employees"
+							url="http://www.primefaces.org/showcase" />
+						<p:menuitem value="Works"
+							url="http://www.primefaces.org/showcase/touch" />
+					</p:menuButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+		</h:form>
+	</ui:composition>
+</body>
+</html>
