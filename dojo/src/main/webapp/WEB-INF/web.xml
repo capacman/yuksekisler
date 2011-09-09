@@ -8,11 +8,7 @@
 	</welcome-file-list>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:META-INF/spring/applicationContext.xml,classpath*:META-INF/spring/facesSpringContext.xml,classpath*:META-INF/spring/securityContext.xml</param-value>
-	</context-param>
-	<context-param>
-		<param-name>com.sun.faces.expressionFactory</param-name>
-		<param-value>com.sun.el.ExpressionFactoryImpl</param-value>
+		<param-value>classpath*:META-INF/spring/applicationContext.xml,classpath*:META-INF/spring/securityContext.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -20,16 +16,16 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
+	<servlet>
+		<servlet-name>yuksekisler</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
-	<!-- <servlet> <servlet-name>Vaadin Application Servlet</servlet-name> <servlet-class>com.yuksekisler.interfaces.web.YuksekIslerApplicationServlet</servlet-class> 
-		<init-param> <param-name>applicationBean</param-name> <param-value>vaadinApp</param-value> 
-		</init-param> <init-param> <param-name>widgetset</param-name> <param-value>com.yuksekisler.interfaces.web.widgetset.YuksekislerAppWidgetset</param-value> 
-		</init-param> <load-on-startup>1</load-on-startup> </servlet> <servlet-mapping> 
-		<servlet-name>Vaadin Application Servlet</servlet-name> <url-pattern>/yuksekisler/*</url-pattern> 
-		</servlet-mapping> <servlet-mapping> <servlet-name>Vaadin Application Servlet</servlet-name> 
-		<url-pattern>/VAADIN/*</url-pattern> </servlet-mapping> -->
-
-
+	<servlet-mapping>
+		<servlet-name>yuksekisler</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -38,23 +34,4 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-
-	<servlet>
-		<servlet-name>FacesServlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>FacesServlet</servlet-name>
-		<url-pattern>*.xhtml</url-pattern>
-	</servlet-mapping>
-	<context-param>
-		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>Development</param-value>
-	</context-param>
-	<context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>aristo</param-value>
-	</context-param>
 </web-app>

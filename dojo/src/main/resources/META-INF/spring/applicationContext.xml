@@ -80,4 +80,18 @@
 		class="com.yuksekisler.infrastructure.security.UserDetailsServiceImpl">
 		<property name="employeeService" ref="employeeService" />
 	</bean>
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale">
+			<bean class="java.util.Locale">
+				<constructor-arg index="0" value="EN" />
+			</bean>
+		</property>
+	</bean>
+		<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:yuksekislermessages" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
 </beans>
