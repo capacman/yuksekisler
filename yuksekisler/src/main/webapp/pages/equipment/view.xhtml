@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forms="http://java.sun.com/jsf/composite/forms">
+
+<ui:composition template="/templates/mainlayout.xhtml">
+	<f:metadata>
+		<f:viewParam name="id" value="#{equipmentController.equipmentId}"
+			required="true" requiredMessage="#{msgs.noEquipmentSpecified}">
+			<f:validateLongRange minimum="1" />
+		</f:viewParam>
+		<f:event type="preRenderView"
+			listener="#{equipmentController.loadEquipment}" />
+		<f:event type="preValidate"
+			listener="#{equipmentController.eventListener}" />
+	</f:metadata>
+
+	<ui:define name="container">
+		<h:form id="inspectionform">
+			<p:messages globalOnly="true" />
+			<p:outputPanel rendered="#{equipmentController.equipment eq null}">
+				<h:outputText value="#{msgs.equipmentNotFound}" />
+			</p:outputPanel>
+
+			<p:outputPanel rendered="#{equipmentController.equipment != null}">
+
+				<forms:equipment equipment="#{equipmentController.equipment}"
+					disabled="true" />
+				<p:commandButton value="#{msgs.add}" image="ui-icon ui-icon-disk"
+					onclick="inspectionReportDialog.show()" type="button" />
+				<p:dialog widgetVar="inspectionReportDialog"
+					header="#{msgs.newInspectionReport}" showEffect="fade"
+					hideEffect="fade" resizable="false" width="510" height="465"
+					onShow="editor.init();editor.clear()">
+					<p:messages showSummary="true" />
+					<h:panelGroup>
+						<forms:inspectionreport id="inspectionreport"
+							report="#{equipmentController.inspectionReport}"
+							equipments="#{equipmentService.equipments}"
+							equipment="#{equipmentController.equipment}"
+							inspector="#{equipmentController.inspector}" disabled="false" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:commandButton value="#{msgs.add}"
+							action="#{equipmentController.newInspectionReportAction}"
+							update="@form"
+							oncomplete="inspectionReportDialog.hide();fixAccordion();"
+							image="ui-icon ui-icon-disk" />
+						<p:button value="#{msgs.cancel}"
+							image="ui-icon ui-icon-disk ui-icon-cancel"
+							onclick="inspectionReportDialog.hide();return false" />
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:dataGrid id="reportList" var="inspectionReport"
+					value="#{equipmentController.equipment.inspectionReports}"
+					columns="1">
+					<p:column>
+						<h3>#{msgs.inspectionReports}</h3>
+						<div id="accordionPanel">
+							<p:panel header="#{inspectionReport.inspector.name}">
+								<div>
+									<p:editor value="#{inspectionReport.report}" disabled="true"
+										controls="" />
+								</div>
+							</p:panel>
+						</div>
+					</p:column>
+				</p:dataGrid>
+				<script>
+			fixAccordion=function(){
+				$( "#accordionPanel .ui-editor-toolbar" ).hide();
+				$( "#accordionPanel .ui-editor" ).css('width','100%').css('border','none');
+			};
+			$(fixAccordion);
+	</script>
+			</p:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
