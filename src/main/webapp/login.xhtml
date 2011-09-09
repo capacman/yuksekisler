@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<body>
+	<ui:composition template="/templates/mainlayout.xhtml">
+		<ui:define name="container">
+			<h:form>
+				<p:panel header="#{msgs.login}">
+					<h:panelGrid columns="3">
+						<h:outputLabel for="username" value="#{msgs.username}" />
+						<p:inputText id="username" value="#{credentials.username}"
+							required="true" requiredMessage="#{msgs.userNameRequired}" />
+						<p:message for="username" />
+
+						<h:outputLabel for="password" value="#{msgs.password}" />
+						<p:password id="password" value="#{credentials.password}"
+							feedback="false" required="true"
+							requiredMessage="#{msgs.passwordRequired}" />
+						<p:message for="password" />
+
+						<input type="hidden" />
+						<p:commandButton value="#{msgs.login}"
+							action="#{sessionInfo.login(credentials)}" />
+						<input type="hidden" />
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>
