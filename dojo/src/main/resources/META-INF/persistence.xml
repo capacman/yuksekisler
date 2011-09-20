@@ -5,10 +5,25 @@
 	<persistence-unit name="persistenceUnit"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.yuksekisler.infrastructure.security.GrantedAuthorityImpl</class>
+		<class>com.yuksekisler.domain.work.WorkDefinition</class>
+		<class>com.yuksekisler.domain.equipment.InspectionReport</class>
+		<class>com.yuksekisler.domain.equipment.Equipment</class>
+		<class>com.yuksekisler.domain.equipment.Cost</class>
+		<class>com.yuksekisler.domain.equipment.Category</class>
+		<class>com.yuksekisler.domain.equipment.Brand</class>
+		<class>com.yuksekisler.domain.employee.Phone</class>
+		<class>com.yuksekisler.domain.employee.EmployeeTitle</class>
+		<class>com.yuksekisler.domain.employee.EmployeeIdentity</class>
+		<class>com.yuksekisler.domain.employee.Employee</class>
+		<class>com.yuksekisler.domain.employee.CertificateType</class>
+		<class>com.yuksekisler.domain.employee.Certificate</class>
+		<class>com.yuksekisler.domain.Comment</class>
 		<properties>
-			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" /> -->
-			<!--<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/>-->
-			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" 
+				/> -->
+			<!--<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/> -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
 			<!-- value="create" to build a new database on each run; value="update" 
 				to modify an existing database; value="create-drop" means the same as "create" 
 				but also drops tables when Hibernate closes; value="validate" makes no changes 

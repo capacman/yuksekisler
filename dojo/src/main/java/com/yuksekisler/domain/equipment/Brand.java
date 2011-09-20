@@ -1,5 +1,6 @@
 package com.yuksekisler.domain.equipment;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,10 @@ public class Brand implements IdEnabledEntity {
 
 	@Size(max = 10000)
 	private String description;
+
+	@Basic
+	@Column(nullable = false)
+	private Boolean enabled = true;
 
 	public Brand(String name, String description) {
 		super();
@@ -89,6 +94,15 @@ public class Brand implements IdEnabledEntity {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

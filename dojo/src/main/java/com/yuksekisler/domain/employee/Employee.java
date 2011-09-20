@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -62,7 +63,7 @@ public class Employee implements UserDetails, CredentialsContainer,
 	private Phone phone;
 
 	@Embedded
-	private EmployeeIdentity employeeIdentity=new EmployeeIdentity();
+	private EmployeeIdentity employeeIdentity = new EmployeeIdentity();
 
 	@ElementCollection(targetClass = GrantedAuthorityImpl.class, fetch = FetchType.EAGER)
 	private Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
@@ -80,6 +81,10 @@ public class Employee implements UserDetails, CredentialsContainer,
 	private boolean accountEnabled = true;
 
 	private boolean credentialsNonExpired = true;
+
+	@Basic
+	@Column(nullable = false)
+	private Boolean enabled = true;
 
 	public String getName() {
 		return this.name;
@@ -254,5 +259,13 @@ public class Employee implements UserDetails, CredentialsContainer,
 						authorities, password, email, accountNonExpired,
 						accountNonLocked, accountEnabled,
 						credentialsNonExpired, id, version);
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 }
