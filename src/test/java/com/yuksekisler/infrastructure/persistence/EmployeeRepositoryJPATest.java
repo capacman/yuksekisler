@@ -39,8 +39,8 @@ public class EmployeeRepositoryJPATest extends
 	@Override
 	public Map<String, Integer> getExpectedTableCountsPersist() {
 		Map<String, Integer> counts = new HashMap<String, Integer>();
-		counts.put("EMPLOYEE", countRowsInTable("EMPLOYEE") + 1);
-		counts.put("EMPLOYEE_TITLE", countRowsInTable("EMPLOYEE") + 1);
+		counts.put("EMPLOYEE", countEnabledRowsInTable("EMPLOYEE") + 1);
+		counts.put("EMPLOYEE_TITLE", countEnabledRowsInTable("EMPLOYEE_TITLE") + 1);
 		return counts;
 	}
 

@@ -1,0 +1,30 @@
+<div class="login-form">
+    <div dojoType="dijit.form.Form" encType="multipart/form-data"
+         action="" method="" dojoAttachPoint="dojoForm">
+        <table style="border: 1px solid #9f9f9f;" cellspacing="10">
+            <tr>
+                <td>
+                    <label for="j_username">
+                        Username:
+                    </label>
+                </td>
+                <td>
+                    <input type="text" id="j_username" name="j_username" required="true"
+                           dojoType="dijit.form.ValidationTextBox" dojoAttachPoint="username"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="j_password">
+                        Password:
+                    </label>
+                </td>
+                <td>
+                    <input type="password" id="j_password" name="j_password" dojoType="dijit.form.ValidationTextBox"
+                           dojoAttachPoint="password"/>
+                </td>
+            </tr>
+        </table>
+        <button id="login" name="login" dojoType="dijit.form.Button" dojoattachevent="onClick:login">Login</button>
+    </div>
+</div>

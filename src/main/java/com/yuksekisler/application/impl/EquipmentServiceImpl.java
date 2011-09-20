@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.yuksekisler.application.EquipmentService;
+import com.yuksekisler.application.QueryParameters;
 import com.yuksekisler.domain.equipment.Brand;
 import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
@@ -113,6 +114,26 @@ public class EquipmentServiceImpl implements EquipmentService {
 		equipment.addInspectionReport(report);
 		equipmentRepository.persist(equipment);
 		return report;
+	}
+
+	@Override
+	public void removeEquipment(Equipment equipment) {
+		equipmentRepository.remove(equipment);
+	}
+
+	@Override
+	public List<Equipment> queryEquipment(QueryParameters queryParameters) {
+		return equipmentRepository.queryEquipment(queryParameters);
+	}
+
+	@Override
+	public void removeCategory(Category category) {
+		equipmentRepository.remove(category);
+	}
+
+	@Override
+	public void removeBrand(Brand brand) {
+		equipmentRepository.remove(brand);
 	}
 
 }

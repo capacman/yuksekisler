@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link href="resources/css/style.css" rel="stylesheet">
+    <link href="resources/js/dijit/themes/claro/document.css" rel="stylesheet">
+    <link rel="stylesheet" href="resources/js/dijit/themes/claro/claro.css">
+    <link href="resources/js/dojox/grid/resources/Grid.css" rel="stylesheet">
+    <link href="resources/js/dojox/grid/resources/claroGrid.css" rel="stylesheet">
+    <script>
+        dojoConfig = {
+            isDebug: true,
+            parseOnLoad: true,
+            baseUrl: '/yuksekisler/resources/js/',
+            modulePaths: {
+                "yuksekisler": "yuksekisler",
+                "dojo":"dojo",
+                "dijit":"dijit",
+                "dojox":"dojox"
+            },
+            applicationBase:'/yuksekisler/yuksekisler'
+        };
+    </script>
+    <script src="resources/js/dojo/dojo.js.uncompressed.js">
+    </script>
+    <script>
+        // load initial set of dependencies - the app controller
+        dojo.require("yuksekisler.app");
+
+        dojo.ready(function() {
+            // do whatever the controller considers necessary for initialization
+            yuksekisler.app.init();
+        });
+    </script>
+</head>
+<body class="claro">
+<div dojoType="dijit.layout.BorderContainer" design="headline" gutters="true"
+     style="width: 900px; height: 100%;margin: 0 auto;">
+    <div id="header" class='gradient' dojoType="dijit.layout.ContentPane" region="top" minSize="50">
+
+    </div>
+    <div id="content" dojoType="dijit.layout.ContentPane" region="center" parseOnLoad='false'>
+
+    </div>
+    <div id="footer" class='gradient' dojoType="dijit.layout.ContentPane" region="bottom" minSize="50">
+
+        Footer
+
+    </div>
+</div>
+</body>
+</html>

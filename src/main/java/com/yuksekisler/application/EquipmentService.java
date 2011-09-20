@@ -37,4 +37,12 @@ public interface EquipmentService {
 
 	InspectionReport saveInspectionReport(Long reportEquipmentId,
 			InspectionReport report);
+
+	void removeEquipment(Equipment equipment);
+
+	void removeCategory(Category category);
+
+	void removeBrand(Brand brand);
+
+	List<Equipment> queryEquipment(QueryParameters queryParameters);
 }

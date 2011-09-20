@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -100,6 +101,10 @@ public class InspectionReport implements IdEnabledEntity {
 	@Column(name = "version")
 	private Integer version;
 
+	@Basic
+	@Column(nullable = false)
+	private Boolean enabled = true;
+
 	public InspectionReport() {
 		super();
 	}
@@ -159,5 +164,13 @@ public class InspectionReport implements IdEnabledEntity {
 
 	public void setInspector(Employee inspector) {
 		this.inspector = inspector;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 }

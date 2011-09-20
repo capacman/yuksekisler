@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -69,6 +70,10 @@ public class WorkDefinition implements IdEnabledEntity {
 	@Version
 	@Column(name = "version")
 	private Integer version;
+
+	@Basic
+	@Column(nullable = false)
+	private Boolean enabled = true;
 
 	public Long getId() {
 		return this.id;
@@ -185,5 +190,13 @@ public class WorkDefinition implements IdEnabledEntity {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 }

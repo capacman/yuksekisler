@@ -1,0 +1,22 @@
+<div>
+    <div dojoType='dijit.form.Form' dojoAttachPoint="form">
+        <div dojoType="dojox.layout.TableContainer" cols="1" id="tc1">
+            <div dojoType='dijit.form.TextBox' name='productName' label='Product Name' width='auto'></div>
+
+            <div dojoType="dijit.form.TextBox" name="productCode" label='Product Code' width='auto'></div>
+
+            <div name="category" dojoType='dijit.form.Select' dojoAttachPoint='categorySelect'
+                 query='{}' label='Categories' width='auto'></div>
+
+            <div name="brand" dojoType='dijit.form.Select' dojoAttachPoint='brandSelect'
+                 query='{}' label='Brands' width='auto'></div>
+            <div name='stockEntrance' dojoType='dijit.form.DateTextBox' dojoAttachPoint='stockEntrance'
+                 label='StockEntrance Date' width='auto'></div>
+            <div name='bestBeforeDate' dojoType='dijit.form.DateTextBox' dojoAttachPoint='bestBeforeDate'
+                 label='BestBefore Date' width='auto'></div>
+            <div name='productionDate' dojoType='dijit.form.DateTextBox' dojoAttachPoint='productionDate'
+                 label='Production Date' width='auto'></div>
+        </div>
+        <div dojoType='dijit.form.Button' label='Save' style="margin: 0 auto" dojoAttachEvent='onClick:onSave'></div>
+    </div>
+</div>

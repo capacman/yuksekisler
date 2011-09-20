@@ -21,6 +21,11 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 		super();
 	}
 
+	public int countEnabledRowsInTable(String tableName) {
+		return simpleJdbcTemplate.queryForInt("SELECT COUNT(0) FROM "
+				+ tableName + " where enabled=true");
+	}
+
 	@Test
 	public void testPersist() {
 		Map<String, Integer> initialTableCountsPersist = getExpectedTableCountsPersist();
@@ -30,7 +35,7 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 		for (Entry<String, Integer> countEntry : initialTableCountsPersist
 				.entrySet()) {
 			assertEquals(countEntry.getValue().intValue(),
-					countRowsInTable(countEntry.getKey()));
+					countEnabledRowsInTable(countEntry.getKey()));
 		}
 	}
 
@@ -48,7 +53,7 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 		for (Entry<String, Integer> countEntry : initialTableCountsPersist
 				.entrySet()) {
 			assertEquals(countEntry.getValue().intValue(),
-					countRowsInTable(countEntry.getKey()));
+					countEnabledRowsInTable(countEntry.getKey()));
 		}
 	}
 
@@ -56,7 +61,7 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 
 	@Test
 	public void testFindEntries() {
-		int initial = countRowsInTable(getEntityTableName());
+		int initial = countEnabledRowsInTable(getEntityTableName());
 		E entity = createEntity();
 		getRepository().persist(entity);
 		getRepository().flush();
