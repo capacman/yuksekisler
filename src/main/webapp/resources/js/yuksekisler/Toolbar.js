@@ -16,8 +16,14 @@ dojo.declare("yuksekisler.Toolbar", [dijit._Widget, dijit._Templated], {
         templateString:
             dojo.cache("yuksekisler.Toolbar", dojo.moduleUrl("yuksekisler", "../../templates/toolbar_template.html")),
         widgetsInTemplate: true,
-        hovered:function(e){
+        hovered:function(e) {
             this.popupMenu.focusFirstChild();
+        },
+        logout:function() {
+            this.logoutForm.submit();
+        },
+        onEquipments:function(){
+            dojo.hash('equipments');
         }
     }
 );

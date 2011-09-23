@@ -8,18 +8,44 @@
 // custom.AuthorWidget
 dojo.provide("yuksekisler.Login");
 
-// Bring in what we need
-dojo.require("dijit._Widget");
-dojo.require("dijit._Templated");
+dojo.require("dijit.form.Form");
 
 
-dojo.declare("yuksekisler.Login", [dijit._Widget, dijit._Templated], {
-    templateString:
-        dojo.cache("yuksekisler.Login", dojo.moduleUrl("yuksekisler", "../../templates/login_template.html")),
-    widgetsInTemplate: true,
-    login:function() {
+dojo.declare("yuksekisler.Login", [dijit.form.Form], {
+    postCreate:function() {
+        var layout = new dojox.layout.TableContainer({cols:1});
+        var username = new dijit.form.ValidationTextBox({
+            id:'j_username',
+            name:'j_username',
+            label:'Username',
+            autoComplete:'on'
+        });
+        layout.addChild(username);
+        var password = new dijit.form.ValidationTextBox({
+            id:'j_password',
+            name:'j_password',
+            type:'password',
+            label:'Password',
+            autoComplete:'on'
+        });
+        layout.addChild(password);
+
+        var submit = new dijit.form.Button({
+            label:'Login'
+        });
+
+        dojo.connect(submit, 'onClick', this, this.onSubmit);
+        this.domNode.appendChild(layout.domNode);
+        layout.startup();
+        this.domNode.appendChild(submit.domNode);
+        submit.startup();
+        dojo.attr(dijit.byId('j_username').textbox, "autocomplete", "on");
+        dojo.attr(dijit.byId('j_password').textbox, "autocomplete", "on");
+        this.inherited(arguments);
+    },
+    onSubmit:function() {
         dojo.xhrPost({
-            url: dojo.config.applicationBase+"/j_spring_security_check",
+            url: dojo.config.applicationBase + "/j_spring_security_check",
             handleAs: "text",
             load: function(data) {
                 dojo.publish(yuksekisler.app.events.loginsuccsess);
@@ -28,7 +54,7 @@ dojo.declare("yuksekisler.Login", [dijit._Widget, dijit._Templated], {
                 //show nice error function
                 alert("login failed" + error);
             },
-            content:this.dojoForm.get('value')
+            content:this.get('value')
         });
     }
 });

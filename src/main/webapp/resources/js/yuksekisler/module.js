@@ -30,8 +30,13 @@ dojo.require("dojox.layout.TableContainer");
 dojo.require("dijit.form.Select");
 dojo.require('dijit.form.DateTextBox');
 dojo.require('dijit.TitlePane');
+dojo.require('dojox.form.Uploader');
+dojo.require("dojox.form.uploader.plugins.HTML5");
+dojo.require("dojox.form.uploader.FileList");
+
 
 dojo.require("yuksekisler.Login");
 dojo.require("yuksekisler.Toolbar");
 dojo.require("yuksekisler.EquipmentListView");
 dojo.require("yuksekisler.NewEquipmentView");
+dojo.require("yuksekisler.EquipmentView");

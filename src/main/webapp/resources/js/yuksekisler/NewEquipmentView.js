@@ -18,23 +18,43 @@ dojo.declare('yuksekisler.NewEquipmentView', [dijit._Widget,dijit._Templated], {
     categoryStore:null,
     brandStore:null,
     equipmentStore:null,
+    equipment:null,
+    onSubmit:null,
     postCreate:function() {
         this.categorySelect.set('store', new dojo.data.ObjectStore({objectStore: this.categoryStore,labelProperty:'name'}));
         this.brandSelect.set('store', new dojo.data.ObjectStore({objectStore: this.brandStore,labelProperty:'name'}));
+
+        if (this.equipment) {
+            this.equipment.then(dojo.hitch(this, function(value) {
+
+                this.productName.set('value', value.productName);
+                this.productCode.set('value', value.productCode);
+                this.categorySelect.set('value', value.category);
+                this.brandSelect.set('value', value.brand);
+
+                var stockEntranceDate = new Date(value.stockEntrance);
+                this.stockEntrance.constraints.max = stockEntranceDate;
+                this.stockEntrance.set('value', stockEntranceDate);
+
+                var bestBeforeDate = new Date(value.bestBeforeDate);
+                this.bestBeforeDate.constraints.min = bestBeforeDate;
+                this.bestBeforeDate.set('value', bestBeforeDate);
+
+                this.productionDate.set('value', new Date(value.productionDate));
+            }));
+        } else {
+            var currentVal = new Date();
+            this.stockEntrance.constraints.max = currentVal;
+            this.bestBeforeDate.constraints.min = new Date();
+            this.stockEntrance.set('value', currentVal);
+        }
         this.inherited(arguments);
     },
     onSave:function() {
-        var newObject = this.form.get('value');
-        var brandDef = this.brandStore.get(newObject.brand).then(function(object) {
-            newObject.brand = object;
-        });
-        var categoryDef = this.categoryStore.get(newObject.category).then(function(object) {
-            newObject.category = object;
-        });
-        var defs = new dojo.DeferredList([brandDef, categoryDef]);
-        defs.then(function(results) {
-            console.log(results);
-            this.equipmentStore.add(newObject);
-        });
+        this.form.validate();
+        this.uploader.submit();
+        dojo.hash('equipments');
+        if (this.onSubmit)
+            this.onSubmit();
     }
 });

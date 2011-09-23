@@ -36,6 +36,7 @@ yuksekisler.app = {
         dojo.subscribe(this.events.loginsuccsess, this, "handleLogin");
         dojo.subscribe(this.events.equipmentsselected, this, "showEquipments");
         dojo.subscribe(this.events.newequipment, this, "newEquipment");
+        dojo.subscribe(this.events.equipmentselected, this, 'equipmentSelected');
         dojo.subscribe("/dojo/hashchange", this, this.mapHistory);
         //check for user info if access denied then show login view
         dojo.parser.parse();
@@ -79,6 +80,7 @@ yuksekisler.app = {
                 dojo.hash('equipments');
             }
         });
+        newEquipmentView.onSubmit=dojo.hitch(newEquipmentDialog,'hide');
         newEquipmentDialog.set('content', newEquipmentView);
         newEquipmentDialog.show();
         //this.setContent(newEquipmentView);
@@ -89,9 +91,9 @@ yuksekisler.app = {
     clearContent:function() {
         if (this.getContent().get('content')) {
             try {
-                this.getContent().get('content').destroy();
+                this.getContent().destroyDescendants();
             } catch(err) {
-
+                console.log(err);
             }
         }
     },
@@ -106,23 +108,34 @@ yuksekisler.app = {
         equipmentcreated:"equipmentcreated",
         newequipment:"newequipment",
         equipmentchanged:"equipmentchanged",
-        equipmentsselected:"equipmentsselected"
+        equipmentsselected:"equipmentsselected",
+        equipmentselected:"equipmentselected"
     },
     getHashEvent:function(hashValue) {
         if (!this.hashEvents) {
             this.hashEvents = {
                 'equipments':this.events.equipmentsselected,
-                'newequipment':this.events.newequipment
+                'newequipment':this.events.newequipment,
+                'equipment':this.events.equipmentselected
             };
         }
         return this.hashEvents[hashValue];
     },
     mapHistory:function(hashValue) {
         //hashValue might require some preprocessing
-        if (!hashValue || !this.getHashEvent(hashValue)) {
+        if (!hashValue)
             dojo.hash('equipments');
-        } else {
-            dojo.publish(this.getHashEvent(hashValue));
+        else {
+            var segments = hashValue.split('/');
+            var hashEvent = this.getHashEvent(segments[0]);
+            if (!hashEvent) {
+                dojo.hash('equipments');
+            } else {
+                if (segments.length > 1)
+                    dojo.publish(hashEvent, segments.slice(1));
+                else
+                    dojo.publish(hashEvent);
+            }
         }
     },
     handleLogin:function() {
@@ -135,12 +148,26 @@ yuksekisler.app = {
             error:function(error, ioargs) {
                 console.log(ioargs.xhr.status);
                 if (!dijit.byId('loginWidget')) {
+                    var div=dojo.create('div',{class:'login-form'});
                     var loginWidget = new yuksekisler.Login({
                         id:"loginWidget"
                     });
-                    yuksekisler.app.getContent().set("content", loginWidget);
+                    div.appendChild(loginWidget.domNode);
+                    yuksekisler.app.getContent().set("content", div);
                 }
             }
         });
+    },
+    equipmentSelected:function(segments) {
+        var equipmentId = segments[0];
+        var equipment = this.equipmentStore.get(equipmentId);
+        var equipmentView = new yuksekisler.EquipmentView({
+            id:'equipmentView',
+            categoryStore:this.categoryStore,
+            brandStore:this.brandStore,
+            equipmentStore:this.equipmentStore,
+            equipment:equipment
+        });
+        this.setContent(equipmentView);
     }
 };
