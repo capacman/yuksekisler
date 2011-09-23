@@ -1,6 +1,5 @@
 <div class="login-form">
-    <div dojoType="dijit.form.Form" encType="multipart/form-data"
-         action="" method="" dojoAttachPoint="dojoForm">
+    <form dojoType="dijit.form.Form" dojoAttachPoint="dojoForm">
         <table style="border: 1px solid #9f9f9f;" cellspacing="10">
             <tr>
                 <td>
@@ -25,6 +24,6 @@
                 </td>
             </tr>
         </table>
-        <button id="login" name="login" dojoType="dijit.form.Button" dojoattachevent="onClick:login">Login</button>
-    </div>
+        <button id="login" name="login" dojoType="dijit.form.Button" dojoattachevent="onClick:onSubmit">Login</button>
+    </form>
 </div>

@@ -11,8 +11,9 @@ html, body {
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 200px;
+    border: #808080;
 }
 
 #header {

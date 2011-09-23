@@ -1,6 +1,6 @@
 <div>
     <div dojoType="dijit.MenuBar" style="margin: auto;background: transparent;">
-        <div dojoType="dijit.MenuBarItem">Equiments</div>
+        <div dojoType="dijit.MenuBarItem" dojoAttachEvent='onClick:onEquipments'>Equiments</div>
         <div dojoType="dijit.MenuBarItem">Works</div>
         <div dojoType="dijit.PopupMenuBarItem">
             <span>Admin</span>
@@ -10,5 +10,10 @@
                 <div dojoType="dijit.MenuItem">Definitions</div>
             </div>
         </div>
+        <div dojoType="dijit.MenuBarItem" dojoAttachEvent='onClick:logout' layoutAlign='right'
+             style='float: right;'>Logout
+        </div>
     </div>
+    <div dojoType="dijit.form.Form" action='/yuksekisler/yuksekisler/j_spring_security_logout'
+         dojoAttachPoint='logoutForm' method='post'></div>
 </div>
