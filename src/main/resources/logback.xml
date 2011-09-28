@@ -12,13 +12,10 @@
 			<pattern>%d [%t] %-5p %c - %m%n</pattern>
 		</encoder>
 	</appender>
-	<root level="debug">
+	<logger name="org.hibernate" level="info" />
+	<logger name="org.springframework" level="debug" />
+	
+	<root>
 		<appender-ref ref="stdout" />
 	</root>
-	<logger name="org.hibernate" level="info">
-		<appender-ref ref="stdout" />
-	</logger>
-	<logger name="org.springframework" level="info">
-		<appender-ref ref="stdout" />
-	</logger>
 </configuration>

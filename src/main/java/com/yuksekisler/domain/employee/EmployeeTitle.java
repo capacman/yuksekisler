@@ -15,6 +15,11 @@ import com.yuksekisler.domain.IdEnabledEntity;
 @Entity
 public class EmployeeTitle implements IdEnabledEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 587697845258623293L;
+
 	@NotNull
 	@Size(max = 500)
 	private String name;
@@ -24,7 +29,7 @@ public class EmployeeTitle implements IdEnabledEntity {
 
 	@Basic
 	@Column(nullable = false)
-	private Boolean enabled = true;
+	private Boolean erased = false;
 
 	public EmployeeTitle(String name, String description) {
 		super();
@@ -95,11 +100,11 @@ public class EmployeeTitle implements IdEnabledEntity {
 		return true;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
+	public Boolean getErased() {
+		return erased;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setErased(Boolean enabled) {
+		this.erased = enabled;
 	}
 }

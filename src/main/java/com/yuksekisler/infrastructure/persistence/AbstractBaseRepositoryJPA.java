@@ -25,7 +25,7 @@ public abstract class AbstractBaseRepositoryJPA implements BaseRepository {
 		CriteriaQuery<Long> cq = qb.createQuery(Long.class);
 		Root<E> root = cq.from(clazz);
 		cq.select(qb.count(root));
-		cq.where(qb.equal(root.get("enabled"), Boolean.TRUE));
+		cq.where(qb.equal(root.get("erased"), Boolean.FALSE));
 		return cq;
 	}
 
@@ -40,7 +40,7 @@ public abstract class AbstractBaseRepositoryJPA implements BaseRepository {
 		CriteriaQuery<E> query = builder.createQuery(clazz);
 		Root<E> root = query.from(clazz);
 		return query.select(root).where(
-				builder.equal(root.get("enabled"), Boolean.TRUE));
+				builder.equal(root.get("erased"), Boolean.FALSE));
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public abstract class AbstractBaseRepositoryJPA implements BaseRepository {
 		CriteriaBuilder qb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<E> cq = qb.createQuery(clazz);
 		Root<E> root = cq.from(clazz);
-		cq.where(qb.and(qb.equal(root.get("enabled"), Boolean.TRUE),
+		cq.where(qb.and(qb.equal(root.get("erased"), Boolean.FALSE),
 				qb.equal(root.get("id"), id)));
 		return entityManager.createQuery(cq).getSingleResult();
 	}
@@ -65,7 +65,7 @@ public abstract class AbstractBaseRepositoryJPA implements BaseRepository {
 
 	@Override
 	public <E extends IdEnabledEntity> void remove(E entity) {
-		entity.setEnabled(false);
+		entity.setErased(true);
 		entityManager.merge(entity);
 		entityManager.flush();
 	}

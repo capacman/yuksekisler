@@ -30,6 +30,7 @@ public class CategoryController extends AbstractBaseController {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
 	Category store(@RequestBody Category category) {
+		LOGGER.debug("store category: {}",category);
 		return equipmentService.createNewCategory(category);
 	}
 

@@ -23,7 +23,7 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 
 	public int countEnabledRowsInTable(String tableName) {
 		return simpleJdbcTemplate.queryForInt("SELECT COUNT(0) FROM "
-				+ tableName + " where enabled=true");
+				+ tableName + " where erased=false");
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 		getRepository().flush();
 		for (Entry<String, Integer> countEntry : initialTableCountsPersist
 				.entrySet()) {
-			assertEquals(countEntry.getValue().intValue(),
+			assertEquals("invalid column count for " + countEntry.getKey(),countEntry.getValue().intValue(),
 					countEnabledRowsInTable(countEntry.getKey()));
 		}
 	}
@@ -52,7 +52,8 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 		getRepository().flush();
 		for (Entry<String, Integer> countEntry : initialTableCountsPersist
 				.entrySet()) {
-			assertEquals(countEntry.getValue().intValue(),
+			assertEquals("invalid column count for " + countEntry.getKey(),
+					countEntry.getValue().intValue(),
 					countEnabledRowsInTable(countEntry.getKey()));
 		}
 	}

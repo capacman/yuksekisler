@@ -21,7 +21,9 @@ public class AjaxAuthenticationEntryPoint extends
 			AuthenticationException arg2) throws IOException, ServletException {
 		LOGGER.debug("commence called and ajaxRequest={}",
 				arg0.getParameter("ajaxRequest"));
-		if (arg0.getParameter("ajaxRequest") == null)
+		if (arg0.getHeader("X-Requested-With") == null
+				|| !arg0.getHeader("X-Requested-With").equalsIgnoreCase(
+						"XMLHttpRequest"))
 			super.commence(arg0, arg1, arg2);
 		else
 			arg1.sendError(HttpServletResponse.SC_UNAUTHORIZED);

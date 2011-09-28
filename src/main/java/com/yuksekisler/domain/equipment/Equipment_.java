@@ -19,5 +19,5 @@ public class Equipment_ {
 	public static volatile SetAttribute<Equipment, InspectionReport> inspectionReports;
 	public static volatile SingularAttribute<Equipment, Long> id;
 	public static volatile SingularAttribute<Equipment, Integer> version;
-	public static volatile SingularAttribute<Equipment, Boolean> enabled;
+	public static volatile SingularAttribute<Equipment, Boolean> erased;
 }

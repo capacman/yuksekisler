@@ -3,6 +3,7 @@ package com.yuksekisler.application;
 import java.util.Date;
 import java.util.List;
 
+import com.yuksekisler.domain.Image;
 import com.yuksekisler.domain.equipment.Brand;
 import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
@@ -45,4 +46,6 @@ public interface EquipmentService {
 	void removeBrand(Brand brand);
 
 	List<Equipment> queryEquipment(QueryParameters queryParameters);
+
+	Image getImage(Long id);
 }

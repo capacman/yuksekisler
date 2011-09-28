@@ -1,7 +1,9 @@
 package com.yuksekisler.domain;
 
-public interface IdEnabledEntity {
+import java.io.Serializable;
+
+public interface IdEnabledEntity extends Serializable{
 	Long getId();
-	Boolean getEnabled();
-	void setEnabled(Boolean value);
+	Boolean getErased();
+	void setErased(Boolean value);
 }

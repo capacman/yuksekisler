@@ -9,7 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class CertificateType_ {
 	public static volatile SingularAttribute<CertificateType, String> name;
 	public static volatile SingularAttribute<CertificateType, String> description;
-	public static volatile SingularAttribute<CertificateType, Boolean> enabled;
+	public static volatile SingularAttribute<CertificateType, Boolean> erased;
 	public static volatile SingularAttribute<CertificateType, Long> id;
 	public static volatile SingularAttribute<CertificateType, Integer> version;
 }

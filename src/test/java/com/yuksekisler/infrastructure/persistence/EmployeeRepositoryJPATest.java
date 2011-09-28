@@ -47,7 +47,7 @@ public class EmployeeRepositoryJPATest extends
 	@Override
 	public Map<String, Integer> getExpectedTableCountsRemove() {
 		Map<String, Integer> counts = new HashMap<String, Integer>();
-		counts.put("EMPLOYEE", countRowsInTable("EMPLOYEE"));
+		counts.put("EMPLOYEE", countEnabledRowsInTable("EMPLOYEE"));
 		return counts;
 	}
 

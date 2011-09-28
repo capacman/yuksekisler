@@ -22,5 +22,5 @@ public class WorkDefinition_ {
 	public static volatile SetAttribute<WorkDefinition, Comment> comments;
 	public static volatile SingularAttribute<WorkDefinition, Long> id;
 	public static volatile SingularAttribute<WorkDefinition, Integer> version;
-	public static volatile SingularAttribute<WorkDefinition, Boolean> enabled;
+	public static volatile SingularAttribute<WorkDefinition, Boolean> erased;
 }

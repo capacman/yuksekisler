@@ -44,7 +44,7 @@ public class ApplicationInit {
 			employee.setEmail("achalil@gmail.com");
 			employee.setEmployeeIdentity(new EmployeeIdentity("123456789",
 					IdentityType.VKN));
-			employee.setEnabled(true);
+			employee.setErased(false);
 			employee.setName("anil chalil");
 			employee.setPassword("123456");
 			employee.setPhone(new Phone("905316622926"));
@@ -65,8 +65,11 @@ public class ApplicationInit {
 			Date production = calendar.getTime();
 			calendar.add(Calendar.DAY_OF_MONTH, 10);
 			Date bestBefore = calendar.getTime();
-			equipmentService.createEquipment(category, brand, entrance,
-					bestBefore, production, "asd", "asd");
+			for (int i = 1; i <= 30; i++) {
+				equipmentService.createEquipment(category, brand, entrance,
+						bestBefore, production, Integer.toString(i), "product"
+								+ i);
+			}
 		}
 	}
 

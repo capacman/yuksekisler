@@ -10,10 +10,19 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+
 import com.yuksekisler.domain.IdEnabledEntity;
 
+@JsonAutoDetect(getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @Entity
 public class Brand implements IdEnabledEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7154149298714663410L;
 
 	@NotNull
 	@Column(unique = true)
@@ -25,7 +34,7 @@ public class Brand implements IdEnabledEntity {
 
 	@Basic
 	@Column(nullable = false)
-	private Boolean enabled = true;
+	private Boolean erased = false;
 
 	public Brand(String name, String description) {
 		super();
@@ -97,12 +106,12 @@ public class Brand implements IdEnabledEntity {
 	}
 
 	@Override
-	public Boolean getEnabled() {
-		return enabled;
+	public Boolean getErased() {
+		return erased;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setErased(Boolean enabled) {
+		this.erased = enabled;
 	}
 
 }
