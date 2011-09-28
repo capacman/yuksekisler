@@ -24,29 +24,29 @@ yuksekisler.app = {
         dojo.ready(dojo.hitch(this, "startup"));
     },
     startup:function() {
-        var aop = dojox.lang.aspect;
-        aop.advise(dojo, ["xhrGet","xhrPost"], {
-            before:function() {
-                if (!arguments['0'].content) {
-                    arguments['0'].content = {};
-                }
-                arguments['0'].content.ajaxRequest = true;
-            }
-        });
-        dojo.subscribe(this.events.loginsuccsess, this, "handleLogin");
+        //var aop = dojox.lang.aspect;
+        //aop.advise(dojo, ["xhrGet","xhrPost"], {
+        //    before:function() {
+        //        if (!arguments['0'].content) {
+        //            arguments['0'].content = {};
+        //        }
+        //        arguments['0'].content.ajaxRequest = true;
+        //    }
+        //});
+        //dojo.subscribe(this.events.loginsuccsess, this, "handleLogin");
         dojo.subscribe(this.events.equipmentsselected, this, "showEquipments");
         dojo.subscribe(this.events.newequipment, this, "newEquipment");
         dojo.subscribe(this.events.equipmentselected, this, 'equipmentSelected');
         dojo.subscribe("/dojo/hashchange", this, this.mapHistory);
         //check for user info if access denied then show login view
         dojo.parser.parse();
+        this.hidePreloader();
         this.handleLogin();
     },
     initUi:function() {
         this.clearContent();
         var toolBar = new yuksekisler.Toolbar();
         dijit.byId("header").set("content", toolBar);
-        ;
         this.mapHistory(dojo.hash());
     },
     prepareData:function(data) {
@@ -66,7 +66,7 @@ yuksekisler.app = {
         this.setContent(equipmentListView);
     },
     newEquipment:function() {
-        var newEquipmentView = new yuksekisler.NewEquipmentView({
+        var newEquipmentView = new yuksekisler.EquipmentFormView({
             id:'newEquipmentView',
             categoryStore:this.categoryStore,
             brandStore:this.brandStore,
@@ -80,7 +80,7 @@ yuksekisler.app = {
                 dojo.hash('equipments');
             }
         });
-        newEquipmentView.onSubmit=dojo.hitch(newEquipmentDialog,'hide');
+        newEquipmentView.onSubmit = dojo.hitch(newEquipmentDialog, 'hide');
         newEquipmentDialog.set('content', newEquipmentView);
         newEquipmentDialog.show();
         //this.setContent(newEquipmentView);
@@ -102,7 +102,7 @@ yuksekisler.app = {
         this.getContent().set('content', newContent);
     },
     events:{
-        loginsuccsess:"loginsuccsess",
+        //loginsuccsess:"loginsuccsess",
         categorycreated:"categorycreated",
         brandcreated:"brandcreated",
         equipmentcreated:"equipmentcreated",
@@ -144,17 +144,6 @@ yuksekisler.app = {
             handleAs: "json",
             load:function(data) {
                 yuksekisler.app.prepareData(data);
-            },
-            error:function(error, ioargs) {
-                console.log(ioargs.xhr.status);
-                if (!dijit.byId('loginWidget')) {
-                    var div=dojo.create('div',{class:'login-form'});
-                    var loginWidget = new yuksekisler.Login({
-                        id:"loginWidget"
-                    });
-                    div.appendChild(loginWidget.domNode);
-                    yuksekisler.app.getContent().set("content", div);
-                }
             }
         });
     },
@@ -169,5 +158,14 @@ yuksekisler.app = {
             equipment:equipment
         });
         this.setContent(equipmentView);
+    },
+    hidePreloader:function() {
+        dojo.fadeOut({
+            node:"preloader",
+            duration:900,
+            onEnd: function() {
+                dojo.style("preloader", "display", "none");
+            }
+        }).play();
     }
 };

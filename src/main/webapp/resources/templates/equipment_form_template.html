@@ -1,7 +1,7 @@
-<div style='height: 100%;width: 100%'>
+<div>
     <div dojoType='dijit.form.Form' dojoAttachPoint="form" enctype="multipart/form-data" method='post'
-         action='/yuksekisler/yuksekisler/equipment/'>
-        <div dojoType="dojox.layout.TableContainer" cols="1" id="tc1">
+         action='/yuksekisler/equipment/'>
+        <div dojoType="dojox.layout.TableContainer" orientation="vert" cols="1" id="tc1">
             <div id='productName' dojoType='dijit.form.TextBox' name='productName' label='Product Name' width='auto'
                  required='true' dojoAttachPoint='productName'></div>
 
@@ -24,11 +24,10 @@
                  label='Production Date' width='auto' required='true'></div>
         </div>
         <input name="uploadedfile" multiple="true" type="file" dojoType="dojox.form.Uploader" label="Upload Images"
-               id="uploader" dojoAttachPoint='uploader' style="width:220px;height: 25px;float:left;"/>
+               id="uploader" dojoAttachPoint='uploader' class='fileUploader'/>
+
+        <div id="files" dojoType="dojox.form.uploader.FileList" uploaderId="uploader" class='uploaderFileList'></div>
+
         <div dojoType='dijit.form.Button' label='Save' dojoAttachEvent='onClick:onSave'></div>
-        
-        <div id="files" dojoType="dojox.form.uploader.FileList" uploaderId="uploader" style="width:240px;height: 80px;overflow: auto;"></div>
-
-
     </div>
 </div>
