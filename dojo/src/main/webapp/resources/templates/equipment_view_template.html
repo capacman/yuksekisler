@@ -1,13 +1,12 @@
-<div dojoAttachPoint="containerNode" style="height: 100%;">
-    <div dojoType="dijit.layout.BorderContainer" region='top' style='height: 320px;' gutters='false'>
-        <div dojoType="dijit.layout.ContentPane" region='left' dojoAttachPoint='editEquipmentContent' parseOnLoad='false' style='width:40%;'>
-            
-        </div>
-        <div dojoType="dijit.layout.ContentPane" region='right' style='width:60%;'>
-            right pane
-        </div>
+<div dojoAttachPoint="containerNode">
+
+    <div dojoType="dijit.layout.ContentPane" region='leading' dojoAttachPoint='editEquipmentContent'
+         parseOnLoad='false' style='width:35%;'>
     </div>
-    <div dojoType='dijit.layout.ContentPane' region='center' style="height:100%; ">
+    <div dojoType='dijit.layout.ContentPane' region='center'>
         content
+    </div>
+    <div dojoType="dijit.layout.ContentPane" region='bottom' dojoAttachPoint='imageContent' style='height:90px'>
+
     </div>
 </div>

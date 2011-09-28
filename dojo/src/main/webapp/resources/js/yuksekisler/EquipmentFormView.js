@@ -5,15 +5,15 @@
  * Time: 6:55 PM
  * To change this template use File | Settings | File Templates.
  */
-dojo.provide('yuksekisler.NewEquipmentView');
+dojo.provide('yuksekisler.EquipmentFormView');
 
 
 dojo.require("dijit._Widget");
 dojo.require('dijit._Templated');
 
 
-dojo.declare('yuksekisler.NewEquipmentView', [dijit._Widget,dijit._Templated], {
-    templateString:dojo.cache('yuksekisler.NewEquipmentView', dojo.moduleUrl('yuksekisler', '../../templates/new_equipment_template.html')),
+dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], {
+    templateString:dojo.cache('yuksekisler.EquipmentFormView', dojo.moduleUrl('yuksekisler', '../../templates/equipment_form_template.html')),
     widgetsInTemplate:true,
     categoryStore:null,
     brandStore:null,
@@ -21,6 +21,8 @@ dojo.declare('yuksekisler.NewEquipmentView', [dijit._Widget,dijit._Templated], {
     equipment:null,
     onSubmit:null,
     postCreate:function() {
+        //this.uploader.onComplete = dojo.hitch(this, this.formCompleted);
+        dojo.connect(this.uploader, 'onComplete', this, this.formCompleted);
         this.categorySelect.set('store', new dojo.data.ObjectStore({objectStore: this.categoryStore,labelProperty:'name'}));
         this.brandSelect.set('store', new dojo.data.ObjectStore({objectStore: this.brandStore,labelProperty:'name'}));
 
@@ -41,6 +43,9 @@ dojo.declare('yuksekisler.NewEquipmentView', [dijit._Widget,dijit._Templated], {
                 this.bestBeforeDate.set('value', bestBeforeDate);
 
                 this.productionDate.set('value', new Date(value.productionDate));
+                //indicate that we are doing update
+                //also uploader calculating form url once so changing form url doesnt do anything
+                this.uploader.url = this.uploader.url + value.id;
             }));
         } else {
             var currentVal = new Date();
@@ -53,8 +58,10 @@ dojo.declare('yuksekisler.NewEquipmentView', [dijit._Widget,dijit._Templated], {
     onSave:function() {
         this.form.validate();
         this.uploader.submit();
-        dojo.hash('equipments');
+    },
+    formCompleted:function(e) {
         if (this.onSubmit)
             this.onSubmit();
+        dojo.hash('equipments');
     }
 });
