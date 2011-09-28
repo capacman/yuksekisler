@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.yuksekisler.application.EquipmentService;
 import com.yuksekisler.application.QueryParameters;
+import com.yuksekisler.domain.Image;
 import com.yuksekisler.domain.equipment.Brand;
 import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
@@ -134,6 +135,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Override
 	public void removeBrand(Brand brand) {
 		equipmentRepository.remove(brand);
+	}
+
+	@Override
+	public Image getImage(Long id) {
+		return equipmentRepository.find(id, Image.class);
 	}
 
 }

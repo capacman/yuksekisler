@@ -18,5 +18,5 @@ public class InspectionReport_ {
 	public static volatile SetAttribute<InspectionReport, Comment> comments;
 	public static volatile SingularAttribute<InspectionReport, Long> id;
 	public static volatile SingularAttribute<InspectionReport, Integer> version;
-	public static volatile SingularAttribute<InspectionReport, Boolean> enabled;
+	public static volatile SingularAttribute<InspectionReport, Boolean> erased;
 }

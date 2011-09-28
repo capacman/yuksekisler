@@ -84,7 +84,7 @@ public class Employee implements UserDetails, CredentialsContainer,
 
 	@Basic
 	@Column(nullable = false)
-	private Boolean enabled = true;
+	private Boolean erased = false;
 
 	public String getName() {
 		return this.name;
@@ -218,15 +218,6 @@ public class Employee implements UserDetails, CredentialsContainer,
 	}
 
 	@Override
-	public boolean isEnabled() {
-		return accountEnabled;
-	}
-
-	public void setEnabled(boolean value) {
-		this.accountEnabled = value;
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -261,11 +252,21 @@ public class Employee implements UserDetails, CredentialsContainer,
 						credentialsNonExpired, id, version);
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
+	public void setErased(Boolean enabled) {
+		this.erased = enabled;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	@Override
+	public Boolean getErased() {
+		return erased;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return accountEnabled;
+	}
+
+	public void setEnabled(boolean accountEnabled) {
+		this.accountEnabled = accountEnabled;
 	}
 }

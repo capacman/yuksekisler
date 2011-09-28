@@ -17,6 +17,11 @@ import com.yuksekisler.domain.IdEnabledEntity;
 @Entity
 public class CertificateType implements IdEnabledEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1947656428565775330L;
+
 	@NotNull
 	@Size(max = 500)
 	private String name;
@@ -26,7 +31,7 @@ public class CertificateType implements IdEnabledEntity {
 
 	@Basic
 	@Column(nullable = false)
-	private Boolean enabled = true;
+	private Boolean erased = true;
 
 	public CertificateType(String name, String description) {
 		super();
@@ -100,11 +105,11 @@ public class CertificateType implements IdEnabledEntity {
 		return true;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
+	public Boolean getErased() {
+		return erased;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setErased(Boolean enabled) {
+		this.erased = enabled;
 	}
 }

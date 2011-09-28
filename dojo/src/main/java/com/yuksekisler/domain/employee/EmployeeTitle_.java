@@ -9,7 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class EmployeeTitle_ {
 	public static volatile SingularAttribute<EmployeeTitle, String> name;
 	public static volatile SingularAttribute<EmployeeTitle, String> description;
-	public static volatile SingularAttribute<EmployeeTitle, Boolean> enabled;
+	public static volatile SingularAttribute<EmployeeTitle, Boolean> erased;
 	public static volatile SingularAttribute<EmployeeTitle, Long> id;
 	public static volatile SingularAttribute<EmployeeTitle, Integer> version;
 }

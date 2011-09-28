@@ -10,10 +10,19 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+
 import com.yuksekisler.domain.IdEnabledEntity;
 
+@JsonAutoDetect(getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @Entity
-public class Category implements IdEnabledEntity{
+public class Category implements IdEnabledEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1909361124395076453L;
 
 	@NotNull
 	@Column(unique = true)
@@ -22,10 +31,10 @@ public class Category implements IdEnabledEntity{
 
 	@Size(max = 10000)
 	private String description;
-	
+
 	@Basic
 	@Column(nullable = false)
-	private Boolean enabled=true;
+	private Boolean erased = false;
 
 	public Category(String name, String description) {
 		super();
@@ -62,15 +71,6 @@ public class Category implements IdEnabledEntity{
 		return this.version;
 	}
 
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Description: ").append(getDescription()).append(", ");
-		sb.append("Id: ").append(getId()).append(", ");
-		sb.append("Name: ").append(getName()).append(", ");
-		sb.append("Version: ").append(getVersion());
-		return sb.toString();
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -96,11 +96,18 @@ public class Category implements IdEnabledEntity{
 		return true;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
+	public Boolean getErased() {
+		return erased;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setErased(Boolean enabled) {
+		this.erased = enabled;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [name=" + name + ", description=" + description
+				+ ", enabled=" + erased + ", id=" + id + ", version=" + version
+				+ "]";
 	}
 }

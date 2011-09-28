@@ -2,6 +2,7 @@ package com.yuksekisler.domain;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.yuksekisler.domain.employee.Employee;
 
 @Entity
-public class Comment {
+public class Comment implements IdEnabledEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7927485389994428534L;
 
 	@NotNull
 	@ManyToOne
@@ -79,12 +85,27 @@ public class Comment {
 	@Column(name = "version")
 	private Integer version;
 
+	@Basic
+	@Column(nullable = false)
+	private Boolean erased = false;
+
 	public Long getId() {
 		return this.id;
 	}
 
 	public Integer getVersion() {
 		return this.version;
+	}
+
+	@Override
+	public Boolean getErased() {
+		return erased;
+	}
+
+	@Override
+	public void setErased(Boolean value) {
+		this.erased = value;
+
 	}
 
 }

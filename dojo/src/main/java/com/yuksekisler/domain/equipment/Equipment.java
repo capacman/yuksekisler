@@ -2,6 +2,7 @@ package com.yuksekisler.domain.equipment;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,9 +30,15 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.yuksekisler.domain.IdEnabledEntity;
+import com.yuksekisler.domain.Image;
 
 @Entity
 public class Equipment implements IdEnabledEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6172182731905953514L;
 
 	@Size(max = 500)
 	private String productName;
@@ -80,7 +87,11 @@ public class Equipment implements IdEnabledEntity {
 
 	@Basic
 	@Column(nullable = false)
-	private Boolean enabled = true;
+	private Boolean erased = false;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable
+	private Set<Image> images = new HashSet<Image>();
 
 	public Long getId() {
 		return this.id;
@@ -204,11 +215,19 @@ public class Equipment implements IdEnabledEntity {
 		return true;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
+	public Boolean getErased() {
+		return erased;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setErased(Boolean enabled) {
+		this.erased = enabled;
+	}
+
+	public void addImage(Image image) {
+		this.images.add(image);
+	}
+
+	public Set<Image> getImages() {
+		return images;
 	}
 }

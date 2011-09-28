@@ -30,6 +30,11 @@ import com.yuksekisler.domain.equipment.Equipment;
 @Entity
 public class WorkDefinition implements IdEnabledEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1652328536647975113L;
+
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
@@ -73,7 +78,7 @@ public class WorkDefinition implements IdEnabledEntity {
 
 	@Basic
 	@Column(nullable = false)
-	private Boolean enabled = true;
+	private Boolean erased = false;
 
 	public Long getId() {
 		return this.id;
@@ -192,11 +197,11 @@ public class WorkDefinition implements IdEnabledEntity {
 		return true;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
+	public Boolean getErased() {
+		return erased;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setErased(Boolean enabled) {
+		this.erased = enabled;
 	}
 }

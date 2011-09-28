@@ -24,7 +24,7 @@ public class Employee_ {
 	public static volatile SingularAttribute<Employee, Boolean> accountNonLocked;
 	public static volatile SingularAttribute<Employee, Boolean> accountEnabled;
 	public static volatile SingularAttribute<Employee, Boolean> credentialsNonExpired;
-	public static volatile SingularAttribute<Employee, Boolean> enabled;
+	public static volatile SingularAttribute<Employee, Boolean> erased;
 	public static volatile SingularAttribute<Employee, Long> id;
 	public static volatile SingularAttribute<Employee, Integer> version;
 }

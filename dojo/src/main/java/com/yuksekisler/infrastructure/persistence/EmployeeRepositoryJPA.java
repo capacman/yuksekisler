@@ -10,9 +10,10 @@ public class EmployeeRepositoryJPA extends AbstractBaseRepositoryJPA implements
 
 	@Override
 	public Employee findByEmail(String email) {
-		TypedQuery<Employee> query = entityManager.createQuery(
-				"select o from Employee o where o.email = :email and o.enabled=true",
-				Employee.class);
+		TypedQuery<Employee> query = entityManager
+				.createQuery(
+						"select o from Employee o where o.email = :email and o.erased=false",
+						Employee.class);
 		query.setParameter("email", email);
 		return query.getSingleResult();
 	}

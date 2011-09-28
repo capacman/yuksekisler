@@ -9,7 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class Category_ {
 	public static volatile SingularAttribute<Category, String> name;
 	public static volatile SingularAttribute<Category, String> description;
-	public static volatile SingularAttribute<Category, Boolean> enabled;
+	public static volatile SingularAttribute<Category, Boolean> erased;
 	public static volatile SingularAttribute<Category, Long> id;
 	public static volatile SingularAttribute<Category, Integer> version;
 }

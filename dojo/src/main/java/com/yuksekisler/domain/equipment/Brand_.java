@@ -9,7 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class Brand_ {
 	public static volatile SingularAttribute<Brand, String> name;
 	public static volatile SingularAttribute<Brand, String> description;
-	public static volatile SingularAttribute<Brand, Boolean> enabled;
+	public static volatile SingularAttribute<Brand, Boolean> erased;
 	public static volatile SingularAttribute<Brand, Long> id;
 	public static volatile SingularAttribute<Brand, Integer> version;
 }

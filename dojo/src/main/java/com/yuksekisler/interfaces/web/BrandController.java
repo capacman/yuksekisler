@@ -27,8 +27,9 @@ public class BrandController extends AbstractBaseController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
-	Brand store(@RequestBody Brand category) {
-		return equipmentService.createNewBrand(category);
+	Brand store(@RequestBody Brand brand) {
+		LOGGER.debug("store brand: {}",brand);
+		return equipmentService.createNewBrand(brand);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

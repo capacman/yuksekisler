@@ -35,6 +35,11 @@ import com.yuksekisler.domain.employee.Employee;
 @Entity
 public class InspectionReport implements IdEnabledEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6592000860553641586L;
+
 	@NotNull
 	@ManyToOne
 	private Employee inspector;
@@ -103,7 +108,7 @@ public class InspectionReport implements IdEnabledEntity {
 
 	@Basic
 	@Column(nullable = false)
-	private Boolean enabled = true;
+	private Boolean erased = false;
 
 	public InspectionReport() {
 		super();
@@ -166,11 +171,11 @@ public class InspectionReport implements IdEnabledEntity {
 		this.inspector = inspector;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
+	public Boolean getErased() {
+		return erased;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setErased(Boolean enabled) {
+		this.erased = enabled;
 	}
 }
