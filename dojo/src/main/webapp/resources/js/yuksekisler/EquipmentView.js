@@ -11,7 +11,7 @@ dojo.require('dijit.layout.BorderContainer');
 dojo.require('dijit._Templated');
 
 dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._Templated], {
-    templateString:dojo.cache('yuksekisler.EquipmentView', dojo.moduleUrl('yuksekisler', '../../templates/equipment_view_template.html')),
+    templateString:dojo.cache('yuksekisler.EquipmentView', '../../../templates/equipment_view_template.html'),
     widgetsInTemplate:true,
     categoryStore:null,
     brandStore:null,
@@ -23,6 +23,7 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
         this.inherited(arguments);
 
         var equipmentChain = this.equipment.then(dojo.hitch(this, this.prepareImageContent));
+        equipmentChain = equipmentChain.then(dojo.hitch(this, this.prepareInspectionReports));
 
         this.editEquipment = new yuksekisler.EquipmentFormView({
             categoryStore:this.categoryStore,
@@ -34,8 +35,6 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
         var container = dojo.create('div', {class:'equipmentFormContainer gradient'});
         container.appendChild(this.editEquipment.domNode);
         this.editEquipmentContent.set('content', container);
-
-
     },
     prepareImageContent:function(value) {
         if (value.images.length > 0) {
@@ -54,16 +53,8 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
             this.imageContent.set('content', imageGallery);
             dojo.subscribe(imageGallery.getClickTopicName(), this, this.lightboxShow);
 
-            var storeData = [];
-            for (var x in value.images) {
-                storeData[x] = {
-                    "thumb":(dojo.config.applicationBase + '/equipment/image/' + value.images[x].id) + '/thumbnail',
-                    "large":(dojo.config.applicationBase + '/equipment/image/' + value.images[x].id),
-                    "title":value.images[x].title,
-                    "link":value.images[x].id
-                };
-            }
-            var memoryStore = dojo.data.ObjectStore({objectStore: new dojo.store.Memory({data: storeData})});
+            var memoryStore = yuksekisler.app.prepareImageStore(value, 'images');
+
             imageGallery.setDataStore(memoryStore, { count:20 }, {
                 imageThumbAttr: "thumb",
                 imageLargeAttr: "large"
@@ -74,6 +65,20 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
         }
         return value;
     },
+    prepareInspectionReports:function(value) {
+        var group = new dojox.widget.TitleGroup();
+        for (var x in value.inspectionReports) {
+            var inspectionReport = value.inspectionReports[x];
+            var inspectionReportWidget = new yuksekisler.InspectionReportWidget({
+                report:inspectionReport,
+                equipmentView:this,
+                open:x == (value.inspectionReports.length - 1)
+            }).placeAt(group);
+        }
+        this.inspectionReportContent.set('content', group)
+        return value;
+    }
+    ,
     lightboxShow:function (packet) {
 
         // you can just "show" this image

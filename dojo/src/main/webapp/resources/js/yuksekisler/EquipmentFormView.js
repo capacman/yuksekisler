@@ -13,7 +13,7 @@ dojo.require('dijit._Templated');
 
 
 dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], {
-    templateString:dojo.cache('yuksekisler.EquipmentFormView', dojo.moduleUrl('yuksekisler', '../../templates/equipment_form_template.html')),
+    templateString:dojo.cache('yuksekisler.EquipmentFormView', '../../../templates/equipment_form_template.html'),
     widgetsInTemplate:true,
     categoryStore:null,
     brandStore:null,

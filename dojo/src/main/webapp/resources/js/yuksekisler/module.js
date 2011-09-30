@@ -37,10 +37,12 @@ dojo.require("dojox.form.uploader.FileList");
 //dojo.require('dojox.image.Gallery');
 dojo.require('dojox.image.ThumbnailPicker');
 dojo.require('dojox.image.Lightbox');
-dojo.require('dijit.InlineEditBox');
+dojo.require('dijit.TitlePane');
+dojo.require('dojox.widget.TitleGroup');
 
 dojo.require("yuksekisler.Login");
 dojo.require("yuksekisler.Toolbar");
 dojo.require("yuksekisler.EquipmentListView");
 dojo.require("yuksekisler.EquipmentFormView");
 dojo.require("yuksekisler.EquipmentView");
+dojo.require('yuksekisler.InspectionReportWidget');

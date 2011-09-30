@@ -167,5 +167,18 @@ yuksekisler.app = {
                 dojo.style("preloader", "display", "none");
             }
         }).play();
+    },
+    prepareImageStore:function(value, imagesAttr) {
+        var storeData = [];
+        for (var x in value[imagesAttr]) {
+            storeData[x] = {
+                "thumb":(dojo.config.applicationBase + '/equipment/image/' + value[imagesAttr][x].id) + '/thumbnail',
+                "large":(dojo.config.applicationBase + '/equipment/image/' + value[imagesAttr][x].id),
+                "title":value[imagesAttr][x].title,
+                "link":value[imagesAttr][x].id
+            };
+        }
+        var memoryStore = dojo.data.ObjectStore({objectStore: new dojo.store.Memory({data: storeData})});
+        return memoryStore;
     }
 };
