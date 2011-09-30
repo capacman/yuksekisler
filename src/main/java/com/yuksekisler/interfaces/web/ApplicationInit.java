@@ -20,6 +20,9 @@ import com.yuksekisler.domain.employee.IdentityType;
 import com.yuksekisler.domain.employee.Phone;
 import com.yuksekisler.domain.equipment.Brand;
 import com.yuksekisler.domain.equipment.Category;
+import com.yuksekisler.domain.equipment.Equipment;
+import com.yuksekisler.domain.equipment.InspectionReport;
+import com.yuksekisler.domain.equipment.InspectionStatus;
 import com.yuksekisler.infrastructure.security.GrantedAuthorityImpl;
 
 public class ApplicationInit {
@@ -53,7 +56,7 @@ public class ApplicationInit {
 			employee.setTitle(title);
 			employee.getAuthorities().add(GrantedAuthorityImpl.USER);
 			employee.getAuthorities().add(GrantedAuthorityImpl.ADMIN);
-			employeeService.saveEmployee(employee);
+			employee = employeeService.saveEmployee(employee);
 
 			Brand brand = equipmentService.createNewBrand(new Brand("a", "a"));
 			Category category = equipmentService
@@ -65,10 +68,16 @@ public class ApplicationInit {
 			Date production = calendar.getTime();
 			calendar.add(Calendar.DAY_OF_MONTH, 10);
 			Date bestBefore = calendar.getTime();
+
 			for (int i = 1; i <= 30; i++) {
-				equipmentService.createEquipment(category, brand, entrance,
-						bestBefore, production, Integer.toString(i), "product"
-								+ i);
+				Equipment equipment = equipmentService.createEquipment(
+						category, brand, entrance, bestBefore, production,
+						Integer.toString(i), "product" + i);
+				for (int j = 1; j <= 5; j++)
+					equipment.addInspectionReport(new InspectionReport(
+							employee, new Date(), "some content",
+							InspectionStatus.USABLE));
+				equipmentService.saveEquipment(equipment);
 			}
 		}
 	}

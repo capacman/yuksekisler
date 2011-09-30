@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.map.annotate.JsonFilter;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.CredentialsContainer;
@@ -32,6 +33,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.yuksekisler.domain.IdEnabledEntity;
 import com.yuksekisler.infrastructure.security.GrantedAuthorityImpl;
 
+@JsonFilter("employee")
 @Entity
 public class Employee implements UserDetails, CredentialsContainer,
 		IdEnabledEntity {

@@ -1,25 +1,21 @@
 package com.yuksekisler.domain.equipment;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.PersistenceContext;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -28,8 +24,8 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.yuksekisler.domain.Comment;
 import com.yuksekisler.domain.IdEnabledEntity;
+import com.yuksekisler.domain.Image;
 import com.yuksekisler.domain.employee.Employee;
 
 @Entity
@@ -56,10 +52,6 @@ public class InspectionReport implements IdEnabledEntity {
 	@Enumerated
 	private InspectionStatus status;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@OrderBy("creationDate ASC")
-	private Set<Comment> comments = new LinkedHashSet<Comment>();
-
 	public InspectionReport(Employee inspector, Date inspectionDate,
 			String comment, InspectionStatus status) {
 		super();
@@ -85,18 +77,6 @@ public class InspectionReport implements IdEnabledEntity {
 		return this.status;
 	}
 
-	public List<Comment> getComments() {
-		return Collections.unmodifiableList(new ArrayList<Comment>(
-				this.comments));
-	}
-
-	public void addComment(Comment comment) {
-		this.comments.add(comment);
-	}
-
-	@PersistenceContext
-	transient EntityManager entityManager;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
@@ -109,6 +89,10 @@ public class InspectionReport implements IdEnabledEntity {
 	@Basic
 	@Column(nullable = false)
 	private Boolean erased = false;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable
+	private Set<Image> images = new HashSet<Image>();
 
 	public InspectionReport() {
 		super();
@@ -150,6 +134,8 @@ public class InspectionReport implements IdEnabledEntity {
 		if (id == null) {
 			if (other.id != null)
 				return false;
+			else if (this != other)
+				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
@@ -177,5 +163,13 @@ public class InspectionReport implements IdEnabledEntity {
 
 	public void setErased(Boolean enabled) {
 		this.erased = enabled;
+	}
+
+	public void addImage(Image image) {
+		images.add(image);
+	}
+
+	public Set<Image> getImages() {
+		return images;
 	}
 }
