@@ -14,7 +14,7 @@ dojo.require("dijit._Templated");
 
 dojo.declare("yuksekisler.Toolbar", [dijit._Widget, dijit._Templated], {
         templateString:
-            dojo.cache("yuksekisler.Toolbar", dojo.moduleUrl("yuksekisler", "../../templates/toolbar_template.html")),
+            dojo.cache("yuksekisler.Toolbar", "../../../templates/toolbar_template.html"),
         widgetsInTemplate: true,
         hovered:function(e) {
             this.popupMenu.focusFirstChild();
