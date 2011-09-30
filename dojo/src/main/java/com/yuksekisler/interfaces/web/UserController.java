@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuksekisler.domain.employee.Employee;
 
@@ -16,9 +17,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/current", method = RequestMethod.GET)
-	public UserInfo currentUser() {
-		Employee employee = (Employee) SecurityContextHolder.getContext()
+	public @ResponseBody
+	Employee currentUser() {
+		return (Employee) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		return new UserInfo(employee.getName(), employee.getName());
 	}
 }
