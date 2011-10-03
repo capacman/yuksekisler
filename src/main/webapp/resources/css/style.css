@@ -78,7 +78,7 @@ html, body {
     -moz-box-shadow: 5px 5px 5px #ccc;
     -webkit-box-shadow: 5px 5px 5px #ccc;
     box-shadow: 5px 5px 5px #ccc;
-    height: 95%;
+    height: 430px;
 }
 
 #preloader {
@@ -95,4 +95,10 @@ html, body {
 
 #imagePicker {
     margin: auto;
+}
+
+.newPlaceHolder {
+    margin-top: 10px !important;
+    padding: 0 20px !important;
+    width: 93% !important;
 }
