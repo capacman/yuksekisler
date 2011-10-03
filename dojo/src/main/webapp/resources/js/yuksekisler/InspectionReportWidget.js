@@ -7,7 +7,7 @@
  */
 dojo.provide('yuksekisler.InspectionReportWidget');
 
-dojo.declare('yuksekisler.InspectionReportWidget', [dijit.TitlePane], {
+dojo.declare('yuksekisler.InspectionReportWidget', [dijit.TitlePane,yuksekisler._ProperDestroyMixin], {
     report:null,
     equipmentView:null,
     postCreate:function() {
@@ -21,6 +21,7 @@ dojo.declare('yuksekisler.InspectionReportWidget', [dijit.TitlePane], {
                 isClickable:true,
                 isScrollable:false
             }).placeAt(contentDiv);
+            this.addInner(imageGallery);
             dojo.subscribe(imageGallery.getClickTopicName(), this.equipmentView, this.equipmentView.lightBoxShow);
             imageGallery.setDataStore(memoryStore, { count:20 }, {
                 imageThumbAttr: "thumb",
