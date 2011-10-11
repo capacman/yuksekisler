@@ -7,11 +7,7 @@
  */
 dojo.provide('yuksekisler.EquipmentView');
 
-dojo.require('dijit.layout.BorderContainer');
-dojo.require('dijit._Templated');
-
-
-dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._Templated,yuksekisler._ProperDestroyMixin], {
+dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksekisler._ProperDestroyMixin], {
     templateString:dojo.cache('yuksekisler.EquipmentView', '../../../templates/equipment_view_template.html'),
     widgetsInTemplate:true,
     categoryStore:null,
@@ -33,11 +29,9 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
             equipment:equipmentChain
         });
         this.editEquipment.startup();
-        this.addInner(this.editEquipment);
 
         var container = dojo.create('div', {class:'equipmentFormContainer gradient'});
-        container.appendChild(this.editEquipment.domNode);
-        this.editEquipmentContent.set('content', container);
+        this.editEquipmentContent.set('content', this.editEquipment);
     },
     prepareImageContent:function(value) {
         if (value.images.length > 0) {
@@ -51,10 +45,10 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
                 isClickable:true,
                 isScrollable:false
             });
-            this.lightbox = new dojox.image.LightboxDialog().startup();
+
             imageGallery.startup();
             this.addInner(imageGallery);
-            this.addInner(this.lightbox);
+
             this.imageContent.set('content', imageGallery);
             dojo.subscribe(imageGallery.getClickTopicName(), this, this.lightboxShow);
 
@@ -68,6 +62,8 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
             var img = dojo.create('img', {class:'no-image',src:'/yuksekisler/resources/images/no-image.jpg'});
             this.imageContent.set('content', img);
         }
+        this.lightbox = new dojox.image.LightboxDialog().startup();
+        this.addInner(this.lightbox);
         return value;
     },
     prepareInspectionReports:function(value) {
@@ -89,18 +85,19 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
             class:'newPlaceHolder',
             onFocus:dojo.hitch(this, function() {
                 dojo.fadeOut({
-                    node:dijit.byId('inspectionReportPlaceHolder').domNode,
+                    node:dijit.byId('inspectionReportView').domNode,
                     duration:500,
                     onEnd: dojo.hitch(this, function() {
-                        dojo.style(dijit.byId('inspectionReportPlaceHolder').domNode, "display", "none");
+                        dojo.style(dijit.byId('inspectionReportView').domNode, "display", "none");
+                        dojo.style('inspectionReportFormView', 'opacity', 0);
                         var reportForm = new yuksekisler.InspectionReportFormWidget({
                             id:'reportForm',
+                            equipmentId:value.id,
                             afterSave:dojo.hitch(this, this.reportSaved),
                             afterCancel:dojo.hitch(this, this.reportCanceled)
-                        }).placeAt(container);
-                        dojo.style(reportForm.domNode, 'opacity', 0);
+                        }).placeAt(dojo.byId('inspectionReportFormView'));
                         dojo.fadeIn({
-                            node:reportForm.domNode,
+                            node:'inspectionReportFormView',
                             duration:500
                         }).play();
                     })
@@ -122,17 +119,15 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
     },
     reportSaved:function(newReport) {
         dojo.fadeOut({
-            node:'reportForm',
+            node:'inspectionReportFormView',
             duration:500,
             onEnd:function() {
                 dijit.byId('reportForm').destroy();
-                var inspectionReportPlaceHolder = dijit.byId('inspectionReportPlaceHolder');
+                var inspectionReportView = dijit.byId('inspectionReportView');
+                dojo.style(inspectionReportView.domNode, "display", "block");
                 dojo.fadeIn({
-                    node:inspectionReportPlaceHolder.domNode,
-                    duration:500,
-                    onEnd: function() {
-                        dojo.style(inspectionReportPlaceHolder.domNode, "display", "block");
-                    }
+                    node:inspectionReportView.domNode,
+                    duration:500
                 }).play();
                 var group = dijit.byId('reportsGroup');
                 var inspectionReportWidget = new yuksekisler.InspectionReportWidget({
@@ -146,14 +141,14 @@ dojo.declare('yuksekisler.EquipmentView', [dijit.layout.BorderContainer,dijit._T
     reportCanceled:function() {
         var reportForm = dijit.byId('reportForm');
         dojo.fadeOut({
-            node:reportForm.domNode,
+            node:'inspectionReportFormView',
             duration:500,
             onEnd:function() {
                 dijit.byId('reportForm').destroy();
-                var inspectionReportPlaceHolder = dijit.byId('inspectionReportPlaceHolder');
-                dojo.style(inspectionReportPlaceHolder.domNode, "display", "inline-block");
+                var inspectionReportView = dijit.byId('inspectionReportView');
+                dojo.style(inspectionReportView.domNode, "display", "block");
                 dojo.fadeIn({
-                    node:inspectionReportPlaceHolder.domNode,
+                    node:inspectionReportView.domNode,
                     duration:500
                 }).play();
             }

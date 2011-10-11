@@ -58,13 +58,22 @@
 		class="com.yuksekisler.infrastructure.persistence.WorkRepositoryJPA">
 		<property name="entityManager" ref="entityManager" />
 	</bean>
+	<bean id="fileRepository"
+		class="com.yuksekisler.infrastructure.persistence.UploadedRepositoryJPA">
+		<property name="entityManager" ref="entityManager" />
+	</bean>
 
 	<bean id="employeeService" class="com.yuksekisler.application.impl.EmployeeServiceImpl">
 		<property name="repository" ref="employeeRepository" />
 	</bean>
 	<bean id="equipmentService" class="com.yuksekisler.application.impl.EquipmentServiceImpl">
 		<property name="equipmentRepository" ref="equipmentRepository" />
+		<property name="uploadedRepository" ref="fileRepository" />
 	</bean>
+	<bean id="fileService" class="com.yuksekisler.application.impl.FileServiceImpl">
+		<property name="uploadedRepository" ref="fileRepository" />
+	</bean>
+
 	<tx:advice transaction-manager="transactionManager" id="transactionAdvice">
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" />
@@ -89,7 +98,7 @@
 			</bean>
 		</property>
 	</bean>
-		<bean id="messageSource"
+	<bean id="messageSource"
 		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="classpath:yuksekislermessages" />
 		<property name="defaultEncoding" value="UTF-8" />

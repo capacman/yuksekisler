@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.yuksekisler.application.EquipmentService;
 import com.yuksekisler.application.QueryParameters;
 import com.yuksekisler.domain.Image;
+import com.yuksekisler.domain.UploadedRepository;
 import com.yuksekisler.domain.equipment.Brand;
 import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
@@ -19,6 +20,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(EquipmentServiceImpl.class);
 	private EquipmentRepository equipmentRepository;
+	private UploadedRepository uploadedRepository;
 
 	public void setEquipmentRepository(EquipmentRepository equipmentRepository) {
 		this.equipmentRepository = equipmentRepository;
@@ -106,13 +108,20 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	@Override
 	public InspectionReport saveInspectionReport(Long equipmentID,
-			InspectionReport report) {
+			InspectionReport report, String uploadedUUID) {
 		LOGGER.info("equipmentID before find {}", equipmentID);
 		LOGGER.info("report before find {}", report);
 		Equipment equipment = equipmentRepository.find(equipmentID,
 				Equipment.class);
 		LOGGER.info("equipment before adding {}", equipment);
 		equipment.addInspectionReport(report);
+		if (uploadedUUID != null) {
+			List<Image> images = uploadedRepository.getByUploadId(uploadedUUID,
+					Image.class);
+			for (Image image : images) {
+				report.addImage(image);
+			}
+		}
 		equipmentRepository.persist(equipment);
 		return report;
 	}
@@ -140,6 +149,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Override
 	public Image getImage(Long id) {
 		return equipmentRepository.find(id, Image.class);
+	}
+
+	public void setUploadedRepository(UploadedRepository uploadedRepository) {
+		this.uploadedRepository = uploadedRepository;
 	}
 
 }

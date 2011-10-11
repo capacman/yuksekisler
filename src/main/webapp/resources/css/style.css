@@ -102,3 +102,12 @@ html, body {
     padding: 0 20px !important;
     width: 93% !important;
 }
+
+.equipmentView {
+    height: 100%;
+    width: 100%;
+}
+
+.equipmentFormView {
+    width: 245px;
+}

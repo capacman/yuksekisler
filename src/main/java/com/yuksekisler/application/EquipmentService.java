@@ -37,7 +37,7 @@ public interface EquipmentService {
 	Equipment getEquipment(Long id);
 
 	InspectionReport saveInspectionReport(Long reportEquipmentId,
-			InspectionReport report);
+			InspectionReport report,String uploadedUUID);
 
 	void removeEquipment(Equipment equipment);
 

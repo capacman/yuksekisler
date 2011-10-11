@@ -147,8 +147,7 @@ yuksekisler.app = {
             }
         });
     },
-    equipmentSelected:function(segments) {
-        var equipmentId = segments[0];
+    equipmentSelected:function(equipmentId) {
         var equipment = this.equipmentStore.get(equipmentId);
         var equipmentView = new yuksekisler.EquipmentView({
             id:'equipmentView',

@@ -1,5 +1,7 @@
 package com.yuksekisler.domain;
 
+import java.util.Arrays;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +13,9 @@ import javax.persistence.Version;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({ "imageData","thumbnailData" })
+@JsonIgnoreProperties({ "imageData", "thumbnailData" })
 @Entity
-public class Image implements IdEnabledEntity {
+public class Image implements Uploaded {
 
 	/**
 	 * 
@@ -45,9 +47,12 @@ public class Image implements IdEnabledEntity {
 	@Lob
 	@Column(nullable = false)
 	private byte[] imageData;
-	
+
 	@Lob
 	private byte[] thumbnailData;
+
+	@Basic
+	private String uploadId;
 
 	@Override
 	public Long getId() {
@@ -106,6 +111,44 @@ public class Image implements IdEnabledEntity {
 
 	public byte[] getThumbnailData() {
 		return thumbnailData;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(imageData);
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Image other = (Image) obj;
+		if (!Arrays.equals(imageData, other.imageData))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String getUploadId() {
+		return uploadId;
+	}
+
+	@Override
+	public void setUploadId(String uploadId) {
+		this.uploadId = uploadId;
 	}
 
 }

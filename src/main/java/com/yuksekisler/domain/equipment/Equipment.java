@@ -29,11 +29,12 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.yuksekisler.domain.ContainsImage;
 import com.yuksekisler.domain.IdEnabledEntity;
 import com.yuksekisler.domain.Image;
 
 @Entity
-public class Equipment implements IdEnabledEntity {
+public class Equipment implements IdEnabledEntity, ContainsImage {
 
 	/**
 	 * 
@@ -223,10 +224,12 @@ public class Equipment implements IdEnabledEntity {
 		this.erased = enabled;
 	}
 
+	@Override
 	public void addImage(Image image) {
 		this.images.add(image);
 	}
 
+	@Override
 	public Set<Image> getImages() {
 		return images;
 	}
