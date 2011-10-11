@@ -1,28 +1,22 @@
 package com.yuksekisler.interfaces.web;
 
-import java.awt.image.BufferedImage;
 import java.beans.PropertyEditorSupport;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.media.jai.JAI;
-import javax.media.jai.RenderedOp;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.coobird.thumbnailator.Thumbnails;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -31,21 +25,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.sun.media.jai.codec.ByteArraySeekableStream;
 import com.yuksekisler.application.EquipmentService;
+import com.yuksekisler.application.FileService;
 import com.yuksekisler.application.QueryParameters;
 import com.yuksekisler.domain.Image;
+import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.equipment.Equipment;
+import com.yuksekisler.domain.equipment.InspectionReport;
+import com.yuksekisler.domain.equipment.InspectionStatus;
 
 @RequestMapping("/equipment")
 public class EquipmentController extends AbstractBaseController {
 	static final Logger LOGGER = LoggerFactory
 			.getLogger(EquipmentController.class);
 	private EquipmentService equipmentService;
+	private FileService fileService;
 
-	@InitBinder({ "stockEntrance", "bestBeforeDate", "productionDate" })
+	@InitBinder({ "stockEntrance", "bestBeforeDate", "productionDate",
+			"inspectionDate" })
 	public void initBinder(WebDataBinder binder) {
 
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
@@ -74,9 +72,9 @@ public class EquipmentController extends AbstractBaseController {
 		return equipmentService.getEquipment(id);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST, headers = "content-type=multipart/form-data")
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public @ResponseBody
-	List<String> store(
+	Equipment store(
 			@RequestParam("productName") String productName,
 			@RequestParam("productCode") String productCode,
 			@RequestParam("category") Long categoryId,
@@ -84,18 +82,18 @@ public class EquipmentController extends AbstractBaseController {
 			@RequestParam("stockEntrance") Date stockEntrance,
 			@RequestParam("bestBeforeDate") Date bestBeforeDate,
 			@RequestParam("productionDate") Date productionDate,
-			@RequestParam(value = "uploadedfiles[]", required = false) MultipartFile[] files) {
+			@RequestParam(value = "filesUUID", required = false) String filesUUID) {
 		Equipment equipment = new Equipment();
-		List<String> returnValues = saveOrUpdateEquipment(productName,
-				productCode, categoryId, brandId, stockEntrance,
-				bestBeforeDate, productionDate, files, equipment);
-		equipmentService.saveEquipment(equipment);
-		return returnValues;
+		saveOrUpdateEquipment(productName, productCode, categoryId, brandId,
+				stockEntrance, bestBeforeDate, productionDate, filesUUID,
+				equipment);
+		equipment = equipmentService.saveEquipment(equipment);
+		return equipment;
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST, headers = "content-type=multipart/form-data")
 	public @ResponseBody
-	List<String> update(
+	Equipment update(
 			@PathVariable("id") Long equipmentId,
 			@RequestParam("productName") String productName,
 			@RequestParam("productCode") String productCode,
@@ -104,19 +102,19 @@ public class EquipmentController extends AbstractBaseController {
 			@RequestParam("stockEntrance") Date stockEntrance,
 			@RequestParam("bestBeforeDate") Date bestBeforeDate,
 			@RequestParam("productionDate") Date productionDate,
-			@RequestParam(value = "uploadedfiles[]", required = false) MultipartFile[] files) {
+			@RequestParam(value = "filesUUID", required = false) String filesUUID) {
 		Equipment equipment = equipmentService.getEquipment(equipmentId);
-		List<String> returnValues = saveOrUpdateEquipment(productName,
-				productCode, categoryId, brandId, stockEntrance,
-				bestBeforeDate, productionDate, files, equipment);
-		equipmentService.saveEquipment(equipment);
-		return returnValues;
+		saveOrUpdateEquipment(productName, productCode, categoryId, brandId,
+				stockEntrance, bestBeforeDate, productionDate, filesUUID,
+				equipment);
+		equipment = equipmentService.saveEquipment(equipment);
+		return equipment;
 	}
 
-	protected List<String> saveOrUpdateEquipment(String productName,
+	protected void saveOrUpdateEquipment(String productName,
 			String productCode, Long categoryId, Long brandId,
 			Date stockEntrance, Date bestBeforeDate, Date productionDate,
-			MultipartFile[] files, Equipment equipment) {
+			String filesUUID, Equipment equipment) {
 		equipment.setProductCode(productCode);
 		equipment.setProductName(productName);
 		equipment.setProductionDate(productionDate);
@@ -124,50 +122,17 @@ public class EquipmentController extends AbstractBaseController {
 		equipment.setBestBeforeDate(bestBeforeDate);
 		equipment.setCategory(equipmentService.getCategory(categoryId));
 		equipment.setBrand(equipmentService.getBrand(brandId));
-		LOGGER.debug("store equipment {}", equipment);
-		List<String> returnValues = new ArrayList<String>();
-		if (files != null && files.length != 0) {
-			LOGGER.debug("there are some files");
-			for (MultipartFile multipartFile : files) {
-				try {
-					Image image = new Image();
-					image.setTitle(multipartFile.getOriginalFilename());
-					image.setMimeType(multipartFile.getContentType());
-					image.setImageData(multipartFile.getBytes());
-					equipment.addImage(image);
-					ByteArraySeekableStream seekableStream = new ByteArraySeekableStream(
-							image.getImageData());
-					RenderedOp renderedOp = JAI
-							.create("stream", seekableStream);
-
-					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-					BufferedImage bufferedImage = renderedOp
-							.getAsBufferedImage();
-					int width = bufferedImage.getWidth();
-					int height = bufferedImage.getHeight();
-					Thumbnails.of(bufferedImage).size(100, 100)
-							.outputFormat("png").toOutputStream(outputStream);
-					image.setThumbnailData(outputStream.toByteArray());
-					StringBuilder builder = new StringBuilder();
-					builder.append("file=")
-							.append(multipartFile.getOriginalFilename())
-							.append(",name=")
-							.append(multipartFile.getOriginalFilename())
-							.append(",width=")
-							.append(width)
-							.append(",height=")
-							.append(height)
-							.append(",type=")
-							.append(multipartFile.getContentType().split("/")[1]);
-					returnValues.add(builder.toString());
-				} catch (IOException e) {
-					LOGGER.error("equipment image saving failed", e);
-					// TODO: handle exception and notify user
-				}
+		if (filesUUID != null) {
+			LOGGER.debug(
+					"some associated files has been found for equipment with id: {}",
+					filesUUID);
+			List<Image> images = fileService.getFiles(filesUUID, Image.class);
+			LOGGER.debug("{} number of files has been found", images.size());
+			for (Image image : images) {
+				equipment.addImage(image);
 			}
-		} else
-			LOGGER.debug("there is no files");
-		return returnValues;
+		}
+		LOGGER.debug("store equipment {}", equipment);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -189,8 +154,13 @@ public class EquipmentController extends AbstractBaseController {
 			MultiValueMap<String, String> headers = new HttpHeaders();
 			headers.add(
 					"Content-Range",
-					"items " + parameters.getRangeStart() + "-"
-							+ (parameters.getRangeStart()+queryResult.size()<parameters.getRangeEnd()?parameters.getRangeStart()+queryResult.size():parameters.getRangeEnd()) + "/"
+					"items "
+							+ parameters.getRangeStart()
+							+ "-"
+							+ (parameters.getRangeStart() + queryResult.size() < parameters
+									.getRangeEnd() ? parameters.getRangeStart()
+									+ queryResult.size() : parameters
+									.getRangeEnd()) + "/"
 							+ equipmentService.getEquipmentCount());
 			ResponseEntity<List<Equipment>> responseEntity = new ResponseEntity<List<Equipment>>(
 					queryResult, headers, HttpStatus.OK);
@@ -223,7 +193,31 @@ public class EquipmentController extends AbstractBaseController {
 		out.close();
 	}
 
+	@RequestMapping(value = "/{id}/inspectionReport", method = RequestMethod.POST)
+	public @ResponseBody
+	InspectionReport storeInspectionReport(
+			@PathVariable("id") Long equipmentId,
+			@RequestParam("stateSelect") InspectionStatus inspectionStatus,
+			@RequestParam("report") String report,
+			@RequestParam("inspectionDate") Date inspectionDate,
+			@RequestParam(value = "filesUUID", required = false) String filesUUID) {
+		// Equipment equipment = equipmentService.getEquipment(equipmentId);
+		InspectionReport inspectionReport = new InspectionReport();
+		inspectionReport.setInspectionDate(inspectionDate);
+		inspectionReport.setInspector((Employee) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal());
+		inspectionReport.setReport(report);
+		inspectionReport.setStatus(inspectionStatus);
+		inspectionReport = equipmentService.saveInspectionReport(equipmentId,
+				inspectionReport, filesUUID);
+		return inspectionReport;
+	}
+
 	public void setEquipmentService(EquipmentService equipmentService) {
 		this.equipmentService = equipmentService;
+	}
+
+	public void setFileService(FileService fileService) {
+		this.fileService = fileService;
 	}
 }

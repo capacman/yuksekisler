@@ -45,7 +45,7 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
                 this.productionDate.set('value', new Date(value.productionDate));
                 //indicate that we are doing update
                 //also uploader calculating form url once so changing form url doesnt do anything
-                this.uploader.url = this.uploader.url + value.id;
+
             }));
         } else {
             var currentVal = new Date();
@@ -53,15 +53,39 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
             this.bestBeforeDate.constraints.min = new Date();
             this.stockEntrance.set('value', currentVal);
         }
+         this.uploader.url = dojo.config.applicationBase + '/file/image/upload'
         this.inherited(arguments);
     },
     onSave:function() {
         this.form.validate();
-        this.uploader.submit();
+        //check whether we have files and upload them
+        if (this.uploader.getFileList().length > 0) {
+            this.uuid = dojox.uuid.generateRandomUuid();
+            this.uploader.upload({
+                uploadId:this.uuid
+            });
+        } else
+            this.formCompleted();
     },
     formCompleted:function(e) {
-        if (this.onSubmit)
-            this.onSubmit();
-        dojo.hash('equipments');
+        var postContent = dojo.formToObject(this.form.domNode);
+        if (this.uuid)
+            postContent.filesUUID = this.uuid;
+
+        dojo.xhrPost({
+            url: dojo.config.applicationBase + "/equipment/",
+            handleAs: "json",
+            load: dojo.hitch(this,function(data) {
+                if (this.onSubmit)
+                    this.onSubmit();
+                dojo.hash('equipments');
+            }),
+            error: function(error) {
+                //show nice error function
+                alert("login failed" + error);
+            },
+            content:postContent
+        });
+
     }
 });

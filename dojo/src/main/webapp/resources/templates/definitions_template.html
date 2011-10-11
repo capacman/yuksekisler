@@ -1,0 +1,64 @@
+<div>
+    <div id='categoryContainer' class='basicDefinition'>
+        <table dojoType='dojox.grid.DataGrid' dojoAttachPoint='categoryGrid' rowCount='10'>
+            <thead>
+            <tr>
+                <th field='name' width='auto'>Name</th>
+                <th field='description' width='auto'>Description</th>
+            </tr>
+            </thead>
+        </table>
+        <form dojoType='dijit.form.Form' method='post' id='categoryForm' dojoAttachPoint='categoryForm'>
+            <table>
+                <tr>
+                    <td>
+                        <label for='categoryName'>Name</label>
+                    </td>
+                    <td>
+                        <div dojoType='dijit.form.SimpleTextarea' name='categoryName' id='categoryName'></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for='categoryDecription'>Decription</label>
+                    </td>
+                    <td>
+                        <div dojoType='dijit.form.SimpleTextarea' name='categoryDecription'
+                             id='categoryDecription'></div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id='brandContainer' class='basicDefinition'>
+        <table dojoType='dojox.grid.DataGrid' dojoAttachPoint='brandGrid' rowCount='10'>
+            <thead>
+            <tr>
+                <th field='name' width='auto'>Name</th>
+                <th field='description' width='auto'>Description</th>
+            </tr>
+            </thead>
+        </table>
+        <form dojoType='dijit.form.Form' method='post' id='brandForm' dojoAttachPoint='brandForm'>
+            <table>
+                <tr>
+                    <td>
+                        <label for='brandName'>Name</label>
+                    </td>
+                    <td>
+                        <div dojoType='dijit.form.SimpleTextarea' name='brandName' id='brandName'></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for='brandDecription'>Decription</label>
+                    </td>
+                    <td>
+                        <div dojoType='dijit.form.SimpleTextarea' name='brandDecription'
+                             id='brandDecription'></div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

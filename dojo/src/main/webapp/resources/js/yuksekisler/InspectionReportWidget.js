@@ -14,24 +14,30 @@ dojo.declare('yuksekisler.InspectionReportWidget', [dijit.TitlePane,yuksekisler.
         this.inherited(arguments);
         var title = this.report.inspector.name + ' on ' + new Date(this.report.inspectionDate) + ' as ' + this.report.status;
         this.set('title', title);
-        var contentDiv = dojo.create('div');
+        var contentDiv = dojo.create('div', {style:'height:100%;width:100%;'});
+
+
+        var reportDiv = dojo.create('div', {innerHTML:this.report.report});
         if (this.report.images.length > 0) {
-            var memoryStore = yuksekisler.app.prepareImageStore(report, 'images');
+            var memoryStore = yuksekisler.app.prepareImageStore(this.report, 'images');
             var imageGallery = new dojox.image.ThumbnailPicker({
                 isClickable:true,
-                isScrollable:false
-            }).placeAt(contentDiv);
+                isScrollable:false,
+                size:400
+            });
+            imageGallery.startup();
+            imageGallery.placeAt(contentDiv);
             this.addInner(imageGallery);
-            dojo.subscribe(imageGallery.getClickTopicName(), this.equipmentView, this.equipmentView.lightBoxShow);
+            dojo.subscribe(imageGallery.getClickTopicName(), this, this.lightboxShow);
             imageGallery.setDataStore(memoryStore, { count:20 }, {
                 imageThumbAttr: "thumb",
                 imageLargeAttr: "large"
             });
         }
-
-        var reportDiv = dojo.create('div', {innerHTML:this.report.report});
         dojo.place(reportDiv, contentDiv);
         this.set('content', contentDiv);
-
+    },
+    lightboxShow:function(packet) {
+        this.equipmentView.lightboxShow(packet);
     }
 });

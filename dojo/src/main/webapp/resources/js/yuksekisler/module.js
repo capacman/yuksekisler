@@ -44,6 +44,7 @@ dojo.require("dojox.form.uploader.FileList");
 dojo.require('dojox.image.ThumbnailPicker');
 dojo.require('dojox.image.Lightbox');
 dojo.require('dojox.widget.TitleGroup');
+dojo.require('dojox.uuid.generateRandomUuid');
 
 dojo.require('yuksekisler._ProperDestroyMixin');
 dojo.require("yuksekisler.Login");

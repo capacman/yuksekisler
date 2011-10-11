@@ -1,12 +1,15 @@
-<div dojoAttachPoint="containerNode">
+<div dojoAttachPoint="containerNode" class='equipmentView'>
+    <div id='inspectionReportFormView' class='equipmentViewForm'></div>
+    <div id='inspectionReportView' dojoType='dijit.layout.BorderContainer' style="height: 100%;width: 100%;"
+         gutters='false'>
+        <div dojoType="dijit.layout.ContentPane" region='leading' dojoAttachPoint='editEquipmentContent'
+             parseOnLoad='false' class='equipmentFormContainer gradient'>
+        </div>
+        <div dojoType='dijit.layout.ContentPane' region='center' dojoAttachPoint='inspectionReportContent'>
+            content
+        </div>
+        <div dojoType="dijit.layout.ContentPane" region='bottom' dojoAttachPoint='imageContent' style='height:90px'>
 
-    <div dojoType="dijit.layout.ContentPane" region='leading' dojoAttachPoint='editEquipmentContent'
-         parseOnLoad='false' style='width:35%;'>
-    </div>
-    <div dojoType='dijit.layout.ContentPane' region='center' dojoAttachPoint='inspectionReportContent'>
-        content
-    </div>
-    <div dojoType="dijit.layout.ContentPane" region='bottom' dojoAttachPoint='imageContent' style='height:90px'>
-
+        </div>
     </div>
 </div>
