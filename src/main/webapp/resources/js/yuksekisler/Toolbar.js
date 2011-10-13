@@ -22,8 +22,11 @@ dojo.declare("yuksekisler.Toolbar", [dijit._Widget, dijit._Templated], {
         logout:function() {
             this.logoutForm.submit();
         },
-        onEquipments:function(){
+        onEquipments:function() {
             dojo.hash('equipments');
+        },
+        onDefinitions:function() {
+            dojo.hash('definitions');
         }
     }
 );

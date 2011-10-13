@@ -111,3 +111,28 @@ html, body {
 .equipmentFormView {
     width: 245px;
 }
+
+.basicDefinition {
+    width: 300px;
+    margin: 0px 20px 0px;
+    padding: 5px 20px 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 5px 5px 5px #ccc;
+    -webkit-box-shadow: 5px 5px 5px #ccc;
+    box-shadow: 5px 5px 5px #ccc;
+    border: #808080;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 10px;
+    float: left;
+}
+
+.basicLabel {
+    width: 40px;
+}
+
+.definitions{
+    margin: auto;
+    height: auto;
+    width: 800px;
+}

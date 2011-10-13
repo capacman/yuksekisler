@@ -37,6 +37,8 @@ yuksekisler.app = {
         dojo.subscribe(this.events.equipmentsselected, this, "showEquipments");
         dojo.subscribe(this.events.newequipment, this, "newEquipment");
         dojo.subscribe(this.events.equipmentselected, this, 'equipmentSelected');
+        dojo.subscribe(this.events.definitionsselected, this, 'definitionSelected');
+
         dojo.subscribe("/dojo/hashchange", this, this.mapHistory);
         //check for user info if access denied then show login view
         dojo.parser.parse();
@@ -109,14 +111,16 @@ yuksekisler.app = {
         newequipment:"newequipment",
         equipmentchanged:"equipmentchanged",
         equipmentsselected:"equipmentsselected",
-        equipmentselected:"equipmentselected"
+        equipmentselected:"equipmentselected",
+        definitionsselected:"definitionsselected"
     },
     getHashEvent:function(hashValue) {
         if (!this.hashEvents) {
             this.hashEvents = {
                 'equipments':this.events.equipmentsselected,
                 'newequipment':this.events.newequipment,
-                'equipment':this.events.equipmentselected
+                'equipment':this.events.equipmentselected,
+                'definitions':this.events.definitionsselected
             };
         }
         return this.hashEvents[hashValue];
@@ -179,5 +183,12 @@ yuksekisler.app = {
         }
         var memoryStore = dojo.data.ObjectStore({objectStore: new dojo.store.Memory({data: storeData})});
         return memoryStore;
+    },
+    definitionSelected:function() {
+        var definitions = new yuksekisler.Definitions({
+            categoryStore:this.categoryStore,
+            brandStore:this.brandStore
+        });
+        this.setContent(definitions);
     }
 };
