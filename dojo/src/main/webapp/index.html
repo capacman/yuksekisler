@@ -24,6 +24,7 @@
     <script>
         dojoConfig = {
             isDebug : true,
+            debugAtAllCost:true,
             parseOnLoad : true,
             baseUrl : '/yuksekisler/resources/js/',
             modulePaths : {
@@ -35,8 +36,9 @@
             applicationBase : '/yuksekisler'
         };
     </script>
-    <script src="resources/js/dojo/dojo.js">
+    <script src="resources/js/dojo/dojo.js.uncompressed.js">
     </script>
+
     <script>
         // load initial set of dependencies - the app controller
         dojo.require("yuksekisler.app");
@@ -58,6 +60,21 @@
     <div id="footer" class='gradient' dojoType="dijit.layout.ContentPane"
          region="bottom" minSize="50">Footer
     </div>
+</div>
+<div dojoType="dijit.Menu" id="gridMenu" style="display: none;">
+    <div dojoType="dijit.MenuItem" onClick="reportCell">See cell text...</div>
+    <div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
+    <div dojoType="dijit.MenuSeparator"></div>
+    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
+         onClick="alert('not actually cutting anything, just a test!')">Cut
+    </div>
+    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
+         onClick="alert('not actually copying anything, just a test!')">Copy
+    </div>
+    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
+         onClick="alert('not actually pasting anything, just a test!')">Paste
+    </div>
+    <div dojoType="dijit.MenuSeparator"></div>
 </div>
 </body>
 </html>

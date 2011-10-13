@@ -1,61 +1,66 @@
-<div>
+<div dojoAttachPoint='containerNode' class='definitions'>
+    <div dojoType="dijit.Menu" dojoAttachPoint="gridMenu" style="display: none;">
+        <div dojoType="dijit.MenuItem" dojoAttachEvent="onClick:contextMenuClicked">Edit</div>
+    </div>
     <div id='categoryContainer' class='basicDefinition'>
-        <table dojoType='dojox.grid.DataGrid' dojoAttachPoint='categoryGrid' rowCount='10'>
-            <thead>
-            <tr>
-                <th field='name' width='auto'>Name</th>
-                <th field='description' width='auto'>Description</th>
-            </tr>
-            </thead>
-        </table>
+        <h2>Categories</h2>
+
+        <div dojoType='dijit.layout.ContentPane' dojoAttachPoint='categoryGridContainer'
+             style='width:300px;height:111px;'></div>
         <form dojoType='dijit.form.Form' method='post' id='categoryForm' dojoAttachPoint='categoryForm'>
             <table>
                 <tr>
                     <td>
-                        <label for='categoryName'>Name</label>
+                        <label for='categoryName' class='basicLabel'>Name:</label>
                     </td>
                     <td>
-                        <div dojoType='dijit.form.SimpleTextarea' name='categoryName' id='categoryName'></div>
+                        <div dojoType='dijit.form.TextBox' name='name' id='categoryName'></div>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for='categoryDecription'>Decription</label>
+                        <label for='categoryDecription' class='basicLabel'>Decription:</label>
                     </td>
                     <td>
-                        <div dojoType='dijit.form.SimpleTextarea' name='categoryDecription'
+                        <div dojoType='dijit.form.TextBox' name='description'
                              id='categoryDecription'></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div dojoType='dijit.form.Button' dojoAttachEvent='onClick:onCategory'>Add</div>
                     </td>
                 </tr>
             </table>
         </form>
     </div>
     <div id='brandContainer' class='basicDefinition'>
-        <table dojoType='dojox.grid.DataGrid' dojoAttachPoint='brandGrid' rowCount='10'>
-            <thead>
-            <tr>
-                <th field='name' width='auto'>Name</th>
-                <th field='description' width='auto'>Description</th>
-            </tr>
-            </thead>
-        </table>
+        <h2>Brands</h2>
+
+        <div dojoType='dijit.layout.ContentPane' dojoAttachPoint='brandGridContainer'
+             style='width:300px;height:111px;'></div>
         <form dojoType='dijit.form.Form' method='post' id='brandForm' dojoAttachPoint='brandForm'>
             <table>
                 <tr>
                     <td>
-                        <label for='brandName'>Name</label>
+                        <label for='brandName' class='basicLabel'>Name:</label>
                     </td>
                     <td>
-                        <div dojoType='dijit.form.SimpleTextarea' name='brandName' id='brandName'></div>
+                        <div dojoType='dijit.form.TextBox' name='name' id='brandName'></div>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for='brandDecription'>Decription</label>
+                        <label for='brandDecription' class='basicLabel'>Decription:</label>
                     </td>
                     <td>
-                        <div dojoType='dijit.form.SimpleTextarea' name='brandDecription'
+                        <div dojoType='dijit.form.TextBox' name='description'
                              id='brandDecription'></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <div dojoType='dijit.form.Button' dojoAttachEvent='onClick:onBrand'>Add</div>
                     </td>
                 </tr>
             </table>
