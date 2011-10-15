@@ -27,6 +27,9 @@ dojo.declare("yuksekisler.Toolbar", [dijit._Widget, dijit._Templated], {
         },
         onDefinitions:function() {
             dojo.hash('definitions');
+        },
+        onEmployees:function() {
+            dojo.hash('employees');
         }
     }
 );

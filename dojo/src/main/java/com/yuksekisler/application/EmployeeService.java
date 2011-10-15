@@ -25,4 +25,6 @@ public interface EmployeeService {
 	EmployeeTitle getTitle(Long id);
 
 	EmployeeTitle saveTitle(EmployeeTitle title);
+
+	void removeEmployee(Long id);
 }

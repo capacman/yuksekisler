@@ -131,8 +131,46 @@ html, body {
     width: 40px;
 }
 
-.definitions{
+.definitions {
     margin: auto;
     height: auto;
     width: 800px;
+}
+
+.employeeContainer {
+    width: 170px;
+    border: #DDDDDD;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 2px;
+    box-shadow: 0 1px 0 #AAAAAA;
+    background: -moz-linear-gradient(center top, #FFFFFF, #F4F4F4) repeat scroll 0 0 transparent;
+}
+
+.employeeDefinitionContainer {
+    float: right;
+}
+
+.employeeDefinition {
+    margin: 5px 7px 5px;
+}
+
+.employeeStartDate {
+    margin: 5px 7px 5px;
+}
+
+.employeeImageContainer {
+    width: 56px;
+    height: 56px;
+}
+
+.employeeImageWrapper {
+    margin: 5px;
+    width: 48px;
+    height: 48px;
+}
+
+.employeeImage {
+    width: 48px;
+    height: 48px;
 }

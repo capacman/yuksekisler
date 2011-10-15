@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -15,7 +16,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -31,6 +34,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.yuksekisler.domain.IdEnabledEntity;
+import com.yuksekisler.domain.Image;
 import com.yuksekisler.infrastructure.security.GrantedAuthorityImpl;
 
 @JsonFilter("employee")
@@ -57,7 +61,7 @@ public class Employee implements UserDetails, CredentialsContainer,
 	@ManyToOne(fetch = FetchType.EAGER)
 	private EmployeeTitle title;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<Certificate> certificates = new HashSet<Certificate>();;
 
 	@com.yuksekisler.domain.validation.Phone
@@ -83,6 +87,10 @@ public class Employee implements UserDetails, CredentialsContainer,
 	private boolean accountEnabled = true;
 
 	private boolean credentialsNonExpired = true;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "image_id", nullable = true)
+	private Image image;
 
 	@Basic
 	@Column(nullable = false)
@@ -270,5 +278,13 @@ public class Employee implements UserDetails, CredentialsContainer,
 
 	public void setEnabled(boolean accountEnabled) {
 		this.accountEnabled = accountEnabled;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 }

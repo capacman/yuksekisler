@@ -1,8 +1,6 @@
 package com.yuksekisler.interfaces.web;
 
 import java.beans.PropertyEditorSupport;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -169,28 +167,6 @@ public class EquipmentController extends AbstractBaseController {
 			return new ResponseEntity<List<Equipment>>(
 					equipmentService.getEquipments(), HttpStatus.OK);
 		}
-	}
-
-	@RequestMapping(value = "/image/{id}", method = RequestMethod.GET)
-	public void getImage(@PathVariable("id") Long id,
-			HttpServletResponse response) throws IOException {
-		Image image = equipmentService.getImage(id);
-		response.setContentType(image.getMimeType());
-		response.setContentLength(image.getImageData().length);
-		OutputStream out = response.getOutputStream();
-		out.write(image.getImageData());
-		out.close();
-	}
-
-	@RequestMapping(value = "/image/{id}/thumbnail", method = RequestMethod.GET)
-	public void getImageThumbnail(@PathVariable("id") Long id,
-			HttpServletResponse response) throws IOException {
-		Image image = equipmentService.getImage(id);
-		response.setContentType("image/png");
-		response.setContentLength(image.getThumbnailData().length);
-		OutputStream out = response.getOutputStream();
-		out.write(image.getThumbnailData());
-		out.close();
 	}
 
 	@RequestMapping(value = "/{id}/inspectionReport", method = RequestMethod.POST)

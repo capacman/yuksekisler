@@ -25,7 +25,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
                     {name:'Name',field:'name',width:'auto'},
                     {name:'Description',field:'description',width:'auto'}
                 ],
-            onRowContextMenu:dojo.hitch(this, this.onRowContextMenu)
+            onRowContextMenu:dojo.hitch(this, yuksekisler.app.onRowContextMenu)
         });
         this.categoryGridContainer.set('content', this.categoryGrid);
         this.categoryGrid.startup();
@@ -42,7 +42,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
                     {name:'Name',field:'name',width:'auto'},
                     {name:'Description',field:'description',width:'auto'}
                 ],
-            onRowContextMenu:dojo.hitch(this, this.onRowContextMenu)
+            onRowContextMenu:dojo.hitch(this, yuksekisler.app.onRowContextMenu)
         });
         this.brandGridContainer.set('content', this.brandGrid);
         this.brandGrid.startup();
@@ -59,15 +59,5 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
             this.categoryForm.reset();
             this.categoryGrid._refresh();
         }));
-    },
-    onRowContextMenu:function(e) {
-        this.gridMenu.bindDomNode(e.grid.domNode);
-        this.contextMenuClicked = function(d) {
-            e.grid.store.deleteItem(e.grid.getItem(e.rowIndex));
-            e.grid.store.save();
-        }
-    },
-    contextMenuClicked:function(e) {
-
     }
 });

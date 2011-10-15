@@ -70,5 +70,8 @@
 	<bean id="fileController" class="com.yuksekisler.interfaces.web.FileController">
 		<property name="fileService" ref="fileService" />
 	</bean>
+	<bean id="employeeController" class="com.yuksekisler.interfaces.web.EmployeeController">
+		<property name="employeeService" ref="employeeService" />
+	</bean>
 
 </beans>

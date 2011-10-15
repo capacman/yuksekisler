@@ -7,8 +7,10 @@ import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 public class ViewAwareObjectMapper extends ObjectMapper {
 	public ViewAwareObjectMapper() {
 		SimpleFilterProvider provider = new SimpleFilterProvider();
-		provider.addFilter("employee",
-				SimpleBeanPropertyFilter.filterOutAllExcept("name"));
+		provider.addFilter("employee", SimpleBeanPropertyFilter
+				.serializeAllExcept("password", "accountNonExpired",
+						"accountNonLocked", "accountEnabled",
+						"credentialsNonExpired", "erased"));
 		setSerializationConfig(getSerializationConfig().withFilters(provider));
 	}
 }
