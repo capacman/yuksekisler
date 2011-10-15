@@ -38,6 +38,7 @@ yuksekisler.app = {
         dojo.subscribe(this.events.newequipment, this, "newEquipment");
         dojo.subscribe(this.events.equipmentselected, this, 'equipmentSelected');
         dojo.subscribe(this.events.definitionsselected, this, 'definitionSelected');
+        dojo.subscribe(this.events.employeesselected, this, 'showEmployees');
 
         dojo.subscribe("/dojo/hashchange", this, this.mapHistory);
         //check for user info if access denied then show login view
@@ -49,6 +50,11 @@ yuksekisler.app = {
         this.clearContent();
         var toolBar = new yuksekisler.Toolbar();
         dijit.byId("header").set("content", toolBar);
+        this.gridMenu = new dijit.Menu({style:{'display':'none'}});
+        this.gridMenu.addChild(new dijit.MenuItem({
+            label: "Delete",
+            onClick:dojo.hitch(this, 'contextMenuClicked')
+        }));
         this.mapHistory(dojo.hash());
     },
     prepareData:function(data) {
@@ -56,6 +62,7 @@ yuksekisler.app = {
         this.equipmentStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/equipment/',idProperty:'id'});
         this.categoryStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/category/',idProperty:'id'});
         this.brandStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/brand/',idProperty:'id'});
+        this.employeeStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/',idProperty:'id'});
         this.initUi();
     },
     showEquipments:function() {
@@ -112,7 +119,8 @@ yuksekisler.app = {
         equipmentchanged:"equipmentchanged",
         equipmentsselected:"equipmentsselected",
         equipmentselected:"equipmentselected",
-        definitionsselected:"definitionsselected"
+        definitionsselected:"definitionsselected",
+        employeesselected:"employeesselected"
     },
     getHashEvent:function(hashValue) {
         if (!this.hashEvents) {
@@ -120,7 +128,8 @@ yuksekisler.app = {
                 'equipments':this.events.equipmentsselected,
                 'newequipment':this.events.newequipment,
                 'equipment':this.events.equipmentselected,
-                'definitions':this.events.definitionsselected
+                'definitions':this.events.definitionsselected,
+                'employees':this.events.employeesselected
             };
         }
         return this.hashEvents[hashValue];
@@ -175,8 +184,8 @@ yuksekisler.app = {
         var storeData = [];
         for (var x in value[imagesAttr]) {
             storeData[x] = {
-                "thumb":(dojo.config.applicationBase + '/equipment/image/' + value[imagesAttr][x].id) + '/thumbnail',
-                "large":(dojo.config.applicationBase + '/equipment/image/' + value[imagesAttr][x].id),
+                "thumb":(dojo.config.applicationBase + '/file/image/' + value[imagesAttr][x].id) + '/thumbnail',
+                "large":(dojo.config.applicationBase + '/file/image/' + value[imagesAttr][x].id),
                 "title":value[imagesAttr][x].title,
                 "link":value[imagesAttr][x].id
             };
@@ -190,5 +199,21 @@ yuksekisler.app = {
             brandStore:this.brandStore
         });
         this.setContent(definitions);
+    },
+    showEmployees:function() {
+        var employeesWidget = new yuksekisler.EmployeeListWidget({
+            employeeStore:this.employeeStore
+        });
+        dojo.addClass(employeesWidget.domNode,'employeeListStandAlone');
+        this.setContent(employeesWidget);
+    },
+    onRowContextMenu:function(e) {
+        yuksekisler.app.gridMenu.bindDomNode(e.grid.domNode);
+        yuksekisler.app.contextMenuClicked = function(d) {
+            e.grid.store.deleteItem(e.grid.getItem(e.rowIndex));
+            e.grid.store.save();
+        }
+    },
+    contextMenuClicked:function() {
     }
 };

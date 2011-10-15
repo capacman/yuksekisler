@@ -5,7 +5,7 @@
 	<groupId>com.yuksekisler</groupId>
 	<artifactId>yuksekisler</artifactId>
 	<packaging>war</packaging>
-	<version>0.1.0.BUILD-SNAPSHOT</version>
+	<version>0.1.1.BUILD-SNAPSHOT</version>
 	<name>yuksekisler</name>
 	<properties>
 		<roo.version>1.1.5.RELEASE</roo.version>
@@ -14,7 +14,84 @@
 		<slf4j.version>1.6.1</slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<hibernate.version>3.6.6.Final</hibernate.version>
+		<hsqldb.version>2.2.4</hsqldb.version>
+		<mysql.version>5.1.18</mysql.version>
 	</properties>
+	<profiles>
+		<profile>
+			<id>mysql</id>
+			<activation>
+				<property>
+					<name>database</name>
+					<value>mysql</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+					<version>${mysql.version}</version>
+				</dependency>
+			</dependencies>
+			<properties>
+				<database.url>jdbc\:mysql\://localhost\:3306/yuksekisler</database.url>
+				<database.driver>com.mysql.jdbc.Driver</database.driver>
+				<database.user>root</database.user>
+				<database.password>ietbui99</database.password>
+				<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+				<hibernate.hbm2ddl.auto>hibernate.hbm2ddl.auto=create</hibernate.hbm2ddl.auto>
+			</properties>
+		</profile>
+		<profile>
+			<id>hsqldb</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>database</name>
+					<value>hsqldb</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.hsqldb</groupId>
+					<artifactId>hsqldb</artifactId>
+					<version>${hsqldb.version}</version>
+				</dependency>
+			</dependencies>
+			<properties>
+				<database.url>jdbc\:hsqldb\:file\:yuksekisler;shutdown\=true</database.url>
+				<database.driver>org.hsqldb.jdbcDriver</database.driver>
+				<database.user>sa</database.user>
+				<database.password></database.password>
+				<hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
+				<hibernate.hbm2ddl.auto>hibernate.hbm2ddl.auto=create</hibernate.hbm2ddl.auto>
+			</properties>
+		</profile>
+		<profile>
+			<id>production</id>
+			<activation>
+				<property>
+					<name>database</name>
+					<value>production</value>
+				</property>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+					<version>${mysql.version}</version>
+				</dependency>
+			</dependencies>
+			<properties>
+				<database.url>jdbc\:mysql\://mariadb.yuksekisler.jelastic.com/yuksekisler</database.url>
+				<database.driver>com.mysql.jdbc.Driver</database.driver>
+				<database.user>yuksekisler</database.user>
+				<database.password>yuksekisler</database.password>
+				<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+				<hibernate.hbm2ddl.auto></hibernate.hbm2ddl.auto>
+			</properties>
+		</profile>
+	</profiles>
 	<repositories>
 		<repository>
 			<id>JBoss Repo</id>
@@ -105,12 +182,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>2.2.4</version>
-			<classifier />
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -349,6 +420,82 @@
 					</webAppConfig>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>hbm2ddl</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>jpaconfiguration</implementation>
+						</component>
+					</components>
+					<componentProperties>
+						<persistenceunit>persistenceUnit</persistenceunit>
+						<outputfilename>schema.ddl</outputfilename>
+						<drop>false</drop>
+						<create>true</create>
+						<export>false</export>
+						<format>true</format>
+					</componentProperties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+						<version>${hsqldb.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
+						<version>${hibernate.version}</version>
+						<exclusions>
+							<exclusion>
+								<groupId>cglib</groupId>
+								<artifactId>cglib</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>commons-logging</groupId>
+								<artifactId>commons-logging</artifactId>
+							</exclusion>
+						</exclusions>
+					</dependency>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-core</artifactId>
+						<version>${hibernate.version}</version>
+						<exclusions>
+							<exclusion>
+								<groupId>cglib</groupId>
+								<artifactId>cglib</artifactId>
+							</exclusion>
+							<exclusion>
+								<groupId>commons-logging</groupId>
+								<artifactId>commons-logging</artifactId>
+							</exclusion>
+						</exclusions>
+					</dependency>
+					<dependency>
+						<groupId>javax.validation</groupId>
+						<artifactId>validation-api</artifactId>
+						<version>1.0.0.GA</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 </project>

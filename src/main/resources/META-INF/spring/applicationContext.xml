@@ -8,16 +8,16 @@
 		within your classpath, provided they fall under the META-INF/spring directory. 
 		The located property files are parsed and their values can then be used within 
 		application context files in the form of ${propertyKey}. -->
-	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
+	<context:property-placeholder location="classpath*:META-INF/database.properties" />
 	<context:annotation-config />
 
 
 	<bean class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" id="dataSource">
-		<property name="driverClassName" value="${database.driverClassName}" />
-		<property name="url" value="${database.url}" />
-		<property name="username" value="${database.username}" />
-		<property name="password" value="${database.password}" />
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
 		<property name="testOnBorrow" value="true" />
 		<property name="testOnReturn" value="true" />
 		<property name="testWhileIdle" value="true" />
@@ -33,6 +33,20 @@
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
 		id="entityManagerFactory">
 		<property name="persistenceUnitName" value="persistenceUnit" />
+		<property name="persistenceUnitPostProcessors">
+			<list>
+				<bean
+					class="com.yuksekisler.infrastructure.HibernatePersistenceUnitPostProcessor">
+					<property name="persistenceUnitProperties">
+						<bean
+							class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+							<property name="location"
+								value="classpath:META-INF/persistenceUnit.properties" />
+						</bean>
+					</property>
+				</bean>
+			</list>
+		</property>
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />

@@ -25,8 +25,8 @@ public class Brand implements IdEnabledEntity {
 	private static final long serialVersionUID = -7154149298714663410L;
 
 	@NotNull
-	@Column(unique = true)
-	@Size(max = 500)
+	@Column(unique = true, length = 255, nullable = false)
+	@Size(max = 255)
 	private String name;
 
 	@Size(max = 10000)

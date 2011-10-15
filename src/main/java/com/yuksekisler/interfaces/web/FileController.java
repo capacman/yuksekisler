@@ -3,26 +3,24 @@ package com.yuksekisler.interfaces.web;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.media.jai.JAI;
 import javax.media.jai.RenderedOp;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.sun.media.jai.codec.ByteArraySeekableStream;
 import com.yuksekisler.application.FileService;
@@ -76,6 +74,28 @@ public class FileController {
 			}
 		}
 		return returnValues;
+	}
+
+	@RequestMapping(value = "/image/{id}", method = RequestMethod.GET)
+	public void getImage(@PathVariable("id") Long id,
+			HttpServletResponse response) throws IOException {
+		Image image = fileService.getFile(id, Image.class);
+		response.setContentType(image.getMimeType());
+		response.setContentLength(image.getImageData().length);
+		OutputStream out = response.getOutputStream();
+		out.write(image.getImageData());
+		out.close();
+	}
+
+	@RequestMapping(value = "/image/{id}/thumbnail", method = RequestMethod.GET)
+	public void getImageThumbnail(@PathVariable("id") Long id,
+			HttpServletResponse response) throws IOException {
+		Image image = fileService.getFile(id, Image.class);
+		response.setContentType("image/png");
+		response.setContentLength(image.getThumbnailData().length);
+		OutputStream out = response.getOutputStream();
+		out.write(image.getThumbnailData());
+		out.close();
 	}
 
 	public void setFileService(FileService fileService) {

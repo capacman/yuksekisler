@@ -23,4 +23,9 @@ public class FileServiceImpl implements FileService {
 		this.uploadedRepository = uploadedRepository;
 	}
 
+	@Override
+	public <E extends Uploaded> E getFile(Long id, Class<E> clazz) {
+		return uploadedRepository.find(id, clazz);
+	}
+
 }

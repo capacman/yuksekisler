@@ -25,8 +25,8 @@ public class Category implements IdEnabledEntity {
 	private static final long serialVersionUID = -1909361124395076453L;
 
 	@NotNull
-	@Column(unique = true)
-	@Size(max = 500)
+	@Column(unique = true, length = 255, nullable = false)
+	@Size(max = 255)
 	private String name;
 
 	@Size(max = 10000)

@@ -84,4 +84,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return repository.find(id, EmployeeTitle.class);
 	}
 
+	@Override
+	public void removeEmployee(Long id) {
+		repository.remove(repository.find(id, Employee.class));
+	}
+
 }

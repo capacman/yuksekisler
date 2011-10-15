@@ -32,7 +32,8 @@ dojo.declare('yuksekisler.EquipmentListView', [dijit.layout.BorderContainer,diji
                     {name:'Brand',get:this.getBrandName,width:'auto'},
                     {name:'Category',get:this.getCategoryName,width:'auto'},
                     {name:'Stock Entrance',field:'stockEntrance',formatter:this.formatDate,width:'auto'}
-                ]
+                ],
+            onRowContextMenu:dojo.hitch(this, yuksekisler.app.onRowContextMenu)
         });
         this.addChild(this.grid);
         this.grid.startup();
@@ -52,51 +53,43 @@ dojo.declare('yuksekisler.EquipmentListView', [dijit.layout.BorderContainer,diji
     getBrandName:function(colIndex, item) {
         if (item)
             return item.brand.name;
-    }
-    ,
+    },
     getImagePath:function(colIndex, item) {
         if (item) {
             return item.images[0];
         }
-    }
-    ,
+    },
     getCategoryName:function(colIndex, item) {
         if (item)
             return item.category.name;
-    }
-    ,
+    },
     formatDate:function(value) {
         return dojo.date.locale.format(new Date(value), {
             datePattern:'dd/MM/yyyy',
             formatLength:'short',
             selector:'date'
         });
-    }
-    ,
+    },
     formatImage:function(value) {
         if (value)
-            return "<img width='48px' height='48px' src='" + (dojo.config.applicationBase + '/equipment/image/' + value.id) + "/thumbnail'/>";
+            return "<img width='48px' height='48px' src='" + (dojo.config.applicationBase + '/file/image/' + value.id) + "/thumbnail'/>";
         else
             return "<img width='48px' height='48px' src='/yuksekisler/resources/images/no-image.jpg'/>";
-    }
-    ,
+    },
     textBoxChanged:function(e) {
         if (this.timerId) {
             clearTimeout(this.timerId);
         }
         this.timerId = setTimeout(dojo.hitch(this, 'updateGrid'), 400);
-    }
-    ,
+    },
     onRowClick:function(e) {
         var item = this.grid.getItem(e.rowIndex);
         dojo.hash('equipment/' + item.id);
-    }
-    ,
+    },
     updateGrid:function() {
         if (this.searchBox.get('value') == '')
             this.grid.setQuery({});
         else
             this.grid.setQuery({'searchString':this.searchBox.get('value')});
     }
-})
-    ;
+});
