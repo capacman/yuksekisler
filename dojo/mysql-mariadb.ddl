@@ -28,9 +28,10 @@ CREATE
         id BIGINT NOT NULL AUTO_INCREMENT,
         description LONGTEXT,
         erased BIT NOT NULL,
-        name LONGTEXT NOT NULL,
+        name VARCHAR(255) NOT NULL,
         version INT,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT name UNIQUE (name)
     )
     ENGINE=InnoDB ;
 CREATE
@@ -57,11 +58,11 @@ CREATE
         account_non_locked BIT NOT NULL,
         credentials_non_expired BIT NOT NULL,
         email VARCHAR(255) NOT NULL,
-        identity_number VARCHAR(255),
-        type INT,
+        identity_number VARCHAR(100) NOT NULL,
+        type INT NOT NULL,
         erased BIT NOT NULL,
         name LONGTEXT NOT NULL,
-        password VARCHAR(255),
+        password VARCHAR(255) NOT NULL,
         phone_number VARCHAR(255),
         start_date DATETIME NOT NULL,
         version INT,
@@ -87,7 +88,8 @@ CREATE
         employee BIGINT NOT NULL,
         expired BIT,
         given_date DATETIME,
-        type BIGINT,
+        type BIGINT NOT NULL,
+        PRIMARY KEY (employee, type),
         INDEX FK422A3FAD25077268 (employee),
         INDEX FK422A3FAD481E061F (type)
     )
@@ -98,9 +100,10 @@ CREATE
         id BIGINT NOT NULL AUTO_INCREMENT,
         description LONGTEXT,
         erased BIT NOT NULL,
-        name LONGTEXT NOT NULL,
+        name VARCHAR(255) NOT NULL,
         version INT,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT name UNIQUE (name)
     )
     ENGINE=InnoDB ;
 CREATE
@@ -111,7 +114,7 @@ CREATE
         erased BIT NOT NULL,
         product_code LONGTEXT,
         product_name LONGTEXT,
-        production_date DATETIME,
+        production_date DATETIME NOT NULL,
         stock_entrance DATETIME NOT NULL,
         version INT,
         brand BIGINT NOT NULL,
@@ -153,7 +156,7 @@ CREATE
         mime_type VARCHAR(255) NOT NULL,
         thumbnail_data LONGBLOB,
         title VARCHAR(255),
-        upload_id VARCHAR(255),
+        upload_id VARCHAR(255) NOT NULL,
         version INT,
         PRIMARY KEY (id)
     )
@@ -188,7 +191,7 @@ CREATE
     (
         id BIGINT NOT NULL AUTO_INCREMENT,
         customer LONGTEXT NOT NULL,
-        end_date DATETIME NOT NULL,
+        end_date DATETIME,
         erased BIT NOT NULL,
         name LONGTEXT NOT NULL,
         start_date DATETIME NOT NULL,

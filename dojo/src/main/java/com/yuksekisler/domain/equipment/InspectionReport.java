@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -38,19 +39,23 @@ public class InspectionReport implements IdEnabledEntity, ContainsImage {
 	private static final long serialVersionUID = 6592000860553641586L;
 
 	@NotNull
-	@ManyToOne
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(nullable = false)
 	private Employee inspector;
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
+	@Column(nullable = false)
 	private Date inspectionDate;
 
 	@Size(max = 10000)
+	@Column(length = 10000)
 	private String report;
 
 	@NotNull
 	@Enumerated
+	@Column(nullable = false)
 	private InspectionStatus status;
 
 	public InspectionReport(Employee inspector, Date inspectionDate,
@@ -87,6 +92,7 @@ public class InspectionReport implements IdEnabledEntity, ContainsImage {
 	@Column(name = "version")
 	private Integer version;
 
+	@NotNull
 	@Basic
 	@Column(nullable = false)
 	private Boolean erased = false;

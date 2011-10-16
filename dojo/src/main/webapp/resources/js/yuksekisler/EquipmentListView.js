@@ -11,7 +11,7 @@ dojo.provide('yuksekisler.EquipmentListView');
 dojo.require('dijit.layout.BorderContainer');
 dojo.require('dijit._Templated');
 
-dojo.declare('yuksekisler.EquipmentListView', [dijit.layout.BorderContainer,dijit._Templated], {
+dojo.declare('yuksekisler.EquipmentListView', [dijit._Widget,dijit._Templated,yuksekisler._ProperDestroyMixin], {
     templateString:dojo.cache('yuksekisler.EquipmentListView', '../../../templates/equipment_list_view_template.html'),
     widgetsInTemplate:true,
     dataStore:null,
@@ -19,7 +19,6 @@ dojo.declare('yuksekisler.EquipmentListView', [dijit.layout.BorderContainer,diji
     postCreate:function() {
         this.grid = new dojox.grid.DataGrid({
             query:{},
-            region:'center',
             selectionMode:'single',
             id:'equipmentListGrid',
             rowCount:10,
@@ -35,20 +34,20 @@ dojo.declare('yuksekisler.EquipmentListView', [dijit.layout.BorderContainer,diji
                 ],
             onRowContextMenu:dojo.hitch(this, yuksekisler.app.onRowContextMenu)
         });
-        this.addChild(this.grid);
+        this.gridContainer.set('content', this.grid);
         this.grid.startup();
         dojo.connect(this.searchBox, 'onKeyUp', this, this.textBoxChanged);
         dojo.connect(this.grid, 'onRowClick', this, this.onRowClick);
         this.newEquipment = new dijit.form.Button({
             label:'New Equipment',
-            region:'bottom',
             onClick:function() {
                 dojo.hash('newequipment');
             }
-        });
-        this.subContainer.domNode.appendChild(this.newEquipment.domNode);
+        }).placeAt(this.subContainer);
+        this.addInner(this.newEquipment);
         this.newEquipment.startup();
         this.inherited(arguments);
+        dojo.addClass(this.domNode, 'yuksekisler-widget');
     },
     getBrandName:function(colIndex, item) {
         if (item)

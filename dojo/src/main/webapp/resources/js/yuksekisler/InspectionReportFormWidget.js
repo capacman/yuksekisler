@@ -48,7 +48,7 @@ dojo.declare("yuksekisler.InspectionReportFormWidget", [dijit.form.Form,yuksekis
             extraPlugins:['foreColor','hiliteColor','|','createLink','fullscreen']
         }).placeAt(this.domNode);
         editor.startup();
-        this.addInner(editor);
+        //this.addInner(editor);
 
         var save = new dijit.form.Button({
             id:'save',
@@ -95,6 +95,7 @@ dojo.declare("yuksekisler.InspectionReportFormWidget", [dijit.form.Form,yuksekis
         dojo.place(div, this.domNode);
         dojo.connect(save, 'onClick', this, this.onSubmit);
         dojo.connect(cancel, 'onClick', this.afterCancel);
+        dojo.addClass(this.domNode, 'yuksekisler-widget');
         this.inherited(arguments);
     },
     onSubmit:function() {

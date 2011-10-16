@@ -10,8 +10,12 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+
 import com.yuksekisler.domain.IdEnabledEntity;
 
+@JsonAutoDetect(getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @Entity
 public class EmployeeTitle implements IdEnabledEntity {
 
@@ -21,12 +25,15 @@ public class EmployeeTitle implements IdEnabledEntity {
 	private static final long serialVersionUID = 587697845258623293L;
 
 	@NotNull
-	@Size(max = 500)
+	@Size(max = 255)
+	@Column(length = 255, nullable = false, unique = true)
 	private String name;
 
 	@Size(max = 10000)
+	@Column(length = 10000)
 	private String description;
 
+	@NotNull
 	@Basic
 	@Column(nullable = false)
 	private Boolean erased = false;

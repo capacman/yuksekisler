@@ -34,6 +34,13 @@ yuksekisler.app = {
         //    }
         //});
         //dojo.subscribe(this.events.loginsuccsess, this, "handleLogin");
+        var oldxhr = dojo.xhr;
+        dojo.xhr = function() {
+            return oldxhr.apply(dojo, arguments).addErrback(function(error) {
+                dojo.publish("/global-ajax-error", arguments);
+            });
+        };
+        dojo.subscribe("/global-ajax-error", this, "onGlobalError");
         dojo.subscribe(this.events.equipmentsselected, this, "showEquipments");
         dojo.subscribe(this.events.newequipment, this, "newEquipment");
         dojo.subscribe(this.events.equipmentselected, this, 'equipmentSelected');
@@ -48,7 +55,9 @@ yuksekisler.app = {
     },
     initUi:function() {
         this.clearContent();
-        var toolBar = new yuksekisler.Toolbar();
+        var toolBar = new yuksekisler.Toolbar({
+            id:'navigation'
+        });
         dijit.byId("header").set("content", toolBar);
         this.gridMenu = new dijit.Menu({style:{'display':'none'}});
         this.gridMenu.addChild(new dijit.MenuItem({
@@ -63,14 +72,15 @@ yuksekisler.app = {
         this.categoryStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/category/',idProperty:'id'});
         this.brandStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/brand/',idProperty:'id'});
         this.employeeStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/',idProperty:'id'});
+        this.titleStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/title/',idProperty:'id'});
+        this.certificateStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/certificate/',idProperty:'id'});
         this.initUi();
     },
     showEquipments:function() {
         this.clearContent();
         var equipmentListView = new yuksekisler.EquipmentListView({
             id:'equipmentListView',
-            dataStore:this.equipmentStore,
-            style:'width:900px;'
+            dataStore:this.equipmentStore
         });
         this.setContent(equipmentListView);
     },
@@ -98,6 +108,7 @@ yuksekisler.app = {
         return dijit.byId('content');
     },
     clearContent:function() {
+        this.hideLoader();
         if (this.getContent().get('content')) {
             try {
                 this.getContent().destroyDescendants();
@@ -136,6 +147,7 @@ yuksekisler.app = {
     },
     mapHistory:function(hashValue) {
         //hashValue might require some preprocessing
+        this.showLoader();
         if (!hashValue)
             dojo.hash('equipments');
         else {
@@ -171,6 +183,31 @@ yuksekisler.app = {
         });
         this.setContent(equipmentView);
     },
+    showLoader:function() {
+        var coords = dojo.coords(dijit.byId('content').domNode);
+        //dojo.place('innerpreloader', dijit.byId('content').domNode);
+        dojo.style('innerpreloader', 'width', coords.w + 'px');
+        dojo.style('innerpreloader', 'height', coords.h + 'px');
+        dojo.style("innerpreloader", "display", "block");
+        dojo.style("innerpreloader", "opacity", "100");
+        dojo.fadeIn({
+            node:"innerpreloader",
+            duration:900
+        }).play();
+    },
+    hideLoader:function() {
+        this.hideInnerPreloader();
+        //dojo.place('innerpreloader', 'pageLayout', 'before');
+    },
+    hideInnerPreloader:function() {
+        dojo.fadeOut({
+            node:"innerpreloader",
+            duration:900,
+            onEnd: function() {
+                dojo.style("innerpreloader", "display", "none");
+            }
+        }).play();
+    },
     hidePreloader:function() {
         dojo.fadeOut({
             node:"preloader",
@@ -196,7 +233,9 @@ yuksekisler.app = {
     definitionSelected:function() {
         var definitions = new yuksekisler.Definitions({
             categoryStore:this.categoryStore,
-            brandStore:this.brandStore
+            brandStore:this.brandStore,
+            certificateStore:this.certificateStore,
+            titleStore:this.titleStore
         });
         this.setContent(definitions);
     },
@@ -204,7 +243,7 @@ yuksekisler.app = {
         var employeesWidget = new yuksekisler.EmployeeListWidget({
             employeeStore:this.employeeStore
         });
-        dojo.addClass(employeesWidget.domNode,'employeeListStandAlone');
+        dojo.addClass(employeesWidget.domNode, 'employeeListStandAlone');
         this.setContent(employeesWidget);
     },
     onRowContextMenu:function(e) {
@@ -215,5 +254,9 @@ yuksekisler.app = {
         }
     },
     contextMenuClicked:function() {
+    },
+    onGlobalError:function(arguments) {
+        console.log("ajax error occurred");
+        console.log(arguments);
     }
 };

@@ -49,16 +49,19 @@ public class Employee implements UserDetails, CredentialsContainer,
 
 	@NotNull
 	@Size(max = 1000)
+	@Column(nullable = false, length = 1000)
 	private String name;
 
 	@NotNull
 	@Past
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
+	@Column(nullable = false)
 	private Date startDate;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(nullable = false)
 	private EmployeeTitle title;
 
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -68,30 +71,44 @@ public class Employee implements UserDetails, CredentialsContainer,
 	@Embedded
 	private Phone phone;
 
+	@NotNull
 	@Embedded
+	@Column(nullable = false)
 	private EmployeeIdentity employeeIdentity = new EmployeeIdentity();
 
 	@ElementCollection(targetClass = GrantedAuthorityImpl.class, fetch = FetchType.EAGER)
 	private Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 
+	@NotNull
+	@Column(nullable = false)
 	private String password;
+
 	@Email
 	@NotNull
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String email;
 
+	@NotNull
+	@Column(nullable = false)
 	private boolean accountNonExpired = true;
 
+	@NotNull
+	@Column(nullable = false)
 	private boolean accountNonLocked = true;
 
+	@NotNull
+	@Column(nullable = false)
 	private boolean accountEnabled = true;
 
+	@NotNull
+	@Column(nullable = false)
 	private boolean credentialsNonExpired = true;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
 	@JoinColumn(name = "image_id", nullable = true)
 	private Image image;
 
+	@NotNull
 	@Basic
 	@Column(nullable = false)
 	private Boolean erased = false;

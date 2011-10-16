@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -30,10 +31,12 @@ public class Image implements Uploaded {
 	@Column(name = "version")
 	private Integer version;
 
+	@NotNull
 	@Basic
 	@Column(nullable = false)
 	private Boolean erased = false;
 
+	@NotNull
 	@Basic
 	@Column(nullable = false)
 	private String mimeType;
@@ -44,6 +47,7 @@ public class Image implements Uploaded {
 	@Basic
 	private String description;
 
+	@NotNull
 	@Lob
 	@Column(nullable = false)
 	private byte[] imageData;
@@ -51,7 +55,9 @@ public class Image implements Uploaded {
 	@Lob
 	private byte[] thumbnailData;
 
+	@NotNull
 	@Basic
+	@Column(nullable = false)
 	private String uploadId;
 
 	@Override

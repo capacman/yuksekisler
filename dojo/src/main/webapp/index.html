@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>Yuksekisler</title>
     <link href="resources/css/style.css" rel="stylesheet">
     <link href="resources/js/dijit/themes/claro/document.css"
           rel="stylesheet">
-    <link rel="stylesheet" href="resources/js/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="resources/js/dijit/themes/tundra/tundra.css">
     <link href="resources/js/dojox/grid/resources/Grid.css" rel="stylesheet">
-    <link href="resources/js/dojox/grid/resources/claroGrid.css"
+    <link href="resources/js/dojox/grid/resources/tundraGrid.css"
           rel="stylesheet">
     <link href="resources/js/dojox/form/resources/UploaderFileList.css"
           rel="stylesheet">
@@ -36,7 +36,7 @@
             applicationBase : '/yuksekisler'
         };
     </script>
-    <script src="resources/js/dojo/dojo.js">
+    <script src="resources/js/dojo/dojo.js.uncompressed.js">
     </script>
 
     <script>
@@ -49,32 +49,62 @@
         });
     </script>
 </head>
-<body class="claro">
+<body class="tundra">
 <div id='preloader'></div>
-<div dojoType="dijit.layout.BorderContainer" design="headline"
-     gutters="true" class='pageLayout'>
-    <div id="header" class='gradient' dojoType="dijit.layout.ContentPane"
-         region="top" minSize="50"></div>
-    <div id="content" dojoType="dijit.layout.ContentPane" region="center"
-         parseOnLoad='false'></div>
-    <div id="footer" class='gradient' dojoType="dijit.layout.ContentPane"
-         region="bottom" minSize="50">Footer
+
+<div id='pageLayout' class='pageLayout'>
+    <div class="content">
+        <div id="header" dojoType="dijit.layout.ContentPane" minSize="30"></div>
+        <div>
+            <div id='innerpreloader'></div>
+            <div id="content" dojoType="dijit.layout.ContentPane" parseOnLoad='false' style='height: 100%;'></div>
+        </div>
     </div>
-</div>
-<div dojoType="dijit.Menu" id="gridMenu" style="display: none;">
-    <div dojoType="dijit.MenuItem" onClick="reportCell">See cell text...</div>
-    <div dojoType="dijit.MenuItem" disabled="true">Disabled Item</div>
-    <div dojoType="dijit.MenuSeparator"></div>
-    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCut"
-         onClick="alert('not actually cutting anything, just a test!')">Cut
+
+    <div id='footer-wrapper'>
+        <div id="footer">
+            <div class='bevel_line'>
+                <hr>
+            </div>
+            <div class="col1">
+                <h3>Get hooked up with us</h3>
+                <ul id="social_links">
+                    <li class="twitter">Twitter <a href="http://twitter.com/matthamm">twitter.com/yuksekisler</a></li>
+                    <li class="flickr">Photos <a
+                            href="http://flickr.com/photos/matthamm">flickr.com/photos/yuksekisler</a>
+                    </li>
+                    <li class="linkedin"> Profile <a
+                            href="http://www.linkedin.com/in/matthamm">linkedin.com/in/yuksekisler</a></li>
+                    <li class="lastfm">Music <a href="http://www.last.fm/user/mrmatthamm">last.fm/user/yuksekisler</a>
+                    </li>
+                    <li class="delicious">Links <a href="http://delicious.com/mrmatthamm">delicious.com/yuksekisler</a>
+                    </li>
+                    <li class="dribble">Dribbble <a href="http://dribbble.com/players/matthamm">dribbble.com/players/yuksekisler</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col2">
+                <h3>Get in touch, say hello</h3>
+
+                <p>bla bla Caddesi<br>
+                    blabla<br>
+                    Istanbul postalcode<br></p>
+
+                <p><a href="mailto:info@yuksekisler.com">info@yuksekisler.com</a><br>
+                    <a href="mailto:matt@yuksekisler.com">info@yuksekisler.com</a><br>
+                    +90xxxxxxx</p>
+
+            </div>
+            <div class="col3">
+
+            </div>
+            <div class="clearboth"></div>
+            <div class='bevel_line'>
+                <hr>
+            </div>
+            <p class="copyright">Copyright &copy; 2011 Anil Chalil</p>
+        </div>
     </div>
-    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconCopy"
-         onClick="alert('not actually copying anything, just a test!')">Copy
-    </div>
-    <div dojoType="dijit.MenuItem" iconClass="dijitEditorIcon dijitEditorIconPaste"
-         onClick="alert('not actually pasting anything, just a test!')">Paste
-    </div>
-    <div dojoType="dijit.MenuSeparator"></div>
 </div>
 </body>
 </html>

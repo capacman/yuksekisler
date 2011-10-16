@@ -1,5 +1,6 @@
 package com.yuksekisler.domain.employee;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
@@ -10,9 +11,12 @@ public class EmployeeIdentity {
 
 	@NotNull
 	@Size(max = 100)
+	@Column(length = 100, nullable = false)
 	private String identityNumber;
+	
 	@Enumerated
 	@NotNull
+	@Column(nullable = false)
 	private IdentityType type = IdentityType.TCKN;
 
 	public EmployeeIdentity() {

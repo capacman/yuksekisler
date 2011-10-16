@@ -36,6 +36,7 @@ dojo.declare('yuksekisler.InspectionReportWidget', [dijit.TitlePane,yuksekisler.
         }
         dojo.place(reportDiv, contentDiv);
         this.set('content', contentDiv);
+        dojo.addClass(this.domNode, 'yuksekisler-widget');
     },
     lightboxShow:function(packet) {
         this.equipmentView.lightboxShow(packet);

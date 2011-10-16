@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.yuksekisler.application.EmployeeService;
+import com.yuksekisler.domain.employee.CertificateType;
 import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.employee.EmployeeIdentity;
 import com.yuksekisler.domain.employee.EmployeeRepository;
@@ -87,6 +88,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void removeEmployee(Long id) {
 		repository.remove(repository.find(id, Employee.class));
+	}
+
+	@Override
+	public void removeTitle(Long id) {
+		repository.remove(repository.find(id, EmployeeTitle.class));
+	}
+
+	@Override
+	public List<CertificateType> getCertificates() {
+		return repository.findAll(CertificateType.class);
+	}
+
+	@Override
+	public CertificateType getCertificate(Long id) {
+		return repository.find(id, CertificateType.class);
+	}
+
+	@Override
+	public CertificateType saveCertificate(CertificateType title) {
+		repository.persist(title);
+		return title;
+	}
+
+	@Override
+	public void removeCertificate(Long id) {
+		repository.remove(repository.find(id, CertificateType.class));
 	}
 
 }

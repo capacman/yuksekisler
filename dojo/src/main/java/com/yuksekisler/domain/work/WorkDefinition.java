@@ -9,9 +9,11 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -38,33 +40,36 @@ public class WorkDefinition implements IdEnabledEntity {
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
+	@Column(nullable = false)
 	private Date startDate;
 
-	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
 	private Date endDate;
 
 	@NotNull
 	@Size(max = 500)
+	@Column(nullable = false, length = 500)
 	private String name;
 
 	@NotNull
-	@ManyToOne
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(nullable = false)
 	private Employee supervisor;
 
 	@NotNull
 	@Size(max = 500)
+	@Column(nullable = false, length = 500)
 	private String customer;
 
 	@NotNull
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Employee> workers = new HashSet<Employee>();
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Equipment> equipments = new HashSet<Equipment>();
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Comment> comments = new HashSet<Comment>();
 
 	@Id
@@ -76,6 +81,7 @@ public class WorkDefinition implements IdEnabledEntity {
 	@Column(name = "version")
 	private Integer version;
 
+	@NotNull
 	@Basic
 	@Column(nullable = false)
 	private Boolean erased = false;

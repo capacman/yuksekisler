@@ -2,9 +2,25 @@
 html, body {
     height: 100%;
     margin: 0;
-    overflow: hidden;
     padding: 0;
-    background-color: #E3E3E3;
+    background-color: #EFEFEF;
+}
+
+html {
+    background: url("../images/linen_texture.png") repeat scroll 0 0 transparent;
+}
+
+body {
+    background: url("../images/transparent_gradient.png") repeat-x fixed 0 0 transparent;
+    margin: 0;
+    padding: 20px 0 0 !important;
+}
+
+body {
+    color: #6F6F6F;
+    font-family: "museo-sans-1", "museo-sans-2", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 .login-form {
@@ -30,12 +46,25 @@ html, body {
     text-align: left;
 }
 
-#header {
-    height: 7%;
+#footer {
+    padding: 1%;
+    height: 5%;
 }
 
-#footer {
-    height: 7%;
+.content {
+    background: url("../images/textured_background.jpg") repeat scroll 0 0 #F2F2EB;
+    border-radius: 15px 15px 15px 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin: 0 auto 20px;
+    max-width: 1115px;
+    overflow: hidden;
+    padding: 20px;
+    width: 90%;
+    min-height: 81.5%;
+}
+
+#content {
+    height: 100%;
 }
 
 .gradient {
@@ -55,7 +84,6 @@ html, body {
 }
 
 .pageLayout {
-    width: 960px;
     height: 100%;
     margin: 0 auto;
 }
@@ -72,13 +100,14 @@ html, body {
 }
 
 .equipmentFormContainer {
-    padding: 5px 20px 5px;
-    /*background-color: #F4FEE9;*/
+    margin: 5px 20px 5px;
+    background-color: #FFF0AB;
     border-radius: 5px;
     -moz-box-shadow: 5px 5px 5px #ccc;
     -webkit-box-shadow: 5px 5px 5px #ccc;
     box-shadow: 5px 5px 5px #ccc;
     height: 430px;
+    float: left;
 }
 
 #preloader {
@@ -87,10 +116,22 @@ html, body {
     margin: 0;
     padding: 0;
     background: #fff url('../js/dojox/image/resources/images/loading.gif') no-repeat center center;
-    position: absolute;
     z-index: 999;
-    background-color: #E3E3E3;
+    background-color: transparent;
     position: absolute;
+}
+
+#innerpreloader {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #fff url('../js/dojox/image/resources/images/loading.gif') no-repeat center center;
+    z-index: 999;
+    background-color: transparent;
+    position: static;
+    left: 0px;
+    top: 0px;
 }
 
 #imagePicker {
@@ -101,6 +142,15 @@ html, body {
     margin-top: 10px !important;
     padding: 0 20px !important;
     width: 93% !important;
+}
+
+.equipmentListView {
+    margin: auto;
+}
+
+.equipmentListView .equipmentListGrid {
+    width: 100%;
+    height: 600px;
 }
 
 .equipmentView {
@@ -114,7 +164,7 @@ html, body {
 
 .basicDefinition {
     width: 300px;
-    margin: 0px 20px 0px;
+    margin: 15px 20px 15px;
     padding: 5px 20px 5px;
     border-radius: 5px;
     -moz-box-shadow: 5px 5px 5px #ccc;
@@ -145,32 +195,171 @@ html, body {
     border-radius: 2px;
     box-shadow: 0 1px 0 #AAAAAA;
     background: -moz-linear-gradient(center top, #FFFFFF, #F4F4F4) repeat scroll 0 0 transparent;
+    display: inline-block;
 }
 
 .employeeDefinitionContainer {
-    float: right;
+    padding: 5px;
 }
 
 .employeeDefinition {
     margin: 5px 7px 5px;
+    width: 150px;
 }
 
 .employeeStartDate {
     margin: 5px 7px 5px;
-}
-
-.employeeImageContainer {
-    width: 56px;
-    height: 56px;
-}
-
-.employeeImageWrapper {
-    margin: 5px;
-    width: 48px;
-    height: 48px;
+    width: 150px;
 }
 
 .employeeImage {
     width: 48px;
     height: 48px;
+    float: left;
+}
+
+.yuksekisler-widget {
+    height: 100%;
+    width: 100%;
+}
+
+#navigation {
+    font-family: "museo-sans-1", "museo-sans-2", sans-serif;
+    height: 46px;
+    margin-bottom: 25px;
+    margin-top: 35px;
+}
+
+#navigation ul {
+    list-style: none outside none;
+}
+
+#navigation ul li {
+    display: inline;
+    font-weight: bold;
+}
+
+#navigation ul li a.active {
+    background: none repeat scroll 0 0 #505667;
+    color: #FFFFFF;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+#navigation ul li a {
+    -moz-transition: background 0.25s linear 0s;
+    border-radius: 5px 5px 5px 5px;
+    color: #505667;
+    display: block;
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 7px 15px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#navigation ul li a:hover {
+    -moz-transition: background 0.25s linear 0s;
+    background: none repeat scroll 0 0 #D5D2C6;
+    color: #FFFFFF;
+    opacity: 0.5;
+    text-shadow: 0 1px 0 rgba(143, 141, 134, 0.5);
+}
+
+#reportForm {
+    background-color: white;
+}
+
+#footer-wrapper {
+    background: url("../images/leather_footer_bg.jpg") repeat scroll 0 0 #505667;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    float: left;
+    height: 400px;
+    margin-top: 30px;
+    padding-top: 30px;
+    width: 100%;
+}
+
+#footer {
+    color: #FFFFFF;
+    font-size: 0.93em;
+    margin: 0 auto;
+    width: 90%;
+}
+
+ul#social_links li {
+    background-position: left center;
+    color: #44495B;
+    margin-bottom: 7px;
+    padding-left: 25px;
+    text-shadow: 0 -1px 0 #000000;
+}
+
+ul#social_links li a {
+    color: #195D87;
+}
+
+ul#social_links li.feed {
+    background: url("../images/rss_16.png") no-repeat scroll 0 0 transparent;
+}
+
+ul#social_links li.twitter {
+    background: url("../images/twitter_16.png") no-repeat scroll 0 0 transparent;
+}
+
+ul#social_links li.flickr {
+    background: url("../images/flickr_16.png") no-repeat scroll 0 0 transparent;
+}
+
+ul#social_links li.linkedin {
+    background: url("../images/linkedin_16.png") no-repeat scroll 0 0 transparent;
+}
+
+ul#social_links li.lastfm {
+    background: url("../images/lastfm_16.png") no-repeat scroll 0 0 transparent;
+}
+
+ul#social_links li.delicious {
+    background: url("../images/delicious_16.png") no-repeat scroll 0 0 transparent;
+}
+
+ul#social_links li.dribble {
+    background: url("../images/dribbble_16.png") no-repeat scroll 0 0 transparent;
+}
+
+.bevel_line {
+    background: url("../images/footer_bevel.gif") repeat-x scroll 0 0 transparent;
+    font-size: 0;
+    height: 2px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.col1, .col2, .col3 {
+    float: left;
+    margin-bottom: 4em;
+    margin-right: 5%;
+    min-width: 200px;
+    width: 30%;
+}
+
+.col3 {
+    margin-bottom: 50px;
+    margin-right: 0;
+}
+
+.clearboth {
+    clear: both;
+}
+
+#footer p {
+    color: #44495B;
+    text-shadow: 0 -1px 0 #000000;
+}
+
+p.copyright {
+    color: #303956;
+    font-size: 0.82em;
+    text-shadow: 0 -1px 0 #000000;
 }

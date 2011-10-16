@@ -3,17 +3,19 @@ package com.yuksekisler.domain.employee;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+
 import com.yuksekisler.domain.IdEnabledEntity;
 
+@JsonAutoDetect(getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @Entity
 public class CertificateType implements IdEnabledEntity {
 
@@ -23,7 +25,8 @@ public class CertificateType implements IdEnabledEntity {
 	private static final long serialVersionUID = 1947656428565775330L;
 
 	@NotNull
-	@Size(max = 500)
+	@Column(unique = true, length = 255, nullable = false)
+	@Size(max = 255)
 	private String name;
 
 	@Size(max = 10000)
@@ -31,7 +34,7 @@ public class CertificateType implements IdEnabledEntity {
 
 	@Basic
 	@Column(nullable = false)
-	private Boolean erased = true;
+	private Boolean erased = false;
 
 	public CertificateType(String name, String description) {
 		super();
@@ -55,9 +58,6 @@ public class CertificateType implements IdEnabledEntity {
 	public String getDescription() {
 		return this.description;
 	}
-
-	@PersistenceContext
-	transient EntityManager entityManager;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -39,21 +39,27 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
                 this.stockEntrance.set('value', stockEntranceDate);
 
                 var bestBeforeDate = new Date(value.bestBeforeDate);
-                this.bestBeforeDate.constraints.min = bestBeforeDate;
                 this.bestBeforeDate.set('value', bestBeforeDate);
 
-                this.productionDate.set('value', new Date(value.productionDate));
+                var productionDate = new Date(value.productionDate);
+                this.productionDate.constraints.max = productionDate;
+                this.productionDate.set('value', productionDate);
                 //indicate that we are doing update
                 //also uploader calculating form url once so changing form url doesnt do anything
-
+                return value;
             }));
         } else {
-            var currentVal = new Date();
-            this.stockEntrance.constraints.max = currentVal;
-            this.bestBeforeDate.constraints.min = new Date();
-            this.stockEntrance.set('value', currentVal);
+            var dateValue = new Date();
+            this.stockEntrance.constraints.max = dateValue;
+            this.stockEntrance.set('value', dateValue);
+
+            this.bestBeforeDate.set('value', dateValue);
+
+            this.productionDate.constraints.max = dateValue;
+            this.productionDate.set('value', dateValue);
         }
-         this.uploader.url = dojo.config.applicationBase + '/file/image/upload'
+        this.uploader.url = dojo.config.applicationBase + '/file/image/upload'
+        dojo.addClass(this.domNode, 'yuksekisler-widget');
         this.inherited(arguments);
     },
     onSave:function() {
@@ -75,7 +81,7 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
         dojo.xhrPost({
             url: dojo.config.applicationBase + "/equipment/",
             handleAs: "json",
-            load: dojo.hitch(this,function(data) {
+            load: dojo.hitch(this, function(data) {
                 if (this.onSubmit)
                     this.onSubmit();
                 dojo.hash('equipments');

@@ -14,12 +14,10 @@ dojo.declare('yuksekisler.EmployeeWidget', [dijit._Widget], {
         this.domNode = dojo.create("div", {
             class:'employeeContainer'
         });
-        var employeeDefinitionContainer = dojo.create("div", {class:'employeeDefinitionContainer'}, this.domNode);
-        this.employeeDefinition = dojo.create('p', {class:'employeeDefinition'}, employeeDefinitionContainer);
-        this.employeeStartDate = dojo.create('p', {class:'employeeStartDate'}, employeeDefinitionContainer);
-        var employeeImageContainer = dojo.create("div", {class:'employeeImageContainer'}, this.domNode);
-        var employeeImageWrapper = dojo.create("div", {class:'employeeImageWrapper'}, employeeImageContainer);
-        this.employeeImage = dojo.create('img', {class:'employeeImage'}, employeeImageWrapper);
+        this.employeeImage = dojo.create('img', {class:'employeeImage',align:'right'}, this.domNode);
+        this.employeeDefinition = dojo.create('div', {class:'employeeDefinition'}, this.domNode);
+        this.employeeStartDate = dojo.create('div', {class:'employeeStartDate'}, this.domNode);
+
         this.inherited(arguments);
     },
     postCreate:function() {

@@ -3,6 +3,7 @@ package com.yuksekisler.application;
 import java.util.Date;
 import java.util.List;
 
+import com.yuksekisler.domain.employee.CertificateType;
 import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.employee.EmployeeIdentity;
 import com.yuksekisler.domain.employee.EmployeeTitle;
@@ -20,11 +21,22 @@ public interface EmployeeService {
 
 	Employee getEmployeeByEmail(String email);
 
+	void removeEmployee(Long id);
+
 	List<EmployeeTitle> getTitles();
 
 	EmployeeTitle getTitle(Long id);
 
 	EmployeeTitle saveTitle(EmployeeTitle title);
 
-	void removeEmployee(Long id);
+	void removeTitle(Long id);
+
+	List<CertificateType> getCertificates();
+
+	CertificateType getCertificate(Long id);
+
+	CertificateType saveCertificate(CertificateType title);
+
+	void removeCertificate(Long id);
+
 }

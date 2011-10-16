@@ -63,4 +63,68 @@
             </table>
         </form>
     </div>
+    <div id='titleContainer' class='basicDefinition'>
+        <h2>Employee Titles</h2>
+
+        <div dojoType='dijit.layout.ContentPane' dojoAttachPoint='titleGridContainer'
+             style='width:300px;height:111px;'></div>
+        <form dojoType='dijit.form.Form' method='post' id='titleForm' dojoAttachPoint='titleForm'>
+            <table>
+                <tr>
+                    <td>
+                        <label for='titleName' class='basicLabel'>Name:</label>
+                    </td>
+                    <td>
+                        <div dojoType='dijit.form.TextBox' name='name' id='titleName'></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for='titleDecription' class='basicLabel'>Decription:</label>
+                    </td>
+                    <td>
+                        <div dojoType='dijit.form.TextBox' name='description'
+                             id='titleDecription'></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <div dojoType='dijit.form.Button' dojoAttachEvent='onClick:onTitle'>Add</div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id='certificateContainer' class='basicDefinition'>
+        <h2>Employee Certificates</h2>
+
+        <div dojoType='dijit.layout.ContentPane' dojoAttachPoint='certificateGridContainer'
+             style='width:300px;height:111px;'></div>
+        <form dojoType='dijit.form.Form' method='post' id='certificateForm' dojoAttachPoint='certificateForm'>
+            <table>
+                <tr>
+                    <td>
+                        <label for='certificateName' class='basicLabel'>Name:</label>
+                    </td>
+                    <td>
+                        <div dojoType='dijit.form.TextBox' name='name' id='certificateName'></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for='certificateDecription' class='basicLabel'>Decription:</label>
+                    </td>
+                    <td>
+                        <div dojoType='dijit.form.TextBox' name='description'
+                             id='certificateDecription'></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <div dojoType='dijit.form.Button' dojoAttachEvent='onClick:onCertificate'>Add</div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </div>

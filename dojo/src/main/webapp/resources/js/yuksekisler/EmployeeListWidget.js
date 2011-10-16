@@ -21,6 +21,7 @@ dojo.declare('yuksekisler.EmployeeListWidget', [dijit._Widget], {
                 this.addEmployee(results[x]);
             }
         }));
+        dojo.addClass(this.domNode, 'yuksekisler-widget');
         this.inherited(arguments);
     },
     addEmployee:function(employee) {

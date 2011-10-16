@@ -15,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -22,7 +23,6 @@ import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -42,33 +42,41 @@ public class Equipment implements IdEnabledEntity, ContainsImage {
 	private static final long serialVersionUID = -6172182731905953514L;
 
 	@Size(max = 500)
+	@Column(length = 500)
 	private String productName;
 
 	@Size(max = 500)
+	@Column(length = 500)
 	private String productCode;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(nullable = false)
 	private Category category;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(nullable = false)
 	private Brand brand;
 
 	@NotNull
 	@Past
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
+	@Column(nullable = false)
 	private Date stockEntrance;
 
 	@NotNull
-	@Future
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
+	@Column(nullable = false)
 	private Date bestBeforeDate;
 
+	@NotNull
+	@Past
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
+	@Column(nullable = false)
 	private Date productionDate;
 
 	// be carefull linked hashset preserve the order
@@ -86,6 +94,7 @@ public class Equipment implements IdEnabledEntity, ContainsImage {
 	@Column(name = "version")
 	private Integer version;
 
+	@NotNull
 	@Basic
 	@Column(nullable = false)
 	private Boolean erased = false;

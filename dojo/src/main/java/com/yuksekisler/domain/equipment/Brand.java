@@ -30,8 +30,10 @@ public class Brand implements IdEnabledEntity {
 	private String name;
 
 	@Size(max = 10000)
+	@Column(length = 10000)
 	private String description;
 
+	@NotNull
 	@Basic
 	@Column(nullable = false)
 	private Boolean erased = false;

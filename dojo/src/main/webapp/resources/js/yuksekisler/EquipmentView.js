@@ -32,6 +32,7 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
 
         var container = dojo.create('div', {class:'equipmentFormContainer gradient'});
         this.editEquipmentContent.set('content', this.editEquipment);
+        dojo.addClass(this.domNode, 'yuksekisler-widget');
     },
     prepareImageContent:function(value) {
         if (value.images.length > 0) {
@@ -85,10 +86,10 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
             class:'newPlaceHolder',
             onFocus:dojo.hitch(this, function() {
                 dojo.fadeOut({
-                    node:dijit.byId('inspectionReportView').domNode,
+                    node:dojo.byId('inspectionReportView'),
                     duration:500,
                     onEnd: dojo.hitch(this, function() {
-                        dojo.style(dijit.byId('inspectionReportView').domNode, "display", "none");
+                        dojo.style(dojo.byId('inspectionReportView'), "display", "none");
                         dojo.style('inspectionReportFormView', 'opacity', 0);
                         var reportForm = new yuksekisler.InspectionReportFormWidget({
                             id:'reportForm',
@@ -123,10 +124,10 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
             duration:500,
             onEnd:function() {
                 dijit.byId('reportForm').destroy();
-                var inspectionReportView = dijit.byId('inspectionReportView');
-                dojo.style(inspectionReportView.domNode, "display", "block");
+                var inspectionReportView = dojo.byId('inspectionReportView');
+                dojo.style(inspectionReportView, "display", "block");
                 dojo.fadeIn({
-                    node:inspectionReportView.domNode,
+                    node:inspectionReportView,
                     duration:500
                 }).play();
                 var group = dijit.byId('reportsGroup');
@@ -145,10 +146,10 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
             duration:500,
             onEnd:function() {
                 dijit.byId('reportForm').destroy();
-                var inspectionReportView = dijit.byId('inspectionReportView');
-                dojo.style(inspectionReportView.domNode, "display", "block");
+                var inspectionReportView = dojo.byId('inspectionReportView');
+                dojo.style(inspectionReportView, "display", "block");
                 dojo.fadeIn({
-                    node:inspectionReportView.domNode,
+                    node:inspectionReportView,
                     duration:500
                 }).play();
             }

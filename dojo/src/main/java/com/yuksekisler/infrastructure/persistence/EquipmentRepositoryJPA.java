@@ -27,13 +27,14 @@ public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
 		CriteriaBuilder qb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Equipment> c = qb.createQuery(Equipment.class);
 		Root<Equipment> root = c.from(Equipment.class);
+		Predicate pr = qb.equal(root.get(Equipment_.erased), Boolean.FALSE);
+
 		if (queryParameters.getSearchString() != null) {
 			Predicate like = qb.like(root.get(Equipment_.productName), "%"
 					+ queryParameters.getSearchString() + "%");
-			Predicate notErased = qb.equal(root.get(Equipment_.erased),
-					Boolean.FALSE);
-			c.where(qb.and(like, notErased));
+			pr = qb.and(like, pr);
 		}
+		c.where(pr);
 		if (queryParameters.hasOrder()) {
 			Path<Object> path = root.get(queryParameters.getOrderByField());
 			if (queryParameters.isAscending())
@@ -45,9 +46,9 @@ public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
 		TypedQuery<Equipment> query = entityManager.createQuery(c);
 		if (queryParameters.hasRange()) {
 			query.setFirstResult(queryParameters.getRangeStart());
-			//add plus one since range end inclusive
-			query.setMaxResults((queryParameters.getRangeEnd()
-					- queryParameters.getRangeStart())+1);
+			// add plus one since range end inclusive
+			query.setMaxResults((queryParameters.getRangeEnd() - queryParameters
+					.getRangeStart()) + 1);
 		}
 		return query.getResultList();
 	}
