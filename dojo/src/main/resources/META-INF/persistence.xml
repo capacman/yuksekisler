@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="persistenceUnit"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.yuksekisler.infrastructure.security.GrantedAuthorityImpl</class>
+		<class>com.yuksekisler.domain.work.WorkDefinition</class>
+		<class>com.yuksekisler.domain.equipment.InspectionReport</class>
+		<class>com.yuksekisler.domain.equipment.Equipment</class>
+		<class>com.yuksekisler.domain.equipment.Cost</class>
+		<class>com.yuksekisler.domain.equipment.Category</class>
+		<class>com.yuksekisler.domain.equipment.Brand</class>
+		<class>com.yuksekisler.domain.employee.Phone</class>
+		<class>com.yuksekisler.domain.employee.EmployeeTitle</class>
+		<class>com.yuksekisler.domain.employee.EmployeeIdentity</class>
+		<class>com.yuksekisler.domain.employee.Employee</class>
+		<class>com.yuksekisler.domain.employee.CertificateType</class>
+		<class>com.yuksekisler.domain.employee.Certificate</class>
+		<class>com.yuksekisler.domain.Comment</class>
+		<properties>
+			<!-- Uncomment the following two properties for JBoss only -->
+			<!-- property name="hibernate.validator.apply_to_ddl" value="false" / -->
+			<!-- property name="hibernate.validator.autoregister_listeners" value="false" 
+				/ -->
+			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" /> -->
+		</properties>
+	</persistence-unit>
+</persistence>

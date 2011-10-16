@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login Yuksekisler</title>
+    <link rel="stylesheet" href="resources/css/formalize.css"/>
+    <link rel="stylesheet" href="resources/css/reset.css"/>
+    <link rel="stylesheet" href="resources/css/text.css"/>
+    <link rel="stylesheet" href="resources/css/style.css"/>
+    <script src="resources/js/dojo/dojo.js"></script>
+    <script src="resources/js/dojo.formalize.js"></script>
+    <script>
+        dojo.ready(function() {
+            dojo.connect(dojo.byId('submitButton'), 'onclick', function() {
+                dojo.byId('loginForm').submit();
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="login-form gradient">
+    <form id='loginForm' action="/yuksekisler/j_spring_security_check" method="post">
+        <div width="100%" class="loginContainer">
+
+            <label for="j_username" class='loginLabel'>Username</label>
+
+            <input type="text" name="j_username" autocomplete="on" id="j_username"/>
+            <br/>
+            <label for="j_password" class='loginLabel'>Password</label>
+
+            <input type="password" name="j_password" autocomplete="on" id="j_password"/>
+            <br/>
+            <input type='checkbox' name='_spring_security_remember_me'/> Remember me on this computer.
+            <br/>
+
+            <input type='button' name="Submit" id='submitButton' label="Submit" title='Submit' value="Submit">
+
+
+        </div>
+    </form>
+</div>
+</body>
+</html>
