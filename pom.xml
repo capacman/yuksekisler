@@ -11,7 +11,7 @@
 		<roo.version>1.1.5.RELEASE</roo.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<aspectj.version>1.6.11</aspectj.version>
-		<slf4j.version>1.6.1</slf4j.version>
+		<slf4j.version>1.6.2</slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<hibernate.version>3.6.6.Final</hibernate.version>
 		<hsqldb.version>2.2.4</hsqldb.version>
@@ -31,7 +31,6 @@
 					<groupId>mysql</groupId>
 					<artifactId>mysql-connector-java</artifactId>
 					<version>${mysql.version}</version>
-					<scope>provided</scope>
 				</dependency>
 			</dependencies>
 			<properties>
@@ -41,6 +40,7 @@
 				<database.password>ietbui99</database.password>
 				<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
 				<hibernate.hbm2ddl.auto>hibernate.hbm2ddl.auto=create</hibernate.hbm2ddl.auto>
+				<profile.scope>compile</profile.scope>
 			</properties>
 		</profile>
 		<profile>
@@ -57,7 +57,6 @@
 					<groupId>org.hsqldb</groupId>
 					<artifactId>hsqldb</artifactId>
 					<version>${hsqldb.version}</version>
-					<scope>provided</scope>
 				</dependency>
 			</dependencies>
 			<properties>
@@ -67,6 +66,7 @@
 				<database.password></database.password>
 				<hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
 				<hibernate.hbm2ddl.auto>hibernate.hbm2ddl.auto=create</hibernate.hbm2ddl.auto>
+				<profile.scope>compile</profile.scope>
 			</properties>
 		</profile>
 		<profile>
@@ -92,6 +92,7 @@
 				<database.password>yuksekisler</database.password>
 				<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
 				<hibernate.hbm2ddl.auto></hibernate.hbm2ddl.auto>
+				<profile.scope>provided</profile.scope>
 			</properties>
 		</profile>
 	</profiles>
@@ -125,32 +126,32 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>0.9.28</version>
-			<scope>provided</scope>
+			<version>0.9.30</version>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${slf4j.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${aspectj.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectj.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -175,37 +176,37 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -222,31 +223,31 @@
 					<artifactId>jaxb-impl</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.0.0.GA</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
 			<version>2.2</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
 			<version>1.1</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -266,25 +267,25 @@
 					<groupId>org.springframework</groupId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-pool</groupId>
@@ -296,7 +297,7 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -325,7 +326,7 @@
 					<artifactId>xml-apis</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -338,13 +339,13 @@
 					<artifactId>commons-logging</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -360,61 +361,61 @@
 					<artifactId>dom4j</artifactId>
 				</exclusion>
 			</exclusions>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
 			<version>1.0.1.Final</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-envers</artifactId>
 			<version>${hibernate.version}</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.8.5</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.1</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.0.1</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml</groupId>
 			<artifactId>jackson-module-hibernate</artifactId>
 			<version>0.7.0</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.media</groupId>
 			<artifactId>jai_core</artifactId>
 			<version>1.1.3</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.media</groupId>
 			<artifactId>jai_codec</artifactId>
 			<version>1.1.3</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>thumbnailator</groupId>
 			<artifactId>thumbnailator</artifactId>
 			<version>0.3.10</version>
-			<scope>provided</scope>
+			<scope>${profile.scope}</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -452,7 +453,7 @@
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>7.4.2.v20110526</version>
+				<version>7.5.3.v20111011</version>
 				<configuration>
 					<webAppConfig>
 						<contextPath>/${project.name}</contextPath>

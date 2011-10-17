@@ -46,7 +46,7 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
                 this.productionDate.set('value', productionDate);
                 //indicate that we are doing update
                 //also uploader calculating form url once so changing form url doesnt do anything
-                return value;
+                this.equipmentID=value.id;
             }));
         } else {
             var dateValue = new Date();
@@ -77,9 +77,9 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
         var postContent = dojo.formToObject(this.form.domNode);
         if (this.uuid)
             postContent.filesUUID = this.uuid;
-
+        var baseUrl = dojo.config.applicationBase + "/equipment/";
         dojo.xhrPost({
-            url: dojo.config.applicationBase + "/equipment/",
+            url: this.equipmentID ? baseUrl + this.equipmentID : baseUrl,
             handleAs: "json",
             load: dojo.hitch(this, function(data) {
                 if (this.onSubmit)

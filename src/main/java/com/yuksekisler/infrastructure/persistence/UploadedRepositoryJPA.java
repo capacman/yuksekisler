@@ -6,9 +6,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.stereotype.Repository;
+
 import com.yuksekisler.domain.Uploaded;
 import com.yuksekisler.domain.UploadedRepository;
 
+@Repository
 public class UploadedRepositoryJPA extends AbstractBaseRepositoryJPA implements
 		UploadedRepository {
 	public <E extends Uploaded> List<E> getByUploadId(String uploadID,

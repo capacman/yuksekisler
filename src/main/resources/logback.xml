@@ -6,15 +6,37 @@
 <!-- For professional support please see -->
 <!-- http://www.qos.ch/shop/products/professionalSupport -->
 <!-- -->
-<configuration>
+<configuration debug="true">
 	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>%d [%t] %-5p %c - %m%n</pattern>
 		</encoder>
 	</appender>
-	<logger name="org.hibernate" level="debug" />
+	<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+		<evaluator class="com.yuksekisler.infrastructure.MarkerBasedEvaluater" />
+		<smtpHost>smtp.gmail.com</smtpHost>
+		<smtpPort>587</smtpPort>
+		<STARTTLS>true</STARTTLS>
+		<username>${mailuser}</username>
+		<password>${mailpassword}</password>
+
+		<to>achalil@gmail.com</to>
+		<from>${mailuser}</from>
+
+		<subject>APPLICATION-LOG %logger{20} - %m</subject>
+
+		<layout class="ch.qos.logback.classic.html.HTMLLayout">
+			<pattern>%relative%thread%mdc%level%logger%msg</pattern>
+		</layout>
+	</appender>
+
+	<logger name="org.hibernate" level="info" />
 	<logger name="org.springframework" level="info" />
-	
+	<logger name="com.yuksekisler.interfaces.web.ExceptionHandlerController"
+		level="warn">
+		<appender-ref ref="EMAIL" />
+	</logger>
+
 	<root>
 		<appender-ref ref="stdout" />
 	</root>

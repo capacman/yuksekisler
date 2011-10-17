@@ -255,8 +255,7 @@ yuksekisler.app = {
     },
     contextMenuClicked:function() {
     },
-    onGlobalError:function(arguments) {
-        console.log("ajax error occurred");
-        console.log(arguments);
+    onGlobalError:function(err) {
+        var errorDef = dojo.mixin(dojo.fromJson(err.responseText), {status:err.status});
     }
 };

@@ -10,6 +10,7 @@ import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.yuksekisler.application.EmployeeService;
 import com.yuksekisler.application.EquipmentService;
@@ -37,7 +38,7 @@ public class ApplicationInit {
 	public void init() {
 		try {
 			employeeService.getEmployeeByEmail("achalil@gmail.com");
-		} catch (NoResultException e) {
+		} catch (EmptyResultDataAccessException e) {
 			LOGGER.warn("could not find default user");
 			LOGGER.info("registering default user");
 			Employee employee = new Employee();

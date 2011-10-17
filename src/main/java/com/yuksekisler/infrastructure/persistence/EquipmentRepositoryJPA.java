@@ -11,12 +11,14 @@ import javax.persistence.criteria.Root;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.yuksekisler.application.QueryParameters;
 import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.equipment.EquipmentRepository;
 import com.yuksekisler.domain.equipment.Equipment_;
 
+@Repository
 public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
 		EquipmentRepository {
 	private static final Logger LOGGER = LoggerFactory
