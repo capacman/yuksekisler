@@ -14,6 +14,7 @@ dojo.require("dojo.store.JsonRest");
 dojo.require("dojo.store.Memory");
 dojo.require("dojo.data.ObjectStore");
 dojo.require("dojo.date.locale");
+dojo.require("dojo.fx");
 //dojo.require("dojox.lang.aspect");
 dojo.require("dijit.Dialog");
 dojo.require("dijit.form.Form");

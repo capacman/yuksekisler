@@ -42,6 +42,9 @@ public class Comment implements IdEnabledEntity {
 	@Size(max = 10000)
 	private String content;
 
+	protected Comment() {
+	}
+
 	public Comment(Employee owner, Comment replyTo, Date creationDate,
 			String content) {
 		this.owner = owner;

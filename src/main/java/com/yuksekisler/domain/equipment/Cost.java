@@ -17,6 +17,9 @@ public class Cost {
 	@Column(nullable = false)
 	private Currency currency;
 
+	protected Cost() {
+	}
+
 	public Cost(BigDecimal monetaryValue, Currency currency) {
 		super();
 		this.monetaryValue = monetaryValue;

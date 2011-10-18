@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yuksekisler.application.EquipmentService;
 import com.yuksekisler.domain.equipment.Brand;
+
 @RequestMapping("/brand")
 public class BrandController extends AbstractBaseController {
 	static final Logger LOGGER = LoggerFactory.getLogger(BrandController.class);
@@ -28,7 +29,7 @@ public class BrandController extends AbstractBaseController {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
 	Brand store(@RequestBody Brand brand) {
-		LOGGER.debug("store brand: {}",brand);
+		LOGGER.debug("store brand: {}", brand);
 		return equipmentService.createNewBrand(brand);
 	}
 
@@ -45,5 +46,10 @@ public class BrandController extends AbstractBaseController {
 
 	public void setEquipmentService(EquipmentService equipmentService) {
 		this.equipmentService = equipmentService;
+	}
+
+	@Override
+	public String getTypeName() {
+		return "BRAND";
 	}
 }

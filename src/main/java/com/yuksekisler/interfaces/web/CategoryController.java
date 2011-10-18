@@ -30,7 +30,7 @@ public class CategoryController extends AbstractBaseController {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
 	Category store(@RequestBody Category category) {
-		LOGGER.debug("store category: {}",category);
+		LOGGER.debug("store category: {}", category);
 		return equipmentService.createNewCategory(category);
 	}
 
@@ -47,5 +47,10 @@ public class CategoryController extends AbstractBaseController {
 
 	public void setEquipmentService(EquipmentService equipmentService) {
 		this.equipmentService = equipmentService;
+	}
+
+	@Override
+	public String getTypeName() {
+		return "CATEGORY";
 	}
 }

@@ -85,27 +85,35 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
         this.inherited(arguments);
     },
     onBrand:function() {
-        this.brandStore.put(this.brandForm.get('value')).then(dojo.hitch(this, function() {
-            this.brandForm.reset();
-            this.brandGrid._refresh();
-        }));
+        if (this.brandForm.validate()) {
+            this.brandStore.put(this.brandForm.get('value')).then(dojo.hitch(this, function() {
+                this.brandForm.reset();
+                this.brandGrid._refresh();
+            }));
+        }
     },
     onCategory:function() {
-        this.categoryStore.put(this.categoryForm.get('value')).then(dojo.hitch(this, function() {
-            this.categoryForm.reset();
-            this.categoryGrid._refresh();
-        }));
+        if (this.categoryForm.validate()) {
+            this.categoryStore.put(this.categoryForm.get('value')).then(dojo.hitch(this, function() {
+                this.categoryForm.reset();
+                this.categoryGrid._refresh();
+            }));
+        }
     },
     onTitle:function() {
-        this.titleStore.put(this.titleForm.get('value')).then(dojo.hitch(this, function() {
-            this.titleForm.reset();
-            this.titleGrid._refresh();
-        }));
+        if (this.titleForm.validate()) {
+            this.titleStore.put(this.titleForm.get('value')).then(dojo.hitch(this, function() {
+                this.titleForm.reset();
+                this.titleGrid._refresh();
+            }));
+        }
     },
     onCertificate:function() {
-        this.certificateStore.put(this.certificateForm.get('value')).then(dojo.hitch(this, function() {
-            this.certificateForm.reset();
-            this.certificateGrid._refresh();
-        }));
+        if (this.certificateForm.validate()) {
+            this.certificateStore.put(this.certificateForm.get('value')).then(dojo.hitch(this, function() {
+                this.certificateForm.reset();
+                this.certificateGrid._refresh();
+            }));
+        }
     }
 });

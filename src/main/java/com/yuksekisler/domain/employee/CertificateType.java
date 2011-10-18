@@ -25,8 +25,8 @@ public class CertificateType implements IdEnabledEntity {
 	private static final long serialVersionUID = 1947656428565775330L;
 
 	@NotNull
-	@Column(unique = true, length = 255, nullable = false)
-	@Size(max = 255)
+	@Column(length = 255, nullable = false)
+	@Size(min = 1, max = 255)
 	private String name;
 
 	@Size(max = 10000)

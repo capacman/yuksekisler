@@ -18,6 +18,7 @@
 		<class>com.yuksekisler.domain.employee.Employee</class>
 		<class>com.yuksekisler.domain.employee.CertificateType</class>
 		<class>com.yuksekisler.domain.employee.Certificate</class>
+		<class>com.yuksekisler.domain.Image</class>
 		<class>com.yuksekisler.domain.Comment</class>
 		<properties>
 			<!-- Uncomment the following two properties for JBoss only -->

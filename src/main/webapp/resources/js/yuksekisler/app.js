@@ -50,6 +50,9 @@ yuksekisler.app = {
         dojo.subscribe("/dojo/hashchange", this, this.mapHistory);
         //check for user info if access denied then show login view
         dojo.parser.parse();
+        this.isInnerPreloaderHidden = false;
+        this.preloaderStatus = new dojo.Deferred();
+        this.preloaderStatus.callback();
         this.hidePreloader();
         this.handleLogin();
     },
@@ -184,29 +187,51 @@ yuksekisler.app = {
         this.setContent(equipmentView);
     },
     showLoader:function() {
-        var coords = dojo.coords(dijit.byId('content').domNode);
-        //dojo.place('innerpreloader', dijit.byId('content').domNode);
-        dojo.style('innerpreloader', 'width', coords.w + 'px');
-        dojo.style('innerpreloader', 'height', coords.h + 'px');
-        dojo.style("innerpreloader", "display", "block");
-        dojo.style("innerpreloader", "opacity", "100");
-        dojo.fadeIn({
-            node:"innerpreloader",
-            duration:900
-        }).play();
+        dojo.when(this.preloaderStatus, function() {
+            if (this.isInnerPreloaderHidden) {
+                this.preloaderStatus = new dojo.Deferred();
+                dojo.style("innerpreloader", "display", "block");
+                dojo.style("innerpreloader", "opacity", "1");
+                var anim = dojo.fx.combine([
+                    dojo.fadeIn({
+                        node:"innerpreloader",
+                        duration:900
+                    }),
+                    dojo.fadeOut({
+                        node:"contentWrapper",
+                        duration:900
+                    })
+                ]);
+                dojo.connect(anim, 'onEnd', this, function() {
+                    this.isInnerPreloaderHidden = false;
+                    this.preloaderStatus.callback();
+                });
+                anim.play();
+            }
+        });
     },
     hideLoader:function() {
-        this.hideInnerPreloader();
-        //dojo.place('innerpreloader', 'pageLayout', 'before');
-    },
-    hideInnerPreloader:function() {
-        dojo.fadeOut({
-            node:"innerpreloader",
-            duration:900,
-            onEnd: function() {
-                dojo.style("innerpreloader", "display", "none");
+        dojo.when(this.preloaderStatus, function() {
+            if (!this.isInnerPreloaderHidden) {
+                this.preloaderStatus = new dojo.Deferred();
+                var anim = dojo.fx.combine([
+                    dojo.fadeOut({
+                        node:"innerpreloader",
+                        duration:900
+                    }),
+                    dojo.fadeIn({
+                        node:"contentWrapper",
+                        duration:900
+                    })
+                ]);
+                dojo.connect(anim, 'onEnd', this, function() {
+                    this.isInnerPreloaderHidden = true;
+                    dojo.style("innerpreloader", "display", "none");
+                    this.preloaderStatus.callback();
+                });
+                anim.play();
             }
-        }).play();
+        });
     },
     hidePreloader:function() {
         dojo.fadeOut({

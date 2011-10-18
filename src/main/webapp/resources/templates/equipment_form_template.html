@@ -2,11 +2,11 @@
     <div dojoType='dijit.form.Form' dojoAttachPoint="form" enctype="multipart/form-data" method='post'
          action='/yuksekisler/equipment/'>
         <div dojoType="dojox.layout.TableContainer" orientation="vert" cols="1" id="tc1">
-            <div id='productName' dojoType='dijit.form.TextBox' name='productName' label='Product Name' width='auto'
-                 required='true' dojoAttachPoint='productName'></div>
+            <div id='productName' dojoType='dijit.form.ValidationTextBox' name='productName' label='Product Name' width='auto'
+                 required='true' dojoAttachPoint='productName' missingMessage="ProductName required"></div>
 
-            <div id='productCode' dojoType="dijit.form.TextBox" name="productCode" label='Product Code' width='auto'
-                 required='true' dojoAttachPoint='productCode'></div>
+            <div id='productCode' dojoType="dijit.form.ValidationTextBox" name="productCode" label='Product Code' width='auto'
+                 required='true' dojoAttachPoint='productCode' missingMessage="ProductCode required"></div>
 
             <div id='category' name="category" dojoType='dijit.form.Select' dojoAttachPoint='categorySelect'
                  query='{}' label='Categories' width='auto' required='true'></div>

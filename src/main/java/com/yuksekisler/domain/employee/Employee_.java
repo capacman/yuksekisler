@@ -1,5 +1,6 @@
 package com.yuksekisler.domain.employee;
 
+import com.yuksekisler.domain.Image;
 import com.yuksekisler.infrastructure.security.GrantedAuthorityImpl;
 import java.util.Date;
 import javax.annotation.Generated;
@@ -8,7 +9,7 @@ import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2011-09-18T16:47:38.790+0300")
+@Generated(value="Dali", date="2011-10-18T09:39:03.854+0300")
 @StaticMetamodel(Employee.class)
 public class Employee_ {
 	public static volatile SingularAttribute<Employee, String> name;
@@ -24,6 +25,7 @@ public class Employee_ {
 	public static volatile SingularAttribute<Employee, Boolean> accountNonLocked;
 	public static volatile SingularAttribute<Employee, Boolean> accountEnabled;
 	public static volatile SingularAttribute<Employee, Boolean> credentialsNonExpired;
+	public static volatile SingularAttribute<Employee, Image> image;
 	public static volatile SingularAttribute<Employee, Boolean> erased;
 	public static volatile SingularAttribute<Employee, Long> id;
 	public static volatile SingularAttribute<Employee, Integer> version;

@@ -4,30 +4,25 @@ import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.yuksekisler.application.EquipmentService;
 import com.yuksekisler.application.FileService;
@@ -194,19 +189,16 @@ public class EquipmentController extends AbstractBaseController {
 		return inspectionReport;
 	}
 
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(EmptyResultDataAccessException.class)
-	public Map<String, String> handleNoEquipment() {
-		Map<String, String> errorResponse = new HashMap<String, String>();
-		errorResponse.put("EQUIPMENT", "");
-		return errorResponse;
-	}
-
 	public void setEquipmentService(EquipmentService equipmentService) {
 		this.equipmentService = equipmentService;
 	}
 
 	public void setFileService(FileService fileService) {
 		this.fileService = fileService;
+	}
+
+	@Override
+	public String getTypeName() {
+		return "EQUIPMENT";
 	}
 }

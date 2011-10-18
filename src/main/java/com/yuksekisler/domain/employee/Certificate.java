@@ -26,6 +26,9 @@ public class Certificate {
 
 	private Boolean expired;
 
+	protected Certificate() {
+	}
+
 	public Certificate(Date givenDate, CertificateType type, Boolean expired) {
 		super();
 		this.givenDate = givenDate;

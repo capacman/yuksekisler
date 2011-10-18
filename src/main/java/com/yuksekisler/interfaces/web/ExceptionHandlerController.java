@@ -22,7 +22,7 @@ public class ExceptionHandlerController extends
 	protected ModelAndView doResolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
 		LOGGER.error("contoller {}", handler.getClass().getCanonicalName(), ex);
-		response.setStatus(HttpStatus.INSUFFICIENT_STORAGE.value());
+		response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		return new ModelAndView();
 	}
 

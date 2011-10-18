@@ -126,4 +126,7 @@
 	</bean>
 
 	<task:scheduler id="scheduler" pool-size="1" />
+
+	<bean
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 </beans>

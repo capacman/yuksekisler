@@ -25,8 +25,8 @@ public class EmployeeTitle implements IdEnabledEntity {
 	private static final long serialVersionUID = 587697845258623293L;
 
 	@NotNull
-	@Size(max = 255)
-	@Column(length = 255, nullable = false, unique = true)
+	@Size(min = 1, max = 255)
+	@Column(length = 255, nullable = false)
 	private String name;
 
 	@Size(max = 10000)
