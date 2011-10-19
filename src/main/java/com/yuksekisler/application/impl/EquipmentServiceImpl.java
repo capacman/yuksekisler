@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.yuksekisler.application.CrudService;
 import com.yuksekisler.application.EquipmentService;
 import com.yuksekisler.application.QueryParameters;
 import com.yuksekisler.domain.Image;
@@ -16,7 +17,8 @@ import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.equipment.EquipmentRepository;
 import com.yuksekisler.domain.equipment.InspectionReport;
 
-public class EquipmentServiceImpl implements EquipmentService {
+public class EquipmentServiceImpl implements EquipmentService,
+		CrudService<Long, Category> {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(EquipmentServiceImpl.class);
 	private EquipmentRepository equipmentRepository;

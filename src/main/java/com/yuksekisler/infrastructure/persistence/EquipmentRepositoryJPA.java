@@ -19,7 +19,8 @@ import com.yuksekisler.domain.equipment.EquipmentRepository;
 import com.yuksekisler.domain.equipment.Equipment_;
 
 @Repository
-public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
+public class EquipmentRepositoryJPA extends
+		AbstractBaseRepositoryJPA<Long, Equipment> implements
 		EquipmentRepository {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(EquipmentRepositoryJPA.class);

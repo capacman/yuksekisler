@@ -40,7 +40,7 @@ import com.yuksekisler.infrastructure.security.GrantedAuthorityImpl;
 @JsonFilter("employee")
 @Entity
 public class Employee implements UserDetails, CredentialsContainer,
-		IdEnabledEntity {
+		IdEnabledEntity<Long> {
 
 	/**
 	 * 

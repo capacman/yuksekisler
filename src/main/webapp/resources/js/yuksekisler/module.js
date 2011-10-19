@@ -17,6 +17,7 @@ dojo.require("dojo.date.locale");
 dojo.require("dojo.fx");
 //dojo.require("dojox.lang.aspect");
 dojo.require("dijit.Dialog");
+dojo.require("dijit.DialogUnderlay");
 dojo.require("dijit.form.Form");
 dojo.require("dijit.form.ValidationTextBox");
 dojo.require("dijit.form.Select");

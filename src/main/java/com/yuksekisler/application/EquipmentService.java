@@ -9,7 +9,8 @@ import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.equipment.InspectionReport;
 
-public interface EquipmentService {
+public interface EquipmentService extends CrudService {
+
 	Equipment createEquipment(Category category, Brand brand,
 			Date stockEntranceDate, Date bestBefore, Date productionDate,
 			String productCode, String productName);
@@ -37,7 +38,7 @@ public interface EquipmentService {
 	Equipment getEquipment(Long id);
 
 	InspectionReport saveInspectionReport(Long reportEquipmentId,
-			InspectionReport report,String uploadedUUID);
+			InspectionReport report, String uploadedUUID);
 
 	void removeEquipment(Equipment equipment);
 

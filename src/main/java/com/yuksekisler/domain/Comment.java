@@ -20,7 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.yuksekisler.domain.employee.Employee;
 
 @Entity
-public class Comment implements IdEnabledEntity {
+public class Comment implements IdEnabledEntity<Long> {
 
 	/**
 	 * 

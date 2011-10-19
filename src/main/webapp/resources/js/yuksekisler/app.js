@@ -50,14 +50,12 @@ yuksekisler.app = {
         dojo.subscribe("/dojo/hashchange", this, this.mapHistory);
         //check for user info if access denied then show login view
         dojo.parser.parse();
-        this.isInnerPreloaderHidden = false;
-        this.preloaderStatus = new dojo.Deferred();
-        this.preloaderStatus.callback();
+        this.loadingDialog = new dijit.DialogUnderlay({'class': 'loading'});
+
         this.hidePreloader();
         this.handleLogin();
     },
     initUi:function() {
-        this.clearContent();
         var toolBar = new yuksekisler.Toolbar({
             id:'navigation'
         });
@@ -67,6 +65,10 @@ yuksekisler.app = {
             label: "Delete",
             onClick:dojo.hitch(this, 'contextMenuClicked')
         }));
+
+        this.lightbox = new dojox.image.LightboxDialog({
+            id:'imageLightBox'
+        }).startup();
         this.mapHistory(dojo.hash());
     },
     prepareData:function(data) {
@@ -98,20 +100,25 @@ yuksekisler.app = {
             parseOnLoad:false,
             style:'width:400px',
             onHide:function() {
-                this.destroyRecursive();
+                try {
+                    this.destroyRecursive();
+                } catch(err) {
+
+                }
                 dojo.hash('equipments');
             }
         });
+
         newEquipmentView.onSubmit = dojo.hitch(newEquipmentDialog, 'hide');
         newEquipmentDialog.set('content', newEquipmentView);
         newEquipmentDialog.show();
+        this.loadingDialog.hide();
         //this.setContent(newEquipmentView);
     },
     getContent:function() {
         return dijit.byId('content');
     },
     clearContent:function() {
-        this.hideLoader();
         if (this.getContent().get('content')) {
             try {
                 this.getContent().destroyDescendants();
@@ -123,6 +130,7 @@ yuksekisler.app = {
     setContent:function(newContent) {
         this.clearContent();
         this.getContent().set('content', newContent);
+        this.loadingDialog.hide();
     },
     events:{
         //loginsuccsess:"loginsuccsess",
@@ -150,7 +158,7 @@ yuksekisler.app = {
     },
     mapHistory:function(hashValue) {
         //hashValue might require some preprocessing
-        this.showLoader();
+        this.loadingDialog.show();
         if (!hashValue)
             dojo.hash('equipments');
         else {
@@ -185,53 +193,6 @@ yuksekisler.app = {
             equipment:equipment
         });
         this.setContent(equipmentView);
-    },
-    showLoader:function() {
-        dojo.when(this.preloaderStatus, function() {
-            if (this.isInnerPreloaderHidden) {
-                this.preloaderStatus = new dojo.Deferred();
-                dojo.style("innerpreloader", "display", "block");
-                dojo.style("innerpreloader", "opacity", "1");
-                var anim = dojo.fx.combine([
-                    dojo.fadeIn({
-                        node:"innerpreloader",
-                        duration:900
-                    }),
-                    dojo.fadeOut({
-                        node:"contentWrapper",
-                        duration:900
-                    })
-                ]);
-                dojo.connect(anim, 'onEnd', this, function() {
-                    this.isInnerPreloaderHidden = false;
-                    this.preloaderStatus.callback();
-                });
-                anim.play();
-            }
-        });
-    },
-    hideLoader:function() {
-        dojo.when(this.preloaderStatus, function() {
-            if (!this.isInnerPreloaderHidden) {
-                this.preloaderStatus = new dojo.Deferred();
-                var anim = dojo.fx.combine([
-                    dojo.fadeOut({
-                        node:"innerpreloader",
-                        duration:900
-                    }),
-                    dojo.fadeIn({
-                        node:"contentWrapper",
-                        duration:900
-                    })
-                ]);
-                dojo.connect(anim, 'onEnd', this, function() {
-                    this.isInnerPreloaderHidden = true;
-                    dojo.style("innerpreloader", "display", "none");
-                    this.preloaderStatus.callback();
-                });
-                anim.play();
-            }
-        });
     },
     hidePreloader:function() {
         dojo.fadeOut({
@@ -282,5 +243,13 @@ yuksekisler.app = {
     },
     onGlobalError:function(err) {
         var errorDef = dojo.mixin(dojo.fromJson(err.responseText), {status:err.status});
+
+        switch (errorDef.status) {
+            case '401':
+                window.location = dojo.config.applicationBase + '/login.html';
+                break;
+            default:
+                alert(errorDef);
+        }
     }
 };

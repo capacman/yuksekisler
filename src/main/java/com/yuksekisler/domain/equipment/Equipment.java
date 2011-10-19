@@ -34,7 +34,7 @@ import com.yuksekisler.domain.IdEnabledEntity;
 import com.yuksekisler.domain.Image;
 
 @Entity
-public class Equipment implements IdEnabledEntity, ContainsImage {
+public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 
 	/**
 	 * 

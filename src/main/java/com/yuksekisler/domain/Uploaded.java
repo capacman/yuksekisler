@@ -1,6 +1,6 @@
 package com.yuksekisler.domain;
 
-public interface Uploaded extends IdEnabledEntity {
+public interface Uploaded extends IdEnabledEntity<Long> {
 
 	void setUploadId(String uploadId);
 

@@ -363,3 +363,9 @@ p.copyright {
     font-size: 0.82em;
     text-shadow: 0 -1px 0 #000000;
 }
+
+div.loading {
+    background-image: url(../js/dojox/image/resources/images/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+}

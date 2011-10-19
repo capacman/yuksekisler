@@ -1,11 +1,17 @@
 package com.yuksekisler.application;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 public class QueryParameters {
 	private String searchString;
 	private String orderByField;
 	private boolean ascending;
 	private int rangeStart = -1;
 	private int rangeEnd = -1;
+	private Map<String, String> queryParameters = new HashMap<String, String>();
 
 	public void setOrder(String orderField, boolean ascending) {
 		this.orderByField = orderField;
@@ -56,11 +62,19 @@ public class QueryParameters {
 		return rangeStart != -1 && rangeEnd != -1;
 	}
 
+	public void addParameter(String key, String value) {
+		this.queryParameters.put(key, value);
+	}
+
 	@Override
 	public String toString() {
 		return "QueryParameters [searchString=" + searchString
 				+ ", orderByField=" + orderByField + ", ascending=" + ascending
 				+ ", rangeStart=" + rangeStart + ", rangeEnd=" + rangeEnd + "]";
+	}
+
+	public Set<Entry<String, String>> getQueryParameters() {
+		return queryParameters.entrySet();
 	}
 
 }

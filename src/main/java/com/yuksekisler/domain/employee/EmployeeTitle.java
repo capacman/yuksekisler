@@ -17,7 +17,7 @@ import com.yuksekisler.domain.IdEnabledEntity;
 
 @JsonAutoDetect(getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @Entity
-public class EmployeeTitle implements IdEnabledEntity {
+public class EmployeeTitle implements IdEnabledEntity<Long> {
 
 	/**
 	 * 

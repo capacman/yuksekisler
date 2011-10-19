@@ -31,7 +31,7 @@ import com.yuksekisler.domain.Image;
 import com.yuksekisler.domain.employee.Employee;
 
 @Entity
-public class InspectionReport implements IdEnabledEntity, ContainsImage {
+public class InspectionReport implements IdEnabledEntity<Long>, ContainsImage {
 
 	/**
 	 * 

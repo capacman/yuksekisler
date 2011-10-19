@@ -47,7 +47,10 @@ public abstract class AbstractBaseController {
 			}
 			if (parameterEntry.getKey().equalsIgnoreCase("searchString")) {
 				parameters.setSearchString(parameterEntry.getValue()[0]);
+				continue;
 			}
+			parameters.addParameter(parameterEntry.getKey(),
+					parameterEntry.getValue()[0]);
 		}
 		if (request.getHeader("Range") != null) {
 			Matcher matcher = RANGE_PATTERN.matcher(request.getHeader("Range"));

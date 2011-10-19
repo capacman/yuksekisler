@@ -63,8 +63,8 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
             var img = dojo.create('img', {class:'no-image',src:'/yuksekisler/resources/images/no-image.jpg'});
             this.imageContent.set('content', img);
         }
-        this.lightbox = new dojox.image.LightboxDialog().startup();
-        this.addInner(this.lightbox);
+
+        //this.addInner(this.lightbox);
         return value;
     },
     prepareInspectionReports:function(value) {
@@ -112,7 +112,8 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
     lightboxShow:function (packet) {
 
         // you can just "show" this image
-        this.lightbox.show({
+
+        dijit.byId('imageLightBox').show({
             href: packet.largeUrl,
             title: packet.title
         });

@@ -30,7 +30,7 @@ import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.equipment.Equipment;
 
 @Entity
-public class WorkDefinition implements IdEnabledEntity {
+public class WorkDefinition implements IdEnabledEntity<Long> {
 
 	/**
 	 * 
