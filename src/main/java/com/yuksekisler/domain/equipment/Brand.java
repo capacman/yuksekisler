@@ -13,11 +13,13 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 
-import com.yuksekisler.domain.IdEnabledEntity;
+import com.yuksekisler.domain.HasName;
+import com.yuksekisler.domain.validation.HasUniqueName;
 
+@HasUniqueName
 @JsonAutoDetect(getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @Entity
-public class Brand implements IdEnabledEntity<Long> {
+public class Brand implements HasName<Long> {
 
 	/**
 	 * 

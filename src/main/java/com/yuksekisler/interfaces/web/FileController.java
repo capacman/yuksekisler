@@ -58,7 +58,7 @@ public class FileController {
 						.toOutputStream(outputStream);
 				image.setThumbnailData(outputStream.toByteArray());
 				image.setUploadId(uploadId);
-				fileService.saveFile(image);
+				fileService.saveEntity(image);
 				StringBuilder builder = new StringBuilder();
 				builder.append("file=")
 						.append(multipartFile.getOriginalFilename())
@@ -79,7 +79,7 @@ public class FileController {
 	@RequestMapping(value = "/image/{id}", method = RequestMethod.GET)
 	public void getImage(@PathVariable("id") Long id,
 			HttpServletResponse response) throws IOException {
-		Image image = fileService.getFile(id, Image.class);
+		Image image = fileService.getEntity(id, Image.class);
 		response.setContentType(image.getMimeType());
 		response.setContentLength(image.getImageData().length);
 		OutputStream out = response.getOutputStream();
@@ -90,7 +90,7 @@ public class FileController {
 	@RequestMapping(value = "/image/{id}/thumbnail", method = RequestMethod.GET)
 	public void getImageThumbnail(@PathVariable("id") Long id,
 			HttpServletResponse response) throws IOException {
-		Image image = fileService.getFile(id, Image.class);
+		Image image = fileService.getEntity(id, Image.class);
 		response.setContentType("image/png");
 		response.setContentLength(image.getThumbnailData().length);
 		OutputStream out = response.getOutputStream();

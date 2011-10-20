@@ -1,8 +1,6 @@
 package com.yuksekisler.infrastructure.persistence;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -10,29 +8,29 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Bindable.BindableType;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
-import javax.persistence.metamodel.SingularAttribute;
+
+import org.springframework.core.convert.ConversionService;
 
 import com.yuksekisler.application.QueryParameters;
 import com.yuksekisler.domain.BaseRepository;
+import com.yuksekisler.domain.HasName;
 import com.yuksekisler.domain.IdEnabledEntity;
 
-public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID>>
-		implements BaseRepository<ID, E> {
-
+public abstract class AbstractBaseRepositoryJPA implements BaseRepository {
 	protected EntityManager entityManager;
+	protected ConversionService conversionService;
 
 	protected interface InnerQueryBuilder<T, E> {
 		void prepareQuery(CriteriaBuilder qb, CriteriaQuery<T> cq, Root<E> root);
 	}
 
 	@Override
-	public long countEntries(Class<E> clazz) {
+	public <E extends IdEnabledEntity<?>> long countEntries(Class<E> clazz) {
 		TypedQuery<Long> tq = prepareEntityQuery(Long.class, clazz,
 				new InnerQueryBuilder<Long, E>() {
 
@@ -45,7 +43,7 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 		return tq.getSingleResult();
 	}
 
-	protected <R> TypedQuery<R> prepareEntityQuery(Class<R> resultType,
+	protected <R, E> TypedQuery<R> prepareEntityQuery(Class<R> resultType,
 			Class<E> e, InnerQueryBuilder<R, E> iqb) {
 
 		CriteriaBuilder qb = entityManager.getCriteriaBuilder();
@@ -57,11 +55,11 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 	}
 
 	@Override
-	public List<E> findAll(Class<E> clazz) {
+	public <E extends IdEnabledEntity<?>> List<E> findAll(Class<E> clazz) {
 		return getAllCriteria(clazz).getResultList();
 	}
 
-	protected TypedQuery<E> getAllCriteria(Class<E> clazz) {
+	protected <E> TypedQuery<E> getAllCriteria(Class<E> clazz) {
 		return prepareEntityQuery(clazz, clazz, new InnerQueryBuilder<E, E>() {
 
 			@Override
@@ -73,7 +71,8 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 	}
 
 	@Override
-	public E getEntity(final ID id, Class<E> clazz) {
+	public <ID, E extends IdEnabledEntity<ID>> E getEntity(final ID id,
+			Class<E> clazz) {
 		if (id == null)
 			return null;
 		return prepareEntityQuery(clazz, clazz, new InnerQueryBuilder<E, E>() {
@@ -88,13 +87,14 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 	}
 
 	@Override
-	public List<E> findEntries(int firstResult, int maxResults, Class<E> clazz) {
+	public <E extends IdEnabledEntity<?>> List<E> findEntries(int firstResult,
+			int maxResults, Class<E> clazz) {
 		return getAllCriteria(clazz).setFirstResult(firstResult)
 				.setMaxResults(maxResults).getResultList();
 	}
 
 	@Override
-	public E saveEntity(E e) {
+	public <E extends IdEnabledEntity<?>> E saveEntity(E e) {
 		try {
 			return entityManager.merge(e);
 		} catch (IllegalArgumentException ex) {
@@ -104,7 +104,7 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 	}
 
 	@Override
-	public void removeEntity(E entity) {
+	public <E extends IdEnabledEntity<?>> void removeEntity(E entity) {
 		entity.setErased(true);
 		entityManager.merge(entity);
 		entityManager.flush();
@@ -121,10 +121,17 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 	}
 
 	@Override
-	public E merge(E entity) {
-		E merged = this.entityManager.merge(entity);
+	public <T> T merge(T entity) {
+		T merged = this.entityManager.merge(entity);
 		this.entityManager.flush();
 		return merged;
+	}
+
+	@Override
+	public <T> T persist(T entity) {
+		this.entityManager.persist(entity);
+		this.entityManager.flush();
+		return entity;
 	}
 
 	public void setEntityManager(EntityManager entityManager) {
@@ -132,7 +139,9 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 	}
 
 	@Override
-	public List<E> query(final QueryParameters parameters, final Class<E> clazz) {
+	public <E extends IdEnabledEntity<?>> List<E> query(
+			final QueryParameters parameters, Class<E> clazz,
+			final String searchAttribute) {
 
 		TypedQuery<E> query = prepareEntityQuery(clazz, clazz,
 				new InnerQueryBuilder<E, E>() {
@@ -141,11 +150,11 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 					public void prepareQuery(CriteriaBuilder qb,
 							CriteriaQuery<E> cq, Root<E> root) {
 						Predicate pr = cq.getRestriction();
-						if (parameters.getSearchString() != null) {
+						if (parameters.getSearchString() != null
+								&& searchAttribute != null) {
 							Predicate like = qb.like(
-									root.get(getSearchAttribute()), "%"
-											+ parameters.getSearchString()
-											+ "%");
+									getSearchAttribute(root, searchAttribute),
+									"%" + parameters.getSearchString() + "%");
 							pr = qb.and(like, pr);
 						}
 						cq.where(pr);
@@ -158,14 +167,21 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 								cq.orderBy(qb.desc(path));
 						}
 
-						for (Entry<String, String> queryParameter : parameters
+						for (Entry<String, Object> queryParameter : parameters
 								.getQueryParameters()) {
 							try {
-								Path<?> parameterPath = foundPath(Arrays
-										.asList(queryParameter.getKey().split(
-												"\\.")), root);
-								cq.where(qb.and(cq.getRestriction(),
-										qb.equal(parameterPath, new Object())));
+								Path<?> parameterPath = foundPath(
+										queryParameter.getKey(), root);
+								cq.where(qb.and(
+										cq.getRestriction(),
+										qb.equal(
+												parameterPath,
+												conversionService.convert(
+														queryParameter
+																.getValue(),
+														parameterPath
+																.getModel()
+																.getBindableJavaType()))));
 							} catch (IllegalArgumentException e) {
 								// could not find path
 							}
@@ -183,8 +199,15 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 		return query.getResultList();
 	}
 
-	protected Path<?> foundPath(List<String> split, Root<E> root) {
-		ArrayDeque<String> pathQueue = new ArrayDeque<String>(split);
+	protected <E extends IdEnabledEntity<?>> Path<?> foundPath(
+			String queryAttribute, Root<E> root) {
+		String[] queryAttributePath = queryAttribute.split("\\.");
+		ArrayDeque<String> pathQueue = new ArrayDeque<String>(
+				queryAttributePath.length);
+		for (String pathPart : queryAttributePath) {
+			pathQueue.add(pathPart);
+		}
+
 		Path<?> path = innerSplit(pathQueue, root);
 		if (path.getModel().getBindableType() == BindableType.SINGULAR_ATTRIBUTE)
 			return path;
@@ -202,6 +225,34 @@ public abstract class AbstractBaseRepositoryJPA<ID, E extends IdEnabledEntity<ID
 		}
 	}
 
-	abstract protected SingularAttribute<E, String> getSearchAttribute();
+	@SuppressWarnings("unchecked")
+	protected <E extends IdEnabledEntity<?>> Expression<String> getSearchAttribute(
+			Root<E> root, String searchAttribute) {
+		Path<?> foundPath = foundPath(searchAttribute, root);
+		if (foundPath.getModel().getBindableJavaType().equals(String.class))
+			return (Expression<String>) foundPath;
+		throw new IllegalArgumentException("searchAttribute: "
+				+ searchAttribute
+				+ " is not string but "
+				+ foundPath.getModel().getBindableJavaType().getClass()
+						.getCanonicalName());
+	}
 
+	public void setConversionService(ConversionService conversionService) {
+		this.conversionService = conversionService;
+	}
+
+	@Override
+	public <E extends HasName<?>> List<E> findByName(final String name,
+			Class<E> clazz) {
+		return prepareEntityQuery(clazz, clazz, new InnerQueryBuilder<E, E>() {
+
+			@Override
+			public void prepareQuery(CriteriaBuilder qb, CriteriaQuery<E> cq,
+					Root<E> root) {
+				cq.where(qb.and(cq.getRestriction(),
+						qb.equal(root.get("name"), name)));
+			}
+		}).getResultList();
+	}
 }

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -74,6 +72,14 @@
 		<property name="fileService" ref="fileService" />
 	</bean>
 	<bean id="employeeController" class="com.yuksekisler.interfaces.web.EmployeeController">
+		<property name="employeeService" ref="employeeService" />
+	</bean>
+	<bean id="certificateTypeController"
+		class="com.yuksekisler.interfaces.web.EmployeeCertificateTypeController">
+		<property name="employeeService" ref="employeeService" />
+	</bean>
+
+	<bean id="employeeTitleController" class="com.yuksekisler.interfaces.web.EmployeeTitleController">
 		<property name="employeeService" ref="employeeService" />
 	</bean>
 

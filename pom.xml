@@ -40,6 +40,7 @@
 				<database.password>ietbui99</database.password>
 				<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
 				<hibernate.hbm2ddl.auto>hibernate.hbm2ddl.auto=create</hibernate.hbm2ddl.auto>
+				<hibernate.show_sql>false</hibernate.show_sql>
 				<profile.scope>compile</profile.scope>
 			</properties>
 		</profile>
@@ -66,6 +67,7 @@
 				<database.password></database.password>
 				<hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
 				<hibernate.hbm2ddl.auto>hibernate.hbm2ddl.auto=create</hibernate.hbm2ddl.auto>
+				<hibernate.show_sql>false</hibernate.show_sql>
 				<profile.scope>compile</profile.scope>
 			</properties>
 		</profile>
@@ -92,6 +94,7 @@
 				<database.password>yuksekisler</database.password>
 				<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
 				<hibernate.hbm2ddl.auto></hibernate.hbm2ddl.auto>
+				<hibernate.show_sql>false</hibernate.show_sql>
 				<profile.scope>provided</profile.scope>
 			</properties>
 		</profile>
@@ -416,6 +419,11 @@
 			<artifactId>thumbnailator</artifactId>
 			<version>0.3.10</version>
 			<scope>${profile.scope}</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.4</version>
 		</dependency>
 	</dependencies>
 	<build>

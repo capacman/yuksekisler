@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.NoResultException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,11 +56,11 @@ public class ApplicationInit {
 			employee.setTitle(title);
 			employee.getAuthorities().add(GrantedAuthorityImpl.USER);
 			employee.getAuthorities().add(GrantedAuthorityImpl.ADMIN);
-			employee = employeeService.saveEmployee(employee);
+			employee = employeeService.saveEntity(employee);
 
-			Brand brand = equipmentService.createNewBrand(new Brand("a", "a"));
-			Category category = equipmentService
-					.createNewCategory(new Category("a", "a"));
+			Brand brand = equipmentService.saveEntity(new Brand("a", "a"));
+			Category category = equipmentService.saveEntity(new Category("a",
+					"a"));
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.DAY_OF_MONTH, -10);
 			Date entrance = calendar.getTime();
@@ -71,26 +70,32 @@ public class ApplicationInit {
 			Date bestBefore = calendar.getTime();
 
 			for (int i = 1; i <= 30; i++) {
-				Equipment equipment = equipmentService.createEquipment(
-						category, brand, entrance, bestBefore, production,
-						Integer.toString(i), "product" + i);
+				Equipment equipment = new Equipment();
+				equipment.setBestBeforeDate(bestBefore);
+				equipment.setBrand(brand);
+				equipment.setProductionDate(production);
+				equipment.setProductCode(Integer.toString(i));
+				equipment.setProductName("product" + i);
+				equipment.setStockEntrance(entrance);
+				equipment.setCategory(category);
 				for (int j = 1; j <= 5; j++)
 					equipment.addInspectionReport(new InspectionReport(
 							employee, new Date(), "some content",
 							InspectionStatus.USABLE));
-				equipmentService.saveEquipment(equipment);
+				equipmentService.saveEntity(equipment);
 			}
 		}
 	}
 
 	public EmployeeTitle getTitle() {
-		List<EmployeeTitle> titles = employeeService.getTitles();
+		List<EmployeeTitle> titles = employeeService
+				.getAllEntities(EmployeeTitle.class);
 		EmployeeTitle title;
 		if (titles.isEmpty()) {
 			title = new EmployeeTitle("foo", "bar");
-			title = employeeService.saveTitle(title);
+			title = employeeService.saveEntity(title);
 			title = new EmployeeTitle("foo1", "bar1");
-			title = employeeService.saveTitle(title);
+			title = employeeService.saveEntity(title);
 		} else {
 			title = titles.get(0);
 		}

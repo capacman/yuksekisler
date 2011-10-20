@@ -14,15 +14,17 @@ import com.yuksekisler.domain.UploadedRepository;
 @Repository
 public class UploadedRepositoryJPA extends AbstractBaseRepositoryJPA implements
 		UploadedRepository {
-	public <E extends Uploaded> List<E> getByUploadId(String uploadID,
+	public <E extends Uploaded> List<E> getByUploadId(final String uploadID,
 			Class<E> clazz) {
-		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<E> query = builder.createQuery(clazz);
-		Root<E> root = query.from(clazz);
-		query.select(root).where(
-				builder.and(builder.equal(root.get("erased"), Boolean.FALSE),
-						builder.equal(root.get("uploadId"), uploadID)));
-		return entityManager.createQuery(query).getResultList();
-	}
+		return prepareEntityQuery(clazz, clazz, new InnerQueryBuilder<E, E>() {
 
+			@Override
+			public void prepareQuery(CriteriaBuilder qb, CriteriaQuery<E> cq,
+					Root<E> root) {
+				cq.where(qb.and(cq.getRestriction(),
+						qb.equal(root.get("uploadId"), uploadID)));
+
+			}
+		}).getResultList();
+	}
 }

@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.yuksekisler.application.QueryParameters;
 
-public interface CrudRepository<ID, E extends IdEnabledEntity<ID>> {
-	void removeEntity(E e);
+public interface CrudRepository {
+	// <ID, E extends IdEnabledEntity<ID>>
+	<E extends IdEnabledEntity<?>> void removeEntity(E e);
 
-	E saveEntity(E e);
+	<E extends IdEnabledEntity<?>> E saveEntity(E e);
 
-	E getEntity(ID id, Class<E> clazz);
+	<ID, E extends IdEnabledEntity<ID>> E getEntity(ID id, Class<E> clazz);
 
-	List<E> query(QueryParameters parameters, Class<E> clazz);
+	<E extends IdEnabledEntity<?>> List<E> query(QueryParameters parameters,
+			Class<E> clazz, final String searchAttribute);
 }

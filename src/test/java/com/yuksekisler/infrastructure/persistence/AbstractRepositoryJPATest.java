@@ -11,10 +11,11 @@ import java.util.Map.Entry;
 import org.junit.Test;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
+import com.yuksekisler.application.QueryParameters;
 import com.yuksekisler.domain.BaseRepository;
 import com.yuksekisler.domain.IdEnabledEntity;
 
-public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E extends IdEnabledEntity>
+public abstract class AbstractRepositoryJPATest<R extends BaseRepository, ID, E extends IdEnabledEntity<ID>>
 		extends AbstractTransactionalJUnit4SpringContextTests {
 
 	public AbstractRepositoryJPATest() {
@@ -34,7 +35,8 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 		getRepository().flush();
 		for (Entry<String, Integer> countEntry : initialTableCountsPersist
 				.entrySet()) {
-			assertEquals("invalid column count for " + countEntry.getKey(),countEntry.getValue().intValue(),
+			assertEquals("invalid column count for " + countEntry.getKey(),
+					countEntry.getValue().intValue(),
 					countEnabledRowsInTable(countEntry.getKey()));
 		}
 	}
@@ -48,7 +50,7 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 		getRepository().persist(e);
 		getRepository().flush();
 
-		getRepository().remove(e);
+		getRepository().removeEntity(e);
 		getRepository().flush();
 		for (Entry<String, Integer> countEntry : initialTableCountsPersist
 				.entrySet()) {
@@ -80,12 +82,13 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 
 	public abstract String getEntityTableName();
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testFindEntry() {
 		E e = createEntity();
 		getRepository().persist(e);
 		getRepository().flush();
-		assertNotNull(getRepository().find(e.getId(), e.getClass()));
+		assertNotNull(getRepository().getEntity(e.getId(), e.getClass()));
 	}
 
 	@Test
@@ -105,7 +108,35 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, E exte
 		assertTrue(getRepository().countEntries(e.getClass()) > 0);
 	}
 
+	@Test
+	public void testSearchEntities() {
+		List<E> list = getRepository().query(getSearchQueryObject(),
+				getClazz(), getSearchAttribute());
+		assertNotNull(list);
+		assertEquals(getSearchResultCount(), list.size());
+	}
+
+	@Test
+	public void testQueryEntities() {
+		List<E> list = getRepository()
+				.query(getQueryObject(), getClazz(), null);
+		assertNotNull(list);
+		assertEquals(getQueryResultCount(), list.size());
+	}
+
+	abstract protected int getQueryResultCount();
+
+	abstract protected QueryParameters getQueryObject();
+
+	abstract protected int getSearchResultCount();
+
+	abstract protected String getSearchAttribute();
+
+	abstract protected QueryParameters getSearchQueryObject();
+
 	public abstract E createEntity();
+
+	public abstract Class<E> getClazz();
 
 	protected abstract R getRepository();
 

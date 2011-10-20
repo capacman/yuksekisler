@@ -55,6 +55,14 @@
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="javax.persistence.validation.factory">
+					<bean
+						class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+				</entry>
+			</map>
+		</property>
 	</bean>
 
 	<bean
@@ -68,20 +76,24 @@
 	<bean id="employeeRepository"
 		class="com.yuksekisler.infrastructure.persistence.EmployeeRepositoryJPA">
 		<property name="entityManager" ref="entityManager" />
+		<property name="conversionService" ref="conversionService" />
 	</bean>
 
 	<bean id="equipmentRepository"
 		class="com.yuksekisler.infrastructure.persistence.EquipmentRepositoryJPA">
 		<property name="entityManager" ref="entityManager" />
+		<property name="conversionService" ref="conversionService" />
 	</bean>
 
 	<bean id="workRepository"
 		class="com.yuksekisler.infrastructure.persistence.WorkRepositoryJPA">
 		<property name="entityManager" ref="entityManager" />
+		<property name="conversionService" ref="conversionService" />
 	</bean>
 	<bean id="fileRepository"
 		class="com.yuksekisler.infrastructure.persistence.UploadedRepositoryJPA">
 		<property name="entityManager" ref="entityManager" />
+		<property name="conversionService" ref="conversionService" />
 	</bean>
 
 	<bean id="employeeService" class="com.yuksekisler.application.impl.EmployeeServiceImpl">
@@ -128,5 +140,9 @@
 	<task:scheduler id="scheduler" pool-size="1" />
 
 	<bean
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	</bean>
+
+	<bean id="conversionService"
+		class="org.springframework.context.support.ConversionServiceFactoryBean" />
 </beans>

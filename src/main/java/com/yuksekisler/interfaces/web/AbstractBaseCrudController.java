@@ -13,19 +13,25 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.yuksekisler.application.CrudService;
 import com.yuksekisler.application.QueryParameters;
+import com.yuksekisler.domain.IdEnabledEntity;
 
-public abstract class AbstractBaseController {
+public abstract class AbstractBaseCrudController<ID, E extends IdEnabledEntity<ID>>
+		implements CrudController<ID, E> {
 	public static final Pattern SORT_PATTERN = Pattern
 			.compile("sort\\(([+\\s-])(.*)\\)");
 	public static final Pattern RANGE_PATTERN = Pattern
 			.compile("items=(\\d*)-(\\d*)");
 
-	public AbstractBaseController() {
+	public AbstractBaseCrudController() {
 		super();
 	}
 
@@ -63,7 +69,9 @@ public abstract class AbstractBaseController {
 		return parameters;
 	}
 
-	public abstract String getTypeName();
+	public String getTypeName() {
+		return getEntityClass().getName().toUpperCase();
+	}
 
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(EmptyResultDataAccessException.class)
@@ -90,4 +98,54 @@ public abstract class AbstractBaseController {
 		}
 		return errorResponse;
 	}
+
+	abstract protected Class<E> getEntityClass();
+
+	abstract protected CrudService getService();
+
+	public E get(ID id) {
+		return getService().getEntity(id, getEntityClass());
+	}
+
+	@Override
+	public E store(E entity) {
+		return getService().saveEntity(entity);
+	}
+
+	@Override
+	public void delete(ID id) {
+		getService().removeEntity(id, getEntityClass());
+	}
+
+	@Override
+	public ResponseEntity<List<E>> query(HttpServletRequest request) {
+		QueryParameters parameters = prepareQueryParameters(request);
+		if ((parameters.getSearchString() != null && !parameters
+				.getSearchString().isEmpty())
+				|| parameters.hasRange()
+				|| parameters.hasOrder()) {
+			List<E> queryResult = getService().query(parameters,
+					getEntityClass(), getSearchAttribute());
+			MultiValueMap<String, String> headers = new HttpHeaders();
+			headers.add(
+					"Content-Range",
+					"items "
+							+ parameters.getRangeStart()
+							+ "-"
+							+ (parameters.getRangeStart() + queryResult.size() < parameters
+									.getRangeEnd() ? parameters.getRangeStart()
+									+ queryResult.size() : parameters
+									.getRangeEnd()) + "/"
+							+ getService().getEntityCount(getEntityClass()));
+			ResponseEntity<List<E>> responseEntity = new ResponseEntity<List<E>>(
+					queryResult, headers, HttpStatus.OK);
+			return responseEntity;
+		} else {
+			return new ResponseEntity<List<E>>(getService().getAllEntities(
+					getEntityClass()), HttpStatus.OK);
+		}
+	}
+
+	abstract protected String getSearchAttribute();
+
 }

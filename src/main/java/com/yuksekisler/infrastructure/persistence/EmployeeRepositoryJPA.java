@@ -8,8 +8,8 @@ import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.employee.EmployeeRepository;
 
 @Repository
-public class EmployeeRepositoryJPA extends
-		AbstractBaseRepositoryJPA<Long, Employee> implements EmployeeRepository {
+public class EmployeeRepositoryJPA extends AbstractBaseRepositoryJPA implements
+		EmployeeRepository {
 
 	@Override
 	public Employee findByEmail(String email) {
@@ -20,5 +20,6 @@ public class EmployeeRepositoryJPA extends
 		query.setParameter("email", email);
 		return query.getSingleResult();
 	}
-
+	
+	
 }
