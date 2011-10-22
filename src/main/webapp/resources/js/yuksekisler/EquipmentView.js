@@ -26,7 +26,10 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
             categoryStore:this.categoryStore,
             brandStore:this.brandStore,
             equipmentStore:this.equipmentStore,
-            equipment:equipmentChain
+            equipment:equipmentChain,
+            noHashChange:true,
+            onSubmit:dojo.hitch(this, this.equipmentChanged),
+            onImageUpload:dojo.hitch(this, this.onImageUpload)
         });
         this.editEquipment.startup();
 
@@ -40,25 +43,8 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
              imageWidth:'500',
              imageHeight:'300'
              });*/
-            var imageGallery = new dojox.image.ThumbnailPicker({
-                id:'imagePicker',
-                size:530,
-                isClickable:true,
-                isScrollable:false
-            });
-
-            imageGallery.startup();
-            this.addInner(imageGallery);
-
-            this.imageContent.set('content', imageGallery);
-            dojo.subscribe(imageGallery.getClickTopicName(), this, this.lightboxShow);
-
-            var memoryStore = yuksekisler.app.prepareImageStore(value, 'images');
-
-            imageGallery.setDataStore(memoryStore, { count:20 }, {
-                imageThumbAttr: "thumb",
-                imageLargeAttr: "large"
-            });
+            this.prepareImageGalery();
+            this.initImageStore(value);
         } else {
             var img = dojo.create('img', {class:'no-image',src:'/yuksekisler/resources/images/no-image.jpg'});
             this.imageContent.set('content', img);
@@ -155,5 +141,55 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
                 }).play();
             }
         }).play();
+    },
+    equipmentChanged:function(equipmentID) {
+        dojo.xhrGet({
+            url:dojo.config.applicationBase + '/equipment/' + equipmentID,
+            handleAs:'json',
+            load:dojo.hitch(this, function(value) {
+                if (!this.imageGallery)
+                    this.prepareImageGalery();
+                this.initImageStore(value);
+            })
+        });
+    },
+    initImageStore:function (value) {
+        var memoryStore = yuksekisler.app.prepareImageStore(value, 'images');
+        this.imageGallery.setDataStore(memoryStore, { count:20 }, {
+            imageThumbAttr: "thumb",
+            imageLargeAttr: "large"
+        });
+    },
+    prepareImageGalery:function() {
+        this.imageGallery = new dojox.image.ThumbnailPicker({
+            id:'imagePicker',
+            size:530,
+            isClickable:true,
+            isScrollable:false
+        });
+        this.imageGallery.startup();
+        this.addInner(this.imageGallery);
+        this.imageContent.set('content', this.imageGallery);
+        dojo.subscribe(this.imageGallery.getClickTopicName(), this, this.lightboxShow);
+    },
+    onImageUpload:function(uploadInfo) {
+        var infoWidget = new yuksekisler.UploaderSuccessWidget({
+            uploadInfo:uploadInfo
+        }).placeAt(this.domNode, 'first');
+        dojo.style(infoWidget.domNode, 'opacity', '0');
+        dojo.fadeIn({
+            node:infoWidget.domNode,
+            duration:900
+        }).play();
+        setTimeout(function() {
+            dojo.fadeOut({
+                node:infoWidget.domNode,
+                duration:900,
+                onEnd:function() {
+                    dojo.style(infoWidget.domNode, 'display', 'none');
+                    infoWidget.destroyRecursive(false);
+                }
+            }).play();
+        }, 6900);
     }
 });

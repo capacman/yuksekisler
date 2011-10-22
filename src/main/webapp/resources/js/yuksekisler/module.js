@@ -60,3 +60,4 @@ dojo.require('yuksekisler.InspectionReportFormWidget');
 dojo.require('yuksekisler.Definitions');
 dojo.require('yuksekisler.EmployeeWidget');
 dojo.require('yuksekisler.EmployeeListWidget');
+dojo.require('yuksekisler.UploaderSuccessWidget');

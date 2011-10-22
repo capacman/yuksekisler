@@ -20,6 +20,7 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
     equipmentStore:null,
     equipment:null,
     onSubmit:null,
+    noHashChange:false,
     postCreate:function() {
         //this.uploader.onComplete = dojo.hitch(this, this.formCompleted);
         dojo.connect(this.uploader, 'onComplete', this, this.formCompleted);
@@ -67,6 +68,7 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
             //check whether we have files and upload them
             if (this.uploader.getFileList().length > 0) {
                 this.uuid = dojox.uuid.generateRandomUuid();
+                yuksekisler.app.loadingDialog.show();
                 this.uploader.upload({
                     uploadId:this.uuid
                 });
@@ -74,25 +76,26 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
                 this.formCompleted();
         }
     },
-    formCompleted:function(e) {
-        var postContent = dojo.formToObject(this.form.domNode);
-        if (this.uuid)
-            postContent.filesUUID = this.uuid;
-        var baseUrl = dojo.config.applicationBase + "/equipment/";
-        dojo.xhrPost({
-            url: this.equipmentID ? baseUrl + this.equipmentID : baseUrl,
-            handleAs: "json",
-            load: dojo.hitch(this, function(data) {
-                if (this.onSubmit)
-                    this.onSubmit();
-                dojo.hash('equipments');
-            }),
-            error: function(error) {
-                //show nice error function
-                alert("login failed" + error);
-            },
-            content:postContent
-        });
-
+    formCompleted:function(uploadInfo) {
+        yuksekisler.app.loadingDialog.hide();
+        if (uploadInfo && this.onImageUpload)
+            this.onImageUpload(uploadInfo);
+        if (uploadInfo && !uploadInfo.operationFailed) {
+            var postContent = dojo.formToObject(this.form.domNode);
+            if (this.uuid)
+                postContent.filesUUID = this.uuid;
+            var baseUrl = dojo.config.applicationBase + "/equipment/";
+            dojo.xhrPost({
+                url: this.equipmentID ? baseUrl + this.equipmentID : baseUrl,
+                handleAs: "json",
+                load: dojo.hitch(this, function(data) {
+                    if (this.onSubmit)
+                        this.onSubmit(this.equipmentID);
+                    if (!this.noHashChange)
+                        dojo.hash('equipments');
+                }),
+                content:postContent
+            });
+        }
     }
 });
