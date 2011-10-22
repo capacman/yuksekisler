@@ -30,7 +30,7 @@ dojo.declare('yuksekisler.EquipmentListView', [dijit._Widget,dijit._Templated,yu
                     {name:'Image',get:this.getImagePath,width:'48px',height:'auto',formatter:this.formatImage},
                     {name:'Brand',get:this.getBrandName,width:'auto'},
                     {name:'Category',get:this.getCategoryName,width:'auto'},
-                    {name:'Stock Entrance',field:'stockEntrance',formatter:this.formatDate,width:'auto'}
+                    {name:'Inspection Date',get:this.stockEntrance,formatter:this.formatDate,width:'auto'}
                 ],
             onRowContextMenu:dojo.hitch(this, yuksekisler.app.onRowContextMenu)
         });
@@ -62,12 +62,18 @@ dojo.declare('yuksekisler.EquipmentListView', [dijit._Widget,dijit._Templated,yu
         if (item)
             return item.category.name;
     },
+    stockEntrance:function(colIndex, item) {
+        if (item && item.inspectionReports.length > 0)
+            return item.inspectionReports[item.inspectionReports.length - 1].inspectionDate;
+    },
     formatDate:function(value) {
-        return dojo.date.locale.format(new Date(value), {
-            datePattern:'dd/MM/yyyy',
-            formatLength:'short',
-            selector:'date'
-        });
+        if (value)
+            return dojo.date.locale.format(new Date(value), {
+                datePattern:'dd/MM/yyyy',
+                formatLength:'short',
+                selector:'date'
+            });
+        return "";
     },
     formatImage:function(value) {
         if (value)

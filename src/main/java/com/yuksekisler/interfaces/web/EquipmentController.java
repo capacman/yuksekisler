@@ -184,6 +184,11 @@ public class EquipmentController {
 			protected String getSearchAttribute() {
 				return "productName";
 			}
+
+			@Override
+			protected Logger getLogger() {
+				return LOGGER;
+			}
 		};
 	}
 

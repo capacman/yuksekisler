@@ -5,7 +5,7 @@
 	<groupId>com.yuksekisler</groupId>
 	<artifactId>yuksekisler</artifactId>
 	<packaging>war</packaging>
-	<version>0.2.0.BUILD-SNAPSHOT</version>
+	<version>0.2.2.BUILD-SNAPSHOT</version>
 	<name>yuksekisler</name>
 	<properties>
 		<roo.version>1.1.5.RELEASE</roo.version>
@@ -84,7 +84,6 @@
 					<groupId>mysql</groupId>
 					<artifactId>mysql-connector-java</artifactId>
 					<version>${mysql.version}</version>
-					<scope>provided</scope>
 				</dependency>
 			</dependencies>
 			<properties>
@@ -95,7 +94,7 @@
 				<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
 				<hibernate.hbm2ddl.auto></hibernate.hbm2ddl.auto>
 				<hibernate.show_sql>false</hibernate.show_sql>
-				<profile.scope>provided</profile.scope>
+				<profile.scope>compile</profile.scope>
 			</properties>
 		</profile>
 	</profiles>
@@ -130,19 +129,16 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>0.9.30</version>
-			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
-			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${slf4j.version}</version>
-			<scope>${profile.scope}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -180,6 +176,12 @@
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
 			<scope>${profile.scope}</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

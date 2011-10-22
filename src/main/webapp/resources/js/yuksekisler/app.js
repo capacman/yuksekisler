@@ -242,10 +242,11 @@ yuksekisler.app = {
     contextMenuClicked:function() {
     },
     onGlobalError:function(err) {
-        var errorDef = dojo.mixin(dojo.fromJson(err.responseText), {status:err.status});
-
+        if (err.responseText.lastIndexOf('<html>', 7) < 0)
+            var responseObject = dojo.fromJson(err.responseText);
+        var errorDef = dojo.mixin(responseObject ? responseObject : {}, {status:err.status});
         switch (errorDef.status) {
-            case '401':
+            case 401:
                 window.location = dojo.config.applicationBase + '/login.html';
                 break;
             default:

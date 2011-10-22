@@ -3,6 +3,8 @@ package com.yuksekisler.domain.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -12,6 +14,8 @@ import com.yuksekisler.domain.HasName;
 public class HasUniqueNameValidator implements
 		ConstraintValidator<HasUniqueName, HasName<?>> {
 
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(HasUniqueNameValidator.class);
 	private CrudService crudService;
 
 	@Override
@@ -21,15 +25,12 @@ public class HasUniqueNameValidator implements
 
 	@Override
 	public boolean isValid(HasName<?> value, ConstraintValidatorContext context) {
+		LOGGER.debug("constraint validator validating with name {}",
+				value.getName());
 		assert getCrudService() != null;
-		try {
-			return getCrudService().findByName(value.getName(),
-					value.getClass()).isEmpty();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return true;
-
+		return value.getErased()
+				|| getCrudService().findByName(value.getName(),
+						value.getClass()).isEmpty();
 	}
 
 	public CrudService getCrudService() {

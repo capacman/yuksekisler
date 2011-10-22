@@ -31,6 +31,8 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
         });
         this.categoryGridContainer.set('content', this.categoryGrid);
         this.categoryGrid.startup();
+        dojo.connect(this.categoryName, "onKeyUp", this, this.categoryKeyUp);
+        this.categoryName.validator = dojo.hitch(this, this.validateCategoryName);
 
         this.brandGrid = new dojox.grid.DataGrid({
             query:{},
@@ -48,6 +50,8 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
         });
         this.brandGridContainer.set('content', this.brandGrid);
         this.brandGrid.startup();
+        dojo.connect(this.brandName, "onKeyUp", this, this.brandKeyUp);
+        this.brandName.validator = dojo.hitch(this, this.validateBrandName);
 
         this.titleGrid = new dojox.grid.DataGrid({
             query:{},
@@ -65,6 +69,8 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
         });
         this.titleGridContainer.set('content', this.titleGrid);
         this.titleGrid.startup();
+        dojo.connect(this.titleName, "onKeyUp", this, this.titleKeyUp);
+        this.titleName.validator = dojo.hitch(this, this.validateTitleName);
 
         this.certificateGrid = new dojox.grid.DataGrid({
             query:{},
@@ -82,6 +88,8 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
         });
         this.certificateGridContainer.set('content', this.certificateGrid);
         this.certificateGrid.startup();
+        dojo.connect(this.certificateName, "onKeyUp", this, this.certificateKeyUp);
+        this.certificateName.validator = dojo.hitch(this, this.validateCertificateName);
         this.inherited(arguments);
     },
     onBrand:function() {
@@ -115,5 +123,63 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
                 this.certificateGrid._refresh();
             }));
         }
+    },
+    validateCategoryName:function(value, constraints) {
+        return this.ajaxValidate(value, constraints, this.categoryName, this.categoryStore)
+    },
+    validateBrandName:function(value, constraints) {
+        return this.ajaxValidate(value, constraints, this.brandName, this.brandStore)
+    },
+    validateTitleName:function(value, constraints) {
+        return this.ajaxValidate(value, constraints, this.titleName, this.titleStore)
+    },
+    validateCertificateName:function(value, constraints) {
+        return this.ajaxValidate(value, constraints, this.certificateName, this.certificateStore)
+    },
+    ajaxValidate:function(value, constraints, ctr, store) {
+        if (constraints.duplicateName && constraints.ajaxValidaton) {
+            constraints.ajaxValidaton = false;
+            return false;
+        } else if (ctr._isEmpty(ctr.get('value')))
+            return false
+        if (!ctr.focused && constraints.duplicateName)
+            return false;
+        return true;
+    },
+    validateWithTimer:function(ctr, store, value) {
+        if (ctr._isEmpty(value)) {
+            ctr.constraints = {};
+            return;
+        }
+        if (this.timerId) {
+            clearTimeout(this.timerId);
+        }
+
+        this.timerId = setTimeout(function() {
+            dojo.when(store.query({name:value}), function(results) {
+                var duplicateName = dojo.some(results, function(arrayValue) {
+                    console.log(arrayValue);
+                    if (arrayValue.name == value)
+                        return true;
+                    return false;
+                });
+                console.log("duplicateName " + duplicateName);
+                ctr.constraints = {'duplicateName':duplicateName,ajaxValidaton:true};
+                ctr.validate(false);
+                console.log('ajax validate state: ' + ctr.state);
+            });
+        }, 400);
+    },
+    categoryKeyUp:function(e) {
+        this.validateWithTimer(this.categoryName, this.categoryStore, this.categoryName.get('value'));
+    },
+    brandKeyUp:function(e) {
+        this.validateWithTimer(this.brandName, this.brandStore, this.brandName.get('value'));
+    },
+    titleKeyUp:function(e) {
+        this.validateWithTimer(this.titleName, this.titleStore, this.titleName.get('value'));
+    },
+    certificateKeyUp:function(e) {
+        this.validateWithTimer(this.certificateName, this.certificateStore, this.certificateName.get('value'));
     }
 });

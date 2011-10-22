@@ -62,6 +62,10 @@ public class QueryParameters {
 		return rangeStart != -1 && rangeEnd != -1;
 	}
 
+	public boolean hasQueryParameters() {
+		return !queryParameters.isEmpty();
+	}
+
 	public void addParameter(String key, Object value) {
 		this.queryParameters.put(key, value);
 	}

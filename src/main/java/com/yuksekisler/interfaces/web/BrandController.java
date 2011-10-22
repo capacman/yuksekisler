@@ -31,4 +31,9 @@ public class BrandController extends AbstractBaseCrudController<Long, Brand> {
 	protected String getSearchAttribute() {
 		return "name";
 	}
+
+	@Override
+	protected Logger getLogger() {
+		return LOGGER;
+	}
 }

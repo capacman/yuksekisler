@@ -12,12 +12,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import org.slf4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.yuksekisler.application.CrudService;
@@ -103,27 +109,35 @@ public abstract class AbstractBaseCrudController<ID, E extends IdEnabledEntity<I
 
 	abstract protected CrudService getService();
 
-	public E get(ID id) {
+	@Override
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public @ResponseBody
+	E get(@PathVariable("id") ID id) {
 		return getService().getEntity(id, getEntityClass());
 	}
 
 	@Override
-	public E store(E entity) {
+	@RequestMapping(method = RequestMethod.POST)
+	public @ResponseBody
+	E store(@RequestBody E entity) {
+		getLogger().debug("store called with {}", entity);
 		return getService().saveEntity(entity);
 	}
 
 	@Override
-	public void delete(ID id) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable("id") ID id) {
 		getService().removeEntity(id, getEntityClass());
 	}
 
 	@Override
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<E>> query(HttpServletRequest request) {
 		QueryParameters parameters = prepareQueryParameters(request);
 		if ((parameters.getSearchString() != null && !parameters
 				.getSearchString().isEmpty())
 				|| parameters.hasRange()
-				|| parameters.hasOrder()) {
+				|| parameters.hasOrder() || parameters.hasQueryParameters()) {
 			List<E> queryResult = getService().query(parameters,
 					getEntityClass(), getSearchAttribute());
 			MultiValueMap<String, String> headers = new HttpHeaders();
@@ -147,5 +161,7 @@ public abstract class AbstractBaseCrudController<ID, E extends IdEnabledEntity<I
 	}
 
 	abstract protected String getSearchAttribute();
+
+	abstract protected Logger getLogger();
 
 }

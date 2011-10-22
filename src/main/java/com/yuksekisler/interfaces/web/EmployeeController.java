@@ -33,4 +33,9 @@ public class EmployeeController extends
 	protected String getSearchAttribute() {
 		return "name";
 	}
+
+	@Override
+	protected Logger getLogger() {
+		return LOGGER;
+	}
 }

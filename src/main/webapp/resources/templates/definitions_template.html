@@ -11,7 +11,10 @@
                         <label for='categoryName' class='basicLabel'>Name:</label>
                     </td>
                     <td>
-                        <div dojoType='dijit.form.ValidationTextBox' name='name' id='categoryName' required='true' missingMessage="Name required"></div>
+                        <div dojoAttachPoint='categoryName' dojoType='dijit.form.ValidationTextBox' name='name'
+                             id='categoryName' required='true' missingMessage="Name required"
+                             invalidMessage="Category name already Used"
+                             promptMessage="Enter Category name"></div>
                     </td>
                 </tr>
                 <tr>
@@ -43,7 +46,11 @@
                         <label for='brandName' class='basicLabel'>Name:</label>
                     </td>
                     <td>
-                        <div dojoType='dijit.form.ValidationTextBox' name='name' id='brandName' required='true' missingMessage="Name required"></div>
+                        <div dojoAttachPoint='brandName' dojoType='dijit.form.ValidationTextBox' name='name'
+                             id='brandName' required='true'
+                             missingMessage="Name required"
+                             invalidMessage="Brand name already Used"
+                             promptMessage="Enter Brand name"></div>
                     </td>
                 </tr>
                 <tr>
@@ -75,7 +82,11 @@
                         <label for='titleName' class='basicLabel'>Name:</label>
                     </td>
                     <td>
-                        <div dojoType='dijit.form.ValidationTextBox' name='name' id='titleName' required='true' missingMessage="Name required"></div>
+                        <div dojoAttachPoint='titleName' dojoType='dijit.form.ValidationTextBox' name='name'
+                             id='titleName' required='true'
+                             missingMessage="Name required"
+                             invalidMessage="Title name already Used"
+                             promptMessage="Enter Title name"></div>
                     </td>
                 </tr>
                 <tr>
@@ -107,7 +118,11 @@
                         <label for='certificateName' class='basicLabel'>Name:</label>
                     </td>
                     <td>
-                        <div dojoType='dijit.form.ValidationTextBox' name='name' id='certificateName' required='true' missingMessage="Name required"></div>
+                        <div dojoAttachPoint='certificateName' dojoType='dijit.form.ValidationTextBox' name='name'
+                             id='certificateName' required='true'
+                             missingMessage="Name required"
+                             invalidMessage="Certificate name already Used"
+                             promptMessage="Enter Certificate name"></div>
                     </td>
                 </tr>
                 <tr>
