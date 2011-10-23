@@ -13,7 +13,7 @@ html {
 body {
     background: url("../images/transparent_gradient.png") repeat-x fixed 0 0 transparent;
     margin: 0;
-    padding: 20px 0 0 !important;
+    padding: 150px 0 0 !important;
 }
 
 body {
@@ -59,7 +59,7 @@ body {
     max-width: 1115px;
     overflow: hidden;
     padding: 20px;
-    width: 90%;
+    width: 70%;
     min-height: 81.5%;
 }
 
@@ -187,7 +187,7 @@ body {
     width: 800px;
 }
 
-.employeeContainer {
+.simpleWidgetContainer {
     width: 170px;
     border: #DDDDDD;
     border-style: solid;
@@ -202,17 +202,12 @@ body {
     padding: 5px;
 }
 
-.employeeDefinition {
+.simpleWidgetDefinition {
     margin: 5px 7px 5px;
     width: 150px;
 }
 
-.employeeStartDate {
-    margin: 5px 7px 5px;
-    width: 150px;
-}
-
-.employeeImage {
+.simpleWidgetImage {
     width: 48px;
     height: 48px;
     float: left;
@@ -368,4 +363,68 @@ div.loading {
     background-image: url(../js/dojox/image/resources/images/loading.gif);
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.fileUploadResultWidget {
+    /*TODO: define*/
+}
+
+.fileUploadFileInfo {
+    /*TODO: define*/
+}
+
+.workDefinitionView {
+    width: 100%;
+    margin: auto;
+}
+
+.workDefinitionViewForm {
+    width: 80%;
+    margin: auto;
+}
+
+.workDefinitionViewForm > table {
+    width: 80%;
+    margin: auto;
+}
+
+.workDefinitionViewForm > table td {
+    padding-top: 5px;
+    padding-bottom: 3px;
+}
+
+.workDefinitionViewForm label {
+    text-align: right;
+    width: 100%;
+    display: inline-block;
+    min-width: 50px;
+}
+
+.workDefinitionDates {
+    width: 100%;
+}
+
+.workDefinitionView #equipmentDragSource {
+    padding: 10px;
+    width: 200px;
+    height: 300px;
+    overflow: auto;
+    float: left;
+}
+
+.workDefinitionView #dropArea {
+    padding: 10px;
+    width: 200px;
+    height: 300px;
+    overflow: auto;
+    background: #ffff00;
+}
+
+.workListView {
+    margin: auto;
+}
+
+.workListView .workListGrid {
+    width: 100%;
+    height: 600px;
 }

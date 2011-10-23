@@ -19,7 +19,7 @@ dojo.declare("yuksekisler.Toolbar", [dijit._Widget, dijit._Templated], {
         postCreate:function() {
             this.inherited(arguments);
             dojo.connect(this.equipments, 'onclick', this, this.onEquipments);
-            //dojo.connect(this.works, 'click', this, this.onEquipments);
+            dojo.connect(this.works, 'click', this, this.onWorks);
             dojo.connect(this.employees, 'onclick', this, this.onEmployees);
             dojo.connect(this.definitions, 'onclick', this, this.onDefinitions);
             dojo.connect(this.logout, 'onclick', this, this.onLogout);
@@ -30,6 +30,10 @@ dojo.declare("yuksekisler.Toolbar", [dijit._Widget, dijit._Templated], {
         onEquipments:function(e) {
             this.makeActive(this.equipments);
             dojo.hash('equipments');
+        },
+        onWorks:function(e) {
+            this.makeActive(this.works);
+            dojo.hash('works');
         },
         onDefinitions:function(e) {
             this.makeActive(this.definitions);

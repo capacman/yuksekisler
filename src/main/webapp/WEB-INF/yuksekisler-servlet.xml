@@ -62,6 +62,11 @@
 		<property name="equipmentService" ref="equipmentService" />
 		<property name="fileService" ref="fileService" />
 	</bean>
+
+	<bean id="workController" class="com.yuksekisler.interfaces.web.WorkController">
+		<property name="workService" ref="workService" />
+	</bean>
+
 	<bean id="brandController" class="com.yuksekisler.interfaces.web.BrandController">
 		<property name="equipmentService" ref="equipmentService" />
 	</bean>

@@ -13,9 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -53,9 +51,8 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	private String name;
 
 	@NotNull
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(nullable = false)
-	private Employee supervisor;
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<Employee> supervisors = new HashSet<Employee>();
 
 	@NotNull
 	@Size(max = 500)
@@ -118,12 +115,12 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 		this.name = name;
 	}
 
-	public Employee getSupervisor() {
-		return this.supervisor;
+	public Set<Employee> getSupervisor() {
+		return this.supervisors;
 	}
 
-	public void setSupervisor(Employee supervisor) {
-		this.supervisor = supervisor;
+	public void addSupervisor(Employee employee) {
+		this.supervisors.add(employee);
 	}
 
 	public String getCustomer() {
@@ -156,6 +153,10 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 
 	public void addComment(Comment comment) {
 		this.comments.add(comment);
+	}
+
+	public boolean isFinished() {
+		return endDate == null ? false : endDate.before(new Date());
 	}
 
 	public String toString() {

@@ -15,6 +15,7 @@ dojo.require("dojo.store.Memory");
 dojo.require("dojo.data.ObjectStore");
 dojo.require("dojo.date.locale");
 dojo.require("dojo.fx");
+dojo.require('dojo.dnd.Source');
 //dojo.require("dojox.lang.aspect");
 dojo.require("dijit.Dialog");
 dojo.require("dijit.DialogUnderlay");
@@ -48,6 +49,7 @@ dojo.require('dojox.image.ThumbnailPicker');
 dojo.require('dojox.image.Lightbox');
 dojo.require('dojox.widget.TitleGroup');
 dojo.require('dojox.uuid.generateRandomUuid');
+dojo.require('dojox.form.CheckedMultiSelect');
 
 dojo.require('yuksekisler._ProperDestroyMixin');
 dojo.require("yuksekisler.Login");
@@ -61,3 +63,7 @@ dojo.require('yuksekisler.Definitions');
 dojo.require('yuksekisler.EmployeeWidget');
 dojo.require('yuksekisler.EmployeeListWidget');
 dojo.require('yuksekisler.UploaderSuccessWidget');
+dojo.require('yuksekisler.WorkDefinitionView');
+dojo.require('yuksekisler.WorkListView');
+dojo.require('yuksekisler.EquipmentWidget');
+

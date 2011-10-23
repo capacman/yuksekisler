@@ -46,6 +46,9 @@ yuksekisler.app = {
         dojo.subscribe(this.events.equipmentselected, this, 'equipmentSelected');
         dojo.subscribe(this.events.definitionsselected, this, 'definitionSelected');
         dojo.subscribe(this.events.employeesselected, this, 'showEmployees');
+        dojo.subscribe(this.events.worksselected, this, 'showWorks');
+        dojo.subscribe(this.events.workselected, this, 'showWork');
+        dojo.subscribe(this.events.newwork, this, 'showWork');
 
         dojo.subscribe("/dojo/hashchange", this, this.mapHistory);
         //check for user info if access denied then show login view
@@ -79,6 +82,7 @@ yuksekisler.app = {
         this.employeeStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/',idProperty:'id'});
         this.titleStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/title/',idProperty:'id'});
         this.certificateStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/certificate/',idProperty:'id'});
+        this.workStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/work/',idProperty:'id'});
         this.initUi();
     },
     showEquipments:function() {
@@ -142,7 +146,11 @@ yuksekisler.app = {
         equipmentsselected:"equipmentsselected",
         equipmentselected:"equipmentselected",
         definitionsselected:"definitionsselected",
-        employeesselected:"employeesselected"
+        employeesselected:"employeesselected",
+        worksselected:'worksselected',
+        newwork:'newwork',
+        workselected:'workselected'
+
     },
     getHashEvent:function(hashValue) {
         if (!this.hashEvents) {
@@ -151,7 +159,10 @@ yuksekisler.app = {
                 'newequipment':this.events.newequipment,
                 'equipment':this.events.equipmentselected,
                 'definitions':this.events.definitionsselected,
-                'employees':this.events.employeesselected
+                'employees':this.events.employeesselected,
+                'works':this.events.worksselected,
+                'newwork':this.events.newwork,
+                'work':this.events.workselected
             };
         }
         return this.hashEvents[hashValue];
@@ -231,6 +242,28 @@ yuksekisler.app = {
         });
         dojo.addClass(employeesWidget.domNode, 'employeeListStandAlone');
         this.setContent(employeesWidget);
+    },
+    showWorks:function() {
+        var worksView = new yuksekisler.WorkListView({
+            workStore:this.workStore
+        });
+        this.setContent(worksView);
+    },
+    showWork:function(workID) {
+        if (workID) {
+            var workDeferred = this.workStore.get(workID);
+            var workView = new yuksekisler.WorkDefinitionView({
+                workDeferred:workDeferred,
+                employeeStore:this.employeeStore,
+                equipmentStore:this.equipmentStore
+            });
+        } else {
+            var workView = new yuksekisler.WorkDefinitionView({
+                employeeStore:this.employeeStore,
+                equipmentStore:this.equipmentStore
+            });
+        }
+        this.setContent(workView);
     },
     onRowContextMenu:function(e) {
         yuksekisler.app.gridMenu.bindDomNode(e.grid.domNode);

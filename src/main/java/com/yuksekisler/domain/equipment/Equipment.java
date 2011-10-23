@@ -242,4 +242,12 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 	public Set<Image> getImages() {
 		return images;
 	}
+
+	public boolean isUsable() {
+		List<InspectionReport> inspectionReports = getInspectionReports();
+		InspectionStatus lastStatus = inspectionReports.get(
+				inspectionReports.size() - 1).getStatus();
+		return lastStatus == InspectionStatus.USABLE
+				|| lastStatus == InspectionStatus.FIXED;
+	}
 }

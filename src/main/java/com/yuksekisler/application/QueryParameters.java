@@ -70,15 +70,16 @@ public class QueryParameters {
 		this.queryParameters.put(key, value);
 	}
 
+	public Set<Entry<String, Object>> getQueryParameters() {
+		return queryParameters.entrySet();
+	}
+
 	@Override
 	public String toString() {
 		return "QueryParameters [searchString=" + searchString
 				+ ", orderByField=" + orderByField + ", ascending=" + ascending
-				+ ", rangeStart=" + rangeStart + ", rangeEnd=" + rangeEnd + "]";
-	}
-
-	public Set<Entry<String, Object>> getQueryParameters() {
-		return queryParameters.entrySet();
+				+ ", rangeStart=" + rangeStart + ", rangeEnd=" + rangeEnd
+				+ ", queryParameters=" + queryParameters + "]";
 	}
 
 }

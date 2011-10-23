@@ -54,7 +54,7 @@ public abstract class AbstractBaseCrudController<ID, E extends IdEnabledEntity<I
 				assert matches;
 				String order = matcher.group(1);
 				String field = matcher.group(2);
-				parameters.setOrder(field, order.equalsIgnoreCase("+"));
+				parameters.setOrder(field, order.equalsIgnoreCase("-"));
 				continue;
 			}
 			if (parameterEntry.getKey().equalsIgnoreCase("searchString")) {
@@ -72,6 +72,7 @@ public abstract class AbstractBaseCrudController<ID, E extends IdEnabledEntity<I
 			int end = Integer.parseInt(matcher.group(2));
 			parameters.setRange(start, end);
 		}
+		getLogger().debug(parameters.toString());
 		return parameters;
 	}
 

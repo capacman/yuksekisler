@@ -1,0 +1,60 @@
+<div dojoAttachPoint="containerNode" class='workDefinitionView'>
+    <div class='workDefinitionViewForm' dojoType='dijit.form.Form' dojoAttachPoint='workDefinitionViewForm'>
+        <table>
+            <tr>
+                <td colspan="2">
+                    <label for='name' class='basicLabel'>Name:</label>
+                </td>
+                <td colspan="3">
+                    <div id='name' name='name' dojoType='dijit.form.ValidationTextBox' required='true'
+                         missingMessage="Name required"
+                         promptMessage="Enter Work name" dojoAttachPoint='workName'></div>
+                </td>
+                <td colspan="2">
+                    <label for='customer' class='basicLabel'>Customer:</label>
+                </td>
+                <td colspan="3">
+                    <div id='customer' name='customer' dojoType='dijit.form.ValidationTextBox' required='true'
+                         missingMessage="Name required"
+                         promptMessage="Enter Work name" dojoAttachPoint='customerName'></div>
+                </td>
+            </tr>
+            <tr>
+
+
+                <td colspan="2">
+                    <label for='startDate' class='basicLabel'>StartDate:</label>
+                </td>
+                <td colspan="3">
+                    <div id='startDate' name='startDate' dojoType='dijit.form.DateTextBox' required='true'
+                         dojoAttachPoint='startDate' dojoAttachEvent='onChange:dateValuesChanged'></div>
+                </td>
+
+
+                </td>
+                <td colspan="2" rowspan="2">
+                    <label for='supervisorSelect'>Supervisors:</label>
+                </td>
+                <td colspan="3" rowspan="2">
+                    <div id='supervisorSelect' dojoType='dojox.form.CheckedMultiSelect' multiple='true' required='true'
+                         dojoAttachPoint='supervisorSelect'>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label for='finishDate' class='basicLabel'>FinishDate:</label>
+                </td>
+                <td colspan="3">
+                    <div id='finishDate' name='finishDate' dojoType='dijit.form.DateTextBox'
+                         dojoAttachPoint='finishDate'
+                         dojoAttachEvent='onChange:dateValuesChanged'></div>
+                </td>
+            </tr>
+        </table>
+
+        <div id='equipmentDragSource' dojoAttachPoint='equipmentDragSource'></div>
+        <div id='dropArea' dojoAttachPoint='dropArea'></div>
+        <div id='employeeDragSource'></div>
+    </div>
+</div>

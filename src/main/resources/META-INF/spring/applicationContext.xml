@@ -108,6 +108,9 @@
 		<property name="equipmentRepository" ref="equipmentRepository" />
 		<property name="uploadedRepository" ref="fileRepository" />
 	</bean>
+	<bean id='workService' class="com.yuksekisler.application.impl.WorkServiceImpl">
+		<property name="workRepository" ref="workRepository" />
+	</bean>
 	<bean id="fileService" class="com.yuksekisler.application.impl.FileServiceImpl">
 		<property name="uploadedRepository" ref="fileRepository" />
 	</bean>

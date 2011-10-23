@@ -1,8 +1,12 @@
 package com.yuksekisler.interfaces.web;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
+import javassist.expr.NewArray;
 
 import javax.annotation.PostConstruct;
 
@@ -13,6 +17,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.yuksekisler.application.EmployeeService;
 import com.yuksekisler.application.EquipmentService;
+import com.yuksekisler.application.WorkService;
 import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.employee.EmployeeIdentity;
 import com.yuksekisler.domain.employee.EmployeeTitle;
@@ -23,6 +28,7 @@ import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.equipment.InspectionReport;
 import com.yuksekisler.domain.equipment.InspectionStatus;
+import com.yuksekisler.domain.work.WorkDefinition;
 import com.yuksekisler.infrastructure.security.GrantedAuthorityImpl;
 
 public class ApplicationInit {
@@ -32,6 +38,9 @@ public class ApplicationInit {
 	private EmployeeService employeeService;
 	@Autowired
 	private EquipmentService equipmentService;
+	@Autowired
+	private WorkService workService;
+	private static final Random random = new Random(System.currentTimeMillis());
 
 	@PostConstruct
 	public void init() {
@@ -84,7 +93,35 @@ public class ApplicationInit {
 							InspectionStatus.USABLE));
 				equipmentService.saveEntity(equipment);
 			}
+
+			for (int i = 1; i < +6; i++) {
+				WorkDefinition workDefinition = new WorkDefinition();
+				workDefinition.setName("work" + i);
+				workDefinition.setCustomer("customer" + i);
+				Calendar instance = Calendar.getInstance();
+				workDefinition.setStartDate(instance.getTime());
+				instance.add(Calendar.DAY_OF_MONTH, random.nextInt(5));
+				workDefinition.setEndDate(instance.getTime());
+				List<Equipment> randomEquipments = getRandomEquipments();
+				for (Equipment equipment : randomEquipments) {
+					workDefinition.addEquipment(equipment);
+				}
+				workDefinition.addSupervisor(employee);
+				workService.saveEntity(workDefinition);
+			}
 		}
+	}
+
+	private List<Equipment> getRandomEquipments() {
+		List<Equipment> allEntities = equipmentService
+				.getAllEntities(Equipment.class);
+		int totalEntities = random.nextInt(allEntities.size());
+		List<Equipment> resultList = new ArrayList<Equipment>();
+		for (int i = 0; i < totalEntities; i++) {
+			resultList
+					.add(allEntities.remove(random.nextInt(allEntities.size())));
+		}
+		return resultList;
 	}
 
 	public EmployeeTitle getTitle() {
@@ -101,6 +138,7 @@ public class ApplicationInit {
 		}
 		return title;
 	}
+
 	// public EmployeeService getEmployeeService() {
 	// return employeeService;
 	// }
