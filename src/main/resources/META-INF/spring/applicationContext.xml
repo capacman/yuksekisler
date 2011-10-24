@@ -32,7 +32,7 @@
 		<property name="validationQueryTimeout" value="2" />
 		<property name="maxIdle" value="5" />
 		<property name="minIdle" value="1" />
-		<property name="maxActive" value="10" />
+		<property name="maxActive" value="20" />
 	</bean>
 	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
 		id="transactionManager">

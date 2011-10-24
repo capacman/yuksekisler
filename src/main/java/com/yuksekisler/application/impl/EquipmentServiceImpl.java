@@ -9,8 +9,10 @@ import com.yuksekisler.application.EquipmentService;
 import com.yuksekisler.domain.Image;
 import com.yuksekisler.domain.UploadedRepository;
 import com.yuksekisler.domain.equipment.Equipment;
+import com.yuksekisler.domain.equipment.EquipmentInActiveUseException;
 import com.yuksekisler.domain.equipment.EquipmentRepository;
 import com.yuksekisler.domain.equipment.InspectionReport;
+import com.yuksekisler.domain.work.LifeTime;
 
 public class EquipmentServiceImpl extends AbstractBaseCrudService implements
 		EquipmentService {
@@ -52,4 +54,18 @@ public class EquipmentServiceImpl extends AbstractBaseCrudService implements
 		return equipmentRepository;
 	}
 
+	@Override
+	public List<Equipment> getAvailableEquipments(LifeTime lifetime) {
+		return getRepository().findAvailable(lifetime);
+	}
+
+	@Override
+	public void removeEntity(Long id, Class<Equipment> clazz) {
+		Equipment entity = getEntity(id, clazz);
+		if (!entity.isInActiveUse()) {
+			entity.setErased(true);
+			getRepository().merge(entity);
+		}
+		throw new EquipmentInActiveUseException(entity);
+	}
 }

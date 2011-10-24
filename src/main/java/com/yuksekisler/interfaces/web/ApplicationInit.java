@@ -26,6 +26,7 @@ import com.yuksekisler.domain.employee.Phone;
 import com.yuksekisler.domain.equipment.Brand;
 import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
+import com.yuksekisler.domain.equipment.EquipmentNotAwailable;
 import com.yuksekisler.domain.equipment.InspectionReport;
 import com.yuksekisler.domain.equipment.InspectionStatus;
 import com.yuksekisler.domain.work.WorkDefinition;
@@ -94,19 +95,24 @@ public class ApplicationInit {
 				equipmentService.saveEntity(equipment);
 			}
 
-			for (int i = 1; i < +6; i++) {
+			for (int i = 1; i <= 6; i++) {
 				WorkDefinition workDefinition = new WorkDefinition();
 				workDefinition.setName("work" + i);
 				workDefinition.setCustomer("customer" + i);
 				Calendar instance = Calendar.getInstance();
 				workDefinition.setStartDate(instance.getTime());
-				instance.add(Calendar.DAY_OF_MONTH, random.nextInt(5));
+				instance.add(Calendar.DAY_OF_MONTH, random.nextInt(5) + 1);
 				workDefinition.setEndDate(instance.getTime());
 				List<Equipment> randomEquipments = getRandomEquipments();
 				for (Equipment equipment : randomEquipments) {
-					workDefinition.addEquipment(equipment);
+					try {
+						workDefinition.addEquipment(equipment);
+					} catch (EquipmentNotAwailable ex) {
+						// TODO: handle exception
+					}
 				}
 				workDefinition.addSupervisor(employee);
+				assert workDefinition.getSupervisors().size() > 0;
 				workService.saveEntity(workDefinition);
 			}
 		}
@@ -115,7 +121,7 @@ public class ApplicationInit {
 	private List<Equipment> getRandomEquipments() {
 		List<Equipment> allEntities = equipmentService
 				.getAllEntities(Equipment.class);
-		int totalEntities = random.nextInt(allEntities.size());
+		int totalEntities = random.nextInt(3);
 		List<Equipment> resultList = new ArrayList<Equipment>();
 		for (int i = 0; i < totalEntities; i++) {
 			resultList

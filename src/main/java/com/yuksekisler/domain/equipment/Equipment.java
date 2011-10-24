@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -32,6 +33,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.yuksekisler.domain.ContainsImage;
 import com.yuksekisler.domain.IdEnabledEntity;
 import com.yuksekisler.domain.Image;
+import com.yuksekisler.domain.work.LifeTime;
+import com.yuksekisler.domain.work.WorkDefinition;
 
 @Entity
 public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
@@ -103,6 +106,9 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 	@JoinTable
 	private Set<Image> images = new HashSet<Image>();
 
+	@ManyToMany(mappedBy = "equipments", fetch = FetchType.EAGER)
+	private Set<WorkDefinition> usedIn = new HashSet<WorkDefinition>();
+
 	public Long getId() {
 		return this.id;
 	}
@@ -117,23 +123,6 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 
 	public void setVersion(Integer version) {
 		this.version = version;
-	}
-
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("BestBeforeDate: ").append(getBestBeforeDate()).append(", ");
-		sb.append("Brand: ").append(getBrand()).append(", ");
-		sb.append("Category: ").append(getCategory()).append(", ");
-		sb.append("Id: ").append(getId()).append(", ");
-		sb.append("InspectionReports: ")
-				.append(getInspectionReports() == null ? "null"
-						: getInspectionReports().size()).append(", ");
-		sb.append("ProductCode: ").append(getProductCode()).append(", ");
-		sb.append("ProductName: ").append(getProductName()).append(", ");
-		sb.append("ProductionDate: ").append(getProductionDate()).append(", ");
-		sb.append("StockEntrance: ").append(getStockEntrance()).append(", ");
-		sb.append("Version: ").append(getVersion());
-		return sb.toString();
 	}
 
 	public String getProductName() {
@@ -249,5 +238,52 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 				inspectionReports.size() - 1).getStatus();
 		return lastStatus == InspectionStatus.USABLE
 				|| lastStatus == InspectionStatus.FIXED;
+	}
+
+	public Set<WorkDefinition> getUsedIn() {
+		return usedIn;
+	}
+
+	public boolean isAvailableFor(LifeTime lifeTime) {
+		if (lifeTime == null)
+			throw new IllegalArgumentException("lifeTime is null");
+		for (WorkDefinition workDefinition : usedIn) {
+			if (workDefinition.getLifeTime().isConflictedWith(lifeTime))
+				return false;
+		}
+		return true;
+	}
+
+	public boolean isInActiveUse() {
+		for (WorkDefinition wd : usedIn) {
+			if (!wd.getLifeTime().isFinished())
+				return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Equipment [productName=");
+		builder.append(productName);
+		builder.append(", productCode=");
+		builder.append(productCode);
+		builder.append(", category=");
+		builder.append(category);
+		builder.append(", brand=");
+		builder.append(brand);
+		builder.append(", stockEntrance=");
+		builder.append(stockEntrance);
+		builder.append(", bestBeforeDate=");
+		builder.append(bestBeforeDate);
+		builder.append(", productionDate=");
+		builder.append(productionDate);
+		builder.append(", inspectionReports=");
+		builder.append(inspectionReports);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append("]");
+		return builder.toString();
 	}
 }

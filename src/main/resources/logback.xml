@@ -17,11 +17,11 @@
 		<smtpHost>smtp.gmail.com</smtpHost>
 		<smtpPort>587</smtpPort>
 		<STARTTLS>true</STARTTLS>
-		<username>${mailuser}</username>
-		<password>${mailpassword}</password>
+		<username>achalil@gmail.com</username>
+		<password>Gmietbui99</password>
 
 		<to>achalil@gmail.com</to>
-		<from>${mailuser}</from>
+		<from>achalil@gmail.com</from>
 
 		<subject>APPLICATION-LOG %logger{20} - %m</subject>
 

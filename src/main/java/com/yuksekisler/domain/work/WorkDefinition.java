@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,6 +27,7 @@ import com.yuksekisler.domain.Comment;
 import com.yuksekisler.domain.IdEnabledEntity;
 import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.equipment.Equipment;
+import com.yuksekisler.domain.equipment.EquipmentNotAwailable;
 
 @Entity
 public class WorkDefinition implements IdEnabledEntity<Long> {
@@ -83,6 +85,9 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	@Column(nullable = false)
 	private Boolean erased = false;
 
+	@Transient
+	private LifeTime lifeTime;
+
 	public Long getId() {
 		return this.id;
 	}
@@ -96,7 +101,13 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	}
 
 	public void setStartDate(Date startDate) {
+		if (startDate == null)
+			throw new IllegalArgumentException("startDate cannot be null");
+		if (getEndDate() != null && startDate.after(getEndDate()))
+			throw new IllegalArgumentException("endDate " + endDate
+					+ " could not be before startDate " + getStartDate());
 		this.startDate = startDate;
+		this.lifeTime = new LifeTime(this.startDate, this.endDate);
 	}
 
 	public Date getEndDate() {
@@ -104,7 +115,12 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	}
 
 	public void setEndDate(Date endDate) {
+		if (endDate != null && getStartDate() != null
+				&& endDate.before(getStartDate()))
+			throw new IllegalArgumentException("endDate " + endDate
+					+ " could not be before startDate " + getStartDate());
 		this.endDate = endDate;
+		this.lifeTime = new LifeTime(this.startDate, this.endDate);
 	}
 
 	public String getName() {
@@ -115,12 +131,12 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 		this.name = name;
 	}
 
-	public Set<Employee> getSupervisor() {
+	public Set<Employee> getSupervisors() {
 		return this.supervisors;
 	}
 
-	public void addSupervisor(Employee employee) {
-		this.supervisors.add(employee);
+	public boolean addSupervisor(Employee employee) {
+		return this.supervisors.add(employee);
 	}
 
 	public String getCustomer() {
@@ -144,6 +160,13 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	}
 
 	public void addEquipment(Equipment equipment) {
+		if (getLifeTime().isFinished()) {
+			throw new WorkAlreadyFinished(this);
+		}
+		if (!equipment.isAvailableFor(getLifeTime())) {
+			throw new EquipmentNotAwailable(equipment, getStartDate(),
+					getEndDate());
+		}
 		this.equipments.add(equipment);
 	}
 
@@ -155,28 +178,11 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 		this.comments.add(comment);
 	}
 
-	public boolean isFinished() {
-		return endDate == null ? false : endDate.before(new Date());
-	}
-
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Comments: ")
-				.append(getComments() == null ? "null" : getComments().size())
-				.append(", ");
-		sb.append("Customer: ").append(getCustomer()).append(", ");
-		sb.append("EndDate: ").append(getEndDate()).append(", ");
-		sb.append("Equipments: ")
-				.append(getEquipments() == null ? "null" : getEquipments()
-						.size()).append(", ");
-		sb.append("Id: ").append(getId()).append(", ");
-		sb.append("Name: ").append(getName()).append(", ");
-		sb.append("StartDate: ").append(getStartDate()).append(", ");
-		sb.append("Supervisor: ").append(getSupervisor()).append(", ");
-		sb.append("Version: ").append(getVersion()).append(", ");
-		sb.append("Workers: ").append(
-				getWorkers() == null ? "null" : getWorkers().size());
-		return sb.toString();
+	public LifeTime getLifeTime() {
+		if (lifeTime == null) {
+			lifeTime = new LifeTime(startDate, endDate);
+		}
+		return lifeTime;
 	}
 
 	@Override
