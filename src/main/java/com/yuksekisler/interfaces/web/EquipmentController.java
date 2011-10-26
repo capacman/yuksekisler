@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.yuksekisler.application.CrudService;
 import com.yuksekisler.application.EquipmentService;
@@ -31,6 +33,7 @@ import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.equipment.InspectionReport;
 import com.yuksekisler.domain.equipment.InspectionStatus;
+import com.yuksekisler.domain.work.LifeTime;
 
 @RequestMapping("/equipment")
 public class EquipmentController {
@@ -41,7 +44,7 @@ public class EquipmentController {
 	private AbstractBaseCrudController<Long, Equipment> equipmentDelagateController;
 
 	@InitBinder({ "stockEntrance", "bestBeforeDate", "productionDate",
-			"inspectionDate" })
+			"inspectionDate", "startDate", "endDate" })
 	public void initBinder(WebDataBinder binder) {
 
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
@@ -135,6 +138,7 @@ public class EquipmentController {
 		LOGGER.debug("store equipment {}", equipment);
 	}
 
+	@ResponseStatus(reason = "com.yuksekisler.domain.equipment.EquipmentInActiveUseException.EquipmentInActiveUseException", value = HttpStatus.FORBIDDEN)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") Long id) {
 		this.equipmentDelagateController.delete(id);
@@ -166,6 +170,14 @@ public class EquipmentController {
 		return inspectionReport;
 	}
 
+	@RequestMapping(value = "/available", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Equipment> getAvailable(@RequestParam("startDate") Date startDate,
+			@RequestParam(value = "endDate", required = false) Date endDate) {
+		return equipmentService.getAvailableEquipments(new LifeTime(startDate,
+				endDate));
+	}
+
 	public void setEquipmentService(final EquipmentService equipmentService) {
 		this.equipmentService = equipmentService;
 		this.equipmentDelagateController = new AbstractBaseCrudController<Long, Equipment>() {
@@ -195,4 +207,5 @@ public class EquipmentController {
 	public void setFileService(FileService fileService) {
 		this.fileService = fileService;
 	}
+
 }

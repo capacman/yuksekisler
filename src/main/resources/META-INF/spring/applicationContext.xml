@@ -122,10 +122,20 @@
 			<tx:method name="*" />
 		</tx:attributes>
 	</tx:advice>
+	<bean id="eventGenerationAspectBean" class="com.yuksekisler.infrastructure.EventGenerationAspect">
+
+	</bean>
 	<aop:config>
 		<aop:advisor advice-ref="transactionAdvice"
-			pointcut="execution (* com.yuksekisler.application..*Service+.*(..))" />
+			pointcut="execution (* com.yuksekisler.application..*Service+.*(..))"
+			order="2" />
+		<aop:aspect ref="eventGenerationAspectBean" id="eventGenerationAspect"
+			order="1">
+			<aop:around method="aroundsaveInspectionReport"
+				pointcut="execution (public com.yuksekisler.domain.equipment.InspectionReport com.yuksekisler.application.EquipmentService.saveInspectionReport(Long,com.yuksekisler.domain.equipment.InspectionReport,String))" />
+		</aop:aspect>
 	</aop:config>
+
 
 	<bean id="userDetailService"
 		class="com.yuksekisler.infrastructure.security.UserDetailsServiceImpl">

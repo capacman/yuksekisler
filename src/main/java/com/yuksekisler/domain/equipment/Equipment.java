@@ -28,6 +28,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.yuksekisler.domain.ContainsImage;
@@ -106,6 +108,7 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 	@JoinTable
 	private Set<Image> images = new HashSet<Image>();
 
+	@JsonManagedReference("work-equipment")
 	@ManyToMany(mappedBy = "equipments", fetch = FetchType.EAGER)
 	private Set<WorkDefinition> usedIn = new HashSet<WorkDefinition>();
 
@@ -285,5 +288,15 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 		builder.append(id);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	public void addedTo(WorkDefinition workDefinition) {
+		if (!usedIn.contains(workDefinition)
+				&& !workDefinition.getEquipments().contains(this)) {
+			workDefinition.addEquipment(this);
+			usedIn.add(workDefinition);
+		} else if (!usedIn.contains(workDefinition)) {
+			usedIn.add(workDefinition);
+		}
 	}
 }

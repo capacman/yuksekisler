@@ -21,6 +21,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.yuksekisler.domain.Comment;
@@ -65,6 +67,7 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Employee> workers = new HashSet<Employee>();
 
+	@JsonBackReference("work-equipment")
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Equipment> equipments = new HashSet<Equipment>();
 
@@ -168,6 +171,7 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 					getEndDate());
 		}
 		this.equipments.add(equipment);
+		equipment.addedTo(this);
 	}
 
 	public Set<Comment> getComments() {

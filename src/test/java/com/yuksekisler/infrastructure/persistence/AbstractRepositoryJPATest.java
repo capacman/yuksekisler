@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
@@ -29,7 +28,6 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, ID, E 
 	}
 
 	@Test
-	@Ignore
 	public void testPersist() {
 		Map<String, Integer> initialTableCountsPersist = getExpectedTableCountsPersist();
 		E e = createEntity();
@@ -46,7 +44,6 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, ID, E 
 	public abstract Map<String, Integer> getExpectedTableCountsPersist();
 
 	@Test
-	@Ignore
 	public void testRemove() {
 		Map<String, Integer> initialTableCountsPersist = getExpectedTableCountsRemove();
 		E e = createEntity();
@@ -66,7 +63,6 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, ID, E 
 	public abstract Map<String, Integer> getExpectedTableCountsRemove();
 
 	@Test
-	@Ignore
 	public void testFindEntries() {
 		int initial = countEnabledRowsInTable(getEntityTableName());
 		E entity = createEntity();
@@ -88,7 +84,6 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, ID, E 
 
 	@SuppressWarnings("unchecked")
 	@Test
-	@Ignore
 	public void testFindEntry() {
 		E e = createEntity();
 		getRepository().persist(e);
@@ -97,7 +92,6 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, ID, E 
 	}
 
 	@Test
-	@Ignore
 	public void testFindAll() {
 		E e = createEntity();
 		getRepository().persist(e);
@@ -106,7 +100,6 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, ID, E 
 	}
 
 	@Test
-	@Ignore
 	public void testCountEntries() {
 		E e = createEntity();
 		getRepository().persist(e);
@@ -116,7 +109,6 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, ID, E 
 	}
 
 	@Test
-	@Ignore
 	public void testSearchEntities() {
 		List<E> list = getRepository().query(getSearchQueryObject(),
 				getClazz(), getSearchAttribute());
@@ -125,7 +117,6 @@ public abstract class AbstractRepositoryJPATest<R extends BaseRepository, ID, E 
 	}
 
 	@Test
-	@Ignore
 	public void testQueryEntities() {
 		List<E> list = getRepository()
 				.query(getQueryObject(), getClazz(), null);

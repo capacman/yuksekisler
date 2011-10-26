@@ -9,4 +9,6 @@ public interface EquipmentRepository extends BaseRepository {
 
 	List<Equipment> findAvailable(LifeTime lifetime);
 
+	Equipment findByInspectionReport(InspectionReport inspectionReport);
+
 }

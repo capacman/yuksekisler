@@ -3,21 +3,18 @@ package com.yuksekisler.infrastructure.persistence;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.SetJoin;
 
 import org.springframework.stereotype.Repository;
 
 import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.equipment.EquipmentRepository;
 import com.yuksekisler.domain.equipment.Equipment_;
+import com.yuksekisler.domain.equipment.InspectionReport;
 import com.yuksekisler.domain.work.LifeTime;
-import com.yuksekisler.domain.work.WorkDefinition;
-import com.yuksekisler.domain.work.WorkDefinition_;
 
 @Repository
 public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
@@ -31,5 +28,16 @@ public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
 				resultList.add(available);
 		}
 		return resultList;
+	}
+
+	@Override
+	public Equipment findByInspectionReport(
+			final InspectionReport inspectionReport) {
+		TypedQuery<Equipment> query = entityManager
+				.createQuery(
+						"select e from Equipment e join e.inspectionReports r where :report in(r)",
+						Equipment.class);
+		query.setParameter("report", inspectionReport);
+		return query.getSingleResult();
 	}
 }

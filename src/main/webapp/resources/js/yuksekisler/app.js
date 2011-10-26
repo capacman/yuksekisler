@@ -269,7 +269,12 @@ yuksekisler.app = {
         yuksekisler.app.gridMenu.bindDomNode(e.grid.domNode);
         yuksekisler.app.contextMenuClicked = function(d) {
             e.grid.store.deleteItem(e.grid.getItem(e.rowIndex));
-            e.grid.store.save();
+            e.grid.store.save({
+                onError:function(err) {
+                    if (err.status == 403)
+                        alert("Item " + e.grid.getItem(e.rowIndex) + " in active use");
+                }
+            });
         }
     },
     contextMenuClicked:function() {

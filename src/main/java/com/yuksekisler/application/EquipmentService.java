@@ -14,4 +14,6 @@ public interface EquipmentService extends CrudService {
 	List<Equipment> getAvailableEquipments(LifeTime lifetime);
 
 	void removeEntity(Long id, Class<Equipment> clazz);
+
+	Equipment findByInspectionReport(InspectionReport inspectionReport);
 }

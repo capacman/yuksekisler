@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,8 @@ import com.yuksekisler.domain.equipment.Brand;
 import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.equipment.EquipmentRepository;
+import com.yuksekisler.domain.equipment.InspectionReport;
+import com.yuksekisler.domain.equipment.InspectionStatus;
 import com.yuksekisler.domain.work.LifeTime;
 import com.yuksekisler.domain.work.WorkDefinition;
 import com.yuksekisler.interfaces.web.AbstractBaseCrudController;
@@ -39,8 +40,8 @@ public class EquipmentRepositoryJPATest extends
 	public Map<String, Integer> getExpectedTableCountsPersist() {
 		Map<String, Integer> counts = new HashMap<String, Integer>();
 		counts.put("EQUIPMENT", countEnabledRowsInTable("EQUIPMENT") + 1);
-		counts.put("BRAND", countEnabledRowsInTable("BRAND") + 1);
-		counts.put("CATEGORY", countEnabledRowsInTable("CATEGORY") + 1);
+		counts.put("BRAND", countEnabledRowsInTable("BRAND"));
+		counts.put("CATEGORY", countEnabledRowsInTable("CATEGORY"));
 		return counts;
 	}
 
@@ -82,7 +83,6 @@ public class EquipmentRepositoryJPATest extends
 	}
 
 	@Test
-	@Ignore
 	public void testRegEx() {
 		Matcher matcher = AbstractBaseCrudController.SORT_PATTERN
 				.matcher("sort( osman)");
@@ -95,10 +95,26 @@ public class EquipmentRepositoryJPATest extends
 	}
 
 	@Test
-	@Ignore
 	public void testfindByName() {
 		assertFalse(equipmentRepository.findByName("a", Category.class)
 				.isEmpty());
+	}
+
+	@Test
+	public void testByInspectionReport() {
+		Equipment createEntity = createEntity();
+		equipmentRepository.saveEntity(createEntity);
+		equipmentRepository.flush();
+
+		InspectionReport report = new InspectionReport(
+				equipmentRepository.getEntity(1l, Employee.class), new Date(),
+				"ok", InspectionStatus.NOTUSABLE);
+		
+		createEntity.addInspectionReport(report);
+		equipmentRepository.persist(createEntity);
+
+		assertEquals(createEntity,
+				equipmentRepository.findByInspectionReport(report));
 	}
 
 	@Test
@@ -130,11 +146,10 @@ public class EquipmentRepositoryJPATest extends
 		}
 		assertTrue(availableList.size() >= 1);
 		assertTrue(availableList.contains(equipment2));
-		
+
 	}
 
 	@Test(expected = javax.validation.ConstraintViolationException.class)
-	@Ignore
 	public void testHasNameUnique() {
 		equipmentRepository.saveEntity(new Brand("a", "a"));
 	}

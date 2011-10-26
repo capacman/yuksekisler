@@ -69,7 +69,7 @@
 				<database.validationQuery>select 1 from INFORMATION_SCHEMA.SYSTEM_USERS</database.validationQuery>
 				<hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
 				<hibernate.hbm2ddl.auto>hibernate.hbm2ddl.auto=create</hibernate.hbm2ddl.auto>
-				<hibernate.show_sql>true</hibernate.show_sql>
+				<hibernate.show_sql>false</hibernate.show_sql>
 				<profile.scope>compile</profile.scope>
 			</properties>
 		</profile>

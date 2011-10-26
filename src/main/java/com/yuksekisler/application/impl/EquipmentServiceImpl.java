@@ -68,4 +68,9 @@ public class EquipmentServiceImpl extends AbstractBaseCrudService implements
 		}
 		throw new EquipmentInActiveUseException(entity);
 	}
+
+	@Override
+	public Equipment findByInspectionReport(InspectionReport inspectionReport) {
+		return equipmentRepository.findByInspectionReport(inspectionReport);
+	}
 }
