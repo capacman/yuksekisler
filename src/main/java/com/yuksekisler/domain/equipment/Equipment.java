@@ -28,8 +28,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.yuksekisler.domain.ContainsImage;
@@ -38,6 +39,7 @@ import com.yuksekisler.domain.Image;
 import com.yuksekisler.domain.work.LifeTime;
 import com.yuksekisler.domain.work.WorkDefinition;
 
+@JsonAutoDetect(getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @Entity
 public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 
@@ -108,7 +110,7 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 	@JoinTable
 	private Set<Image> images = new HashSet<Image>();
 
-	@JsonManagedReference("work-equipment")
+	@JsonIgnore
 	@ManyToMany(mappedBy = "equipments", fetch = FetchType.EAGER)
 	private Set<WorkDefinition> usedIn = new HashSet<WorkDefinition>();
 

@@ -48,7 +48,7 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
             this.finishDate.set('value', this.startDate.get('value'));
     },
     populateEquipmentDragSource:function(workDefinition) {
-        var dndObj = new dojo.dnd.Target(this.equipmentDragSource, {
+        var dndObj = new dojo.dnd.Source(this.equipmentDragSource, {
             copyOnly: false,
             creator: this.equipmentNodeCreator,
             accept: ["default"]
@@ -60,21 +60,21 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
                 dndObj.insertNodes(false, data);
             },
             content:{
-                startDate:this.startDate.get('value'),
-                endDate:this.finishDate.get('value')
+                startDate: dojo.date.stamp.toISOString(this.startDate.get('value'), {selector: 'date'}),
+                endDate:dojo.date.stamp.toISOString(this.finishDate.get('value'), {selector: 'date'})
             }
         });
 
-        
+
         if (workDefinition) {
-            var target = new dojo.dnd.Target(this.dropArea, {
+            var target = new dojo.dnd.Source(this.dropArea, {
                 copyOnly: false,
                 creator: this.equipmentNodeCreator,
                 accept: ["default"]
             });
             target.insertNodes(false, workDefinition.equipments);
         } else
-            var target = new dojo.dnd.Target(this.dropArea, {accept: ["default"]});
+            var target = new dojo.dnd.Source(this.dropArea, {accept: ["default"]});
     },
     equipmentNodeCreator:function(item) {
         console.log(item);

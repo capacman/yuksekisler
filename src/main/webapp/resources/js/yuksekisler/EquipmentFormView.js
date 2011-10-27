@@ -77,10 +77,10 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
         }
     },
     formCompleted:function(uploadInfo) {
-        yuksekisler.app.loadingDialog.hide();
-        if (uploadInfo && this.onImageUpload)
+        //yuksekisler.app.loadingDialog.hide();
+        if (uploadInfo && this.onImageUpload && !uploadInfo.operationFailed)
             this.onImageUpload(uploadInfo);
-        if (uploadInfo && !uploadInfo.operationFailed) {
+        if (!uploadInfo || ( uploadInfo && !uploadInfo.operationFailed)) {
             var postContent = dojo.formToObject(this.form.domNode);
             if (this.uuid)
                 postContent.filesUUID = this.uuid;

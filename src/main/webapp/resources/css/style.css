@@ -13,7 +13,7 @@ html {
 body {
     background: url("../images/transparent_gradient.png") repeat-x fixed 0 0 transparent;
     margin: 0;
-    padding: 150px 0 0 !important;
+    padding: 30px 0 0 !important;
 }
 
 body {
@@ -59,7 +59,7 @@ body {
     max-width: 1115px;
     overflow: hidden;
     padding: 20px;
-    width: 70%;
+    width: 90%;
     min-height: 81.5%;
 }
 
@@ -188,7 +188,7 @@ body {
 }
 
 .simpleWidgetContainer {
-    width: 170px;
+    width: 149px;
     border: #DDDDDD;
     border-style: solid;
     border-width: 1px;
@@ -196,6 +196,9 @@ body {
     box-shadow: 0 1px 0 #AAAAAA;
     background: -moz-linear-gradient(center top, #FFFFFF, #F4F4F4) repeat scroll 0 0 transparent;
     display: inline-block;
+    margin: 7px 5px 3px;
+    padding: 5px;
+
 }
 
 .employeeDefinitionContainer {
@@ -203,8 +206,13 @@ body {
 }
 
 .simpleWidgetDefinition {
+    left: 48px;
+    padding-left: 5px;
     margin: 5px 7px 5px;
-    width: 150px;
+    width: 89px;
+    line-height: normal;
+    word-wrap: break-word;
+    overflow: hidden;
 }
 
 .simpleWidgetImage {
@@ -221,8 +229,7 @@ body {
 #navigation {
     font-family: "museo-sans-1", "museo-sans-2", sans-serif;
     height: 46px;
-    margin-bottom: 25px;
-    margin-top: 35px;
+    margin: 25px 0px 15px;
 }
 
 #navigation ul {
@@ -405,19 +412,17 @@ div.loading {
 }
 
 .workDefinitionView #equipmentDragSource {
-    padding: 10px;
-    width: 200px;
-    height: 300px;
+    width: 356px;
+    height: 350px;
     overflow: auto;
     float: left;
 }
 
 .workDefinitionView #dropArea {
-    padding: 10px;
-    width: 200px;
-    height: 300px;
+    width: 356px;
+    height: 350px;
     overflow: auto;
-    background: #ffff00;
+    background: #e0e0e0;
 }
 
 .workListView {
