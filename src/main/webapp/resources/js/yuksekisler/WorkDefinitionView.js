@@ -13,6 +13,7 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
     employeeStore:null,
     equipmentStore:null,
     workDeferred:null,
+    categoryStore:null,
     postCreate:function() {
         if (this.workDeferred)
             this.workDeferred.then(dojo.hitch(this, 'populateWorkForm')).then(dojo.hitch(this, function(value) {
@@ -23,7 +24,7 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
             this.populateEquipmentDragSource();
         }
         this.supervisorSelect.set('store', new dojo.data.ObjectStore({objectStore: this.employeeStore,labelProperty:'name'}));
-
+        this.categorySelection.set('store', new dojo.data.ObjectStore({objectStore: this.categoryStore,labelProperty:'name'}));
 
         this.inherited(arguments);
     },
@@ -53,6 +54,7 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
             creator: this.equipmentNodeCreator,
             accept: ["default"]
         });
+        dndObj.startup();
         dojo.xhrGet({
             url:dojo.config.applicationBase + '/equipment/available',
             handleAs:'json',
@@ -72,16 +74,29 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
                 creator: this.equipmentNodeCreator,
                 accept: ["default"]
             });
+            target.startup();
             target.insertNodes(false, workDefinition.equipments);
-        } else
+        } else {
             var target = new dojo.dnd.Source(this.dropArea, {accept: ["default"]});
+            target.startup();
+        }
+
+        dojo.connect(dndObj, 'onMouseDown', function() {
+            target.selectNone();
+        });
+        dojo.connect(target, 'onMouseDown', function() {
+            dndObj.selectNone();
+            target.getAllNodes()
+        });
     },
     equipmentNodeCreator:function(item) {
-        console.log(item);
         var equipmentWidget = new yuksekisler.EquipmentWidget({
             equipment:item
         });
 
         return {node:equipmentWidget.domNode,data:item,type:['default']}
+    },
+    onCategorySelection:function(value) {
+        console.log(value);
     }
 });

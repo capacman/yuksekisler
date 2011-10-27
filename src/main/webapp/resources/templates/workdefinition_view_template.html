@@ -53,7 +53,13 @@
             </tr>
         </table>
     </div>
-    <div id='equipmentDragSource' dojoAttachPoint='equipmentDragSource'></div>
+    <div class='leftColumn'>
+        <label for='categorySelect'>Select Category:</label>
+
+        <div id='categorySelect' dojoType="dijit.form.Select" dojoAttachPoint="categorySelection"
+             dojoAttachEvent="onChange:onCategorySelection" autoWidth='true'></div>
+        <div id='equipmentDragSource' dojoAttachPoint='equipmentDragSource'></div>
+    </div>
     <div>
         <div id='dropArea' dojoAttachPoint='dropArea'></div>
     </div>

@@ -11,7 +11,8 @@ public interface EquipmentService extends CrudService {
 	InspectionReport saveInspectionReport(Long reportEquipmentId,
 			InspectionReport report, String uploadedUUID);
 
-	List<Equipment> getAvailableEquipments(LifeTime lifetime);
+	List<Equipment> getAvailableEquipments(LifeTime lifetime,
+			Long categoryID);
 
 	void removeEntity(Long id, Class<Equipment> clazz);
 

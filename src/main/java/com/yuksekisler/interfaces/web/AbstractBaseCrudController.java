@@ -65,12 +65,17 @@ public abstract class AbstractBaseCrudController<ID, E extends IdEnabledEntity<I
 					parameterEntry.getValue()[0]);
 		}
 		if (request.getHeader("Range") != null) {
-			Matcher matcher = RANGE_PATTERN.matcher(request.getHeader("Range"));
-			boolean matches = matcher.matches();
-			assert matches;
-			int start = Integer.parseInt(matcher.group(1));
-			int end = Integer.parseInt(matcher.group(2));
-			parameters.setRange(start, end);
+			try {
+				Matcher matcher = RANGE_PATTERN.matcher(request
+						.getHeader("Range"));
+				boolean matches = matcher.matches();
+				assert matches;
+				int start = Integer.parseInt(matcher.group(1));
+				int end = Integer.parseInt(matcher.group(2));
+				parameters.setRange(start, end);
+			} catch (Exception e) {
+				// range is wrong just by pass it
+			}
 		}
 		getLogger().debug(parameters.toString());
 		return parameters;

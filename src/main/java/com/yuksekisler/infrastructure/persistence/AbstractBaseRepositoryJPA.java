@@ -169,25 +169,28 @@ public abstract class AbstractBaseRepositoryJPA implements BaseRepository {
 
 						for (Entry<String, Object> queryParameter : parameters
 								.getQueryParameters()) {
+							if ("*".equalsIgnoreCase((String) queryParameter
+									.getValue()))
+								continue;
 							try {
 								Path<?> parameterPath = foundPath(
 										queryParameter.getKey(), root);
-								cq.where(qb.and(
-										cq.getRestriction(),
-										qb.equal(
-												parameterPath,
-												conversionService.convert(
-														queryParameter
-																.getValue(),
-														parameterPath
-																.getModel()
-																.getBindableJavaType()))));
+								if (((String) queryParameter.getValue())
+										.contains("*")) {
+									searchForLike(qb, cq, queryParameter,
+											parameterPath);
+
+								} else {
+									searchForEqual(qb, cq, queryParameter,
+											parameterPath);
+								}
 							} catch (IllegalArgumentException e) {
 								// could not find path
 							}
 						}
 
 					}
+
 				});
 
 		if (parameters.hasRange()) {
@@ -254,5 +257,27 @@ public abstract class AbstractBaseRepositoryJPA implements BaseRepository {
 						qb.equal(root.get("name"), name)));
 			}
 		}).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public <E> void searchForLike(CriteriaBuilder qb, CriteriaQuery<E> cq,
+			Entry<String, Object> queryParameter, Path<?> parameterPath) {
+		if (!parameterPath.getModel().getBindableJavaType()
+				.equals(String.class))
+			throw new IllegalArgumentException(queryParameter.getKey()
+					+ " needs to be type string to be searchable");
+
+		String likeSentence = ((String) queryParameter.getValue())
+				.replaceFirst("\\*", "%");
+		likeSentence = likeSentence.replace("\\*", "");
+		cq.where(qb.and(cq.getRestriction(),
+				qb.like((Path<String>) parameterPath, likeSentence)));
+	}
+
+	private <E> void searchForEqual(CriteriaBuilder qb, CriteriaQuery<E> cq,
+			Entry<String, Object> queryParameter, Path<?> parameterPath) {
+		cq.where(qb.and(cq.getRestriction(), qb.equal(parameterPath,
+				conversionService.convert(queryParameter.getValue(),
+						parameterPath.getModel().getBindableJavaType()))));
 	}
 }

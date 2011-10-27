@@ -19,7 +19,6 @@ dojo.declare('yuksekisler.EquipmentWidget', [dijit._Widget], {
         this.equipmentProductCode = dojo.create('div', {class:'simpleWidgetDefinition'}, this.domNode);
 
         this.inherited(arguments);
-        console.log('equipmentWidget buildRendering finished');
     },
     postCreate:function() {
 
@@ -36,6 +35,5 @@ dojo.declare('yuksekisler.EquipmentWidget', [dijit._Widget], {
         });
 
         this.inherited(arguments);
-        console.log('equipmentWidget postcreate finished');
     }
 });

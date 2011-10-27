@@ -172,10 +172,12 @@ public class EquipmentController {
 
 	@RequestMapping(value = "/available", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Equipment> getAvailable(@RequestParam("startDate") Date startDate,
-			@RequestParam(value = "endDate", required = false) Date endDate) {
+	List<Equipment> getAvailable(
+			@RequestParam("startDate") Date startDate,
+			@RequestParam(value = "endDate", required = false) Date endDate,
+			@RequestParam(value = "categoryID", required = false) Long categoryID) {
 		return equipmentService.getAvailableEquipments(new LifeTime(startDate,
-				endDate));
+				endDate), categoryID);
 	}
 
 	public void setEquipmentService(final EquipmentService equipmentService) {

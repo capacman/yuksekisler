@@ -255,12 +255,14 @@ yuksekisler.app = {
             var workView = new yuksekisler.WorkDefinitionView({
                 workDeferred:workDeferred,
                 employeeStore:this.employeeStore,
-                equipmentStore:this.equipmentStore
+                equipmentStore:this.equipmentStore,
+                categoryStore:this.categoryStore
             });
         } else {
             var workView = new yuksekisler.WorkDefinitionView({
                 employeeStore:this.employeeStore,
-                equipmentStore:this.equipmentStore
+                equipmentStore:this.equipmentStore,
+                categoryStore:this.categoryStore
             });
         }
         this.setContent(workView);

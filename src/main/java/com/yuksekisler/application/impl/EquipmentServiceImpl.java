@@ -55,8 +55,9 @@ public class EquipmentServiceImpl extends AbstractBaseCrudService implements
 	}
 
 	@Override
-	public List<Equipment> getAvailableEquipments(LifeTime lifetime) {
-		return getRepository().findAvailable(lifetime);
+	public List<Equipment> getAvailableEquipments(LifeTime lifetime,
+			Long categoryID) {
+		return getRepository().findAvailable(lifetime, categoryID);
 	}
 
 	@Override
