@@ -5,7 +5,7 @@
 	<groupId>com.yuksekisler</groupId>
 	<artifactId>yuksekisler</artifactId>
 	<packaging>war</packaging>
-	<version>0.2.3.BUILD-SNAPSHOT</version>
+	<version>0.3.0.BUILD-SNAPSHOT</version>
 	<name>yuksekisler</name>
 	<properties>
 		<roo.version>1.1.5.RELEASE</roo.version>
@@ -43,6 +43,7 @@
 				<hibernate.hbm2ddl.auto>hibernate.hbm2ddl.auto=create</hibernate.hbm2ddl.auto>
 				<hibernate.show_sql>false</hibernate.show_sql>
 				<profile.scope>compile</profile.scope>
+				<applicationEnvironment>local</applicationEnvironment>
 			</properties>
 		</profile>
 		<profile>
@@ -71,6 +72,7 @@
 				<hibernate.hbm2ddl.auto>hibernate.hbm2ddl.auto=create</hibernate.hbm2ddl.auto>
 				<hibernate.show_sql>false</hibernate.show_sql>
 				<profile.scope>compile</profile.scope>
+				<applicationEnvironment>local</applicationEnvironment>
 			</properties>
 		</profile>
 		<profile>
@@ -98,6 +100,7 @@
 				<hibernate.hbm2ddl.auto></hibernate.hbm2ddl.auto>
 				<hibernate.show_sql>false</hibernate.show_sql>
 				<profile.scope>compile</profile.scope>
+				<applicationEnvironment>production</applicationEnvironment>
 			</properties>
 		</profile>
 	</profiles>

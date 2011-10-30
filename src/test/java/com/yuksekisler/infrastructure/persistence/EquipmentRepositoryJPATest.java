@@ -109,7 +109,7 @@ public class EquipmentRepositoryJPATest extends
 		InspectionReport report = new InspectionReport(
 				equipmentRepository.getEntity(1l, Employee.class), new Date(),
 				"ok", InspectionStatus.NOTUSABLE);
-		
+
 		createEntity.addInspectionReport(report);
 		equipmentRepository.persist(createEntity);
 
@@ -139,8 +139,8 @@ public class EquipmentRepositoryJPATest extends
 		equipmentRepository.saveEntity(workDefinition);
 		equipmentRepository.flush();
 		instance.add(Calendar.DAY_OF_MONTH, 2);
-		List<Equipment> availableList = equipmentRepository
-				.findAvailable(new LifeTime(new Date(), instance.getTime()));
+		List<Equipment> availableList = equipmentRepository.findAvailable(
+				new LifeTime(new Date(), instance.getTime()), null);
 		for (Equipment availableEquipment : availableList) {
 			assertFalse(equipment.getId() == availableEquipment.getId());
 		}

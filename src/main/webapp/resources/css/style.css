@@ -7,13 +7,29 @@ html, body {
 }
 
 html {
-    background: url("../images/linen_texture.png") repeat scroll 0 0 transparent;
+
+    background-color: black;
+}
+
+#background {
+    width: 100%;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
+
+}
+
+.stretch {
+    display: block;
+    width: 80%;
+    margin: auto;
 }
 
 body {
     background: url("../images/transparent_gradient.png") repeat-x fixed 0 0 transparent;
     margin: 0;
-    padding: 30px 0 0 !important;
+    padding: 60px 0 0 !important;
 }
 
 body {
