@@ -179,6 +179,20 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 		this.comments.add(comment);
 	}
 
+	public void removeEquipments() {
+		Set<Equipment> unmodifiableSet = new HashSet<Equipment>(equipments);
+		for (Equipment equipment : unmodifiableSet) {
+			removeEquipment(equipment);
+		}
+	}
+
+	public void removeEquipment(Equipment equipment) {
+		if (equipments.contains(equipment)) {
+			equipments.remove(equipment);
+			equipment.removedFrom(this);
+		}
+	}
+
 	public LifeTime getLifeTime() {
 		if (lifeTime == null) {
 			lifeTime = new LifeTime(startDate, endDate);
@@ -217,5 +231,13 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 
 	public void setErased(Boolean enabled) {
 		this.erased = enabled;
+	}
+
+	public void removeSupervisors() {
+		supervisors.clear();
+	}
+
+	public void removeWorkers() {
+		workers.clear();
 	}
 }

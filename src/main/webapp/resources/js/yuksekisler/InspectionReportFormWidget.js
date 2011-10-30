@@ -111,12 +111,15 @@ dojo.declare("yuksekisler.InspectionReportFormWidget", [dijit.form.Form,yuksekis
     formCompleted:function(e) {
         var data = dojo.formToObject(this.domNode);
         data.report = this.get('value').report;
-         if (this.uuid)
+        if (this.uuid)
             data.filesUUID = this.uuid;
         dojo.xhrPost({
             url: dojo.config.applicationBase + "/equipment/" + this.equipmentId + "/inspectionReport",
             handleAs: "json",
-            load: this.afterSave,
+            load: dojo.hitch(this, function(data) {
+                yuksekisler.app.equipmentStore.evict(this.equipmentId);
+                this.afterSave(data)
+            }),
             error: function(error) {
                 //show nice error function
                 alert("login failed" + error);

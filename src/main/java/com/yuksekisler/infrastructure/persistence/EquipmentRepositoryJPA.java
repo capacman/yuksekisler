@@ -26,7 +26,7 @@ public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
 		} else {
 			equipments = entityManager
 					.createQuery(
-							"select e from Equipment e where e.category.id=:categoryID",
+							"select e from Equipment e where e.category.id=:categoryID and e.erased=false",
 							Equipment.class)
 					.setParameter("categoryID", categoryID).getResultList();
 		}
@@ -43,7 +43,7 @@ public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
 			final InspectionReport inspectionReport) {
 		TypedQuery<Equipment> query = entityManager
 				.createQuery(
-						"select e from Equipment e join e.inspectionReports r where :report in(r)",
+						"select e from Equipment e join e.inspectionReports r where :report in(r) and e.erased=false",
 						Equipment.class);
 		query.setParameter("report", inspectionReport);
 		return query.getSingleResult();

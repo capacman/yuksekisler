@@ -35,4 +35,10 @@ public class LifeTime {
 	public boolean isFinished() {
 		return endDate == null ? false : endDate.before(new Date());
 	}
+
+	@Override
+	public String toString() {
+		return "LifeTime [startDate=" + startDate + ", endDate=" + endDate
+				+ "]";
+	}
 }

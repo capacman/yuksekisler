@@ -94,7 +94,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
     },
     onBrand:function() {
         if (this.brandForm.validate()) {
-            this.brandStore.put(this.brandForm.get('value')).then(dojo.hitch(this, function() {
+            dojo.when(this.brandStore.put(this.brandForm.get('value')), dojo.hitch(this, function() {
                 this.brandForm.reset();
                 this.brandGrid._refresh();
             }));
@@ -102,7 +102,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
     },
     onCategory:function() {
         if (this.categoryForm.validate()) {
-            this.categoryStore.put(this.categoryForm.get('value')).then(dojo.hitch(this, function() {
+            dojo.when(this.categoryStore.put(this.categoryForm.get('value')), dojo.hitch(this, function() {
                 this.categoryForm.reset();
                 this.categoryGrid._refresh();
             }));
@@ -110,7 +110,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
     },
     onTitle:function() {
         if (this.titleForm.validate()) {
-            this.titleStore.put(this.titleForm.get('value')).then(dojo.hitch(this, function() {
+            dojo.when(this.titleStore.put(this.titleForm.get('value')), dojo.hitch(this, function() {
                 this.titleForm.reset();
                 this.titleGrid._refresh();
             }));
@@ -118,7 +118,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
     },
     onCertificate:function() {
         if (this.certificateForm.validate()) {
-            this.certificateStore.put(this.certificateForm.get('value')).then(dojo.hitch(this, function() {
+            dojo.when(this.certificateStore.put(this.certificateForm.get('value')), dojo.hitch(this, function() {
                 this.certificateForm.reset();
                 this.certificateGrid._refresh();
             }));

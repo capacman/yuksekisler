@@ -2,6 +2,8 @@ package com.yuksekisler.domain;
 
 import java.util.List;
 
+import javax.persistence.metamodel.IdentifiableType;
+
 public interface BaseRepository extends CrudRepository {
 	// ID, E extends IdEnabledEntity<ID>
 	<E> E merge(E entity);
@@ -20,5 +22,8 @@ public interface BaseRepository extends CrudRepository {
 	<E> E persist(E entity);
 
 	<E extends HasName<?>> List<E> findByName(String name, Class<E> clazz);
+
+	<ID, E extends IdEnabledEntity<ID>> List<E> getEntities(List<ID> idx,
+			Class<E> clazz);
 
 }

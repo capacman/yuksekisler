@@ -176,8 +176,9 @@ public class EquipmentController {
 			@RequestParam("startDate") Date startDate,
 			@RequestParam(value = "endDate", required = false) Date endDate,
 			@RequestParam(value = "categoryID", required = false) Long categoryID) {
-		return equipmentService.getAvailableEquipments(new LifeTime(startDate,
-				endDate), categoryID);
+		LifeTime lifetime = new LifeTime(startDate, endDate);
+		LOGGER.debug("returning available equipments for: {}", lifetime);
+		return equipmentService.getAvailableEquipments(lifetime, categoryID);
 	}
 
 	public void setEquipmentService(final EquipmentService equipmentService) {

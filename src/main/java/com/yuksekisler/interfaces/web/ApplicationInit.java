@@ -100,6 +100,10 @@ public class ApplicationInit {
 				workDefinition.setName("work" + i);
 				workDefinition.setCustomer("customer" + i);
 				Calendar instance = Calendar.getInstance();
+				instance.set(Calendar.HOUR_OF_DAY, 0);
+				instance.set(Calendar.MINUTE, 0);
+				instance.set(Calendar.SECOND, 0);
+				instance.set(Calendar.MILLISECOND, 0);
 				workDefinition.setStartDate(instance.getTime());
 				instance.add(Calendar.DAY_OF_MONTH, random.nextInt(5) + 1);
 				workDefinition.setEndDate(instance.getTime());

@@ -76,13 +76,13 @@ yuksekisler.app = {
     },
     prepareData:function(data) {
         this.userInfo = data;
-        this.equipmentStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/equipment/',idProperty:'id'});
-        this.categoryStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/category/',idProperty:'id'});
-        this.brandStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/brand/',idProperty:'id'});
-        this.employeeStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/',idProperty:'id'});
-        this.titleStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/title/',idProperty:'id'});
-        this.certificateStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/certificate/',idProperty:'id'});
-        this.workStore = new dojo.store.JsonRest({target:dojo.config.applicationBase + '/work/',idProperty:'id'});
+        this.equipmentStore = new dojo.store.Cache(new dojo.store.JsonRest({target:dojo.config.applicationBase + '/equipment/',idProperty:'id'}), new dojo.store.Memory({}));
+        this.categoryStore = new dojo.store.Cache(new dojo.store.JsonRest({target:dojo.config.applicationBase + '/category/',idProperty:'id'}), new dojo.store.Memory({}));
+        this.brandStore = new dojo.store.Cache(new dojo.store.JsonRest({target:dojo.config.applicationBase + '/brand/',idProperty:'id'}), new dojo.store.Memory({}));
+        this.employeeStore = new dojo.store.Cache(new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/',idProperty:'id'}), new dojo.store.Memory({}));
+        this.titleStore = new dojo.store.Cache(new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/title/',idProperty:'id'}), new dojo.store.Memory({}));
+        this.certificateStore = new dojo.store.Cache(new dojo.store.JsonRest({target:dojo.config.applicationBase + '/employee/certificate/',idProperty:'id'}), new dojo.store.Memory({}));
+        this.workStore = new dojo.store.Cache(new dojo.store.JsonRest({target:dojo.config.applicationBase + '/work/',idProperty:'id'}), new dojo.store.Memory({}));
         this.initUi();
     },
     showEquipments:function() {
@@ -135,6 +135,8 @@ yuksekisler.app = {
         this.clearContent();
         this.getContent().set('content', newContent);
         this.loadingDialog.hide();
+        //dojo.window.scrollIntoView(dojo.body(), {y:-20,x:0});
+        dojox.fx.smoothScroll({node:dojo.body(),win:window,duration:400}).play();
     },
     events:{
         //loginsuccsess:"loginsuccsess",
@@ -265,6 +267,7 @@ yuksekisler.app = {
                 categoryStore:this.categoryStore
             });
         }
+        workView.startup();
         this.setContent(workView);
     },
     onRowContextMenu:function(e) {
@@ -292,5 +295,14 @@ yuksekisler.app = {
             default:
                 alert(errorDef);
         }
+    },
+    turnToPromise:function(val) {
+        var deferred = new dojo.Deferred();
+        dojo.when(val, function(result) {
+            deferred.resolve(result);
+        }, function(err) {
+            deferred.reject(result);
+        });
+        return deferred;
     }
 };

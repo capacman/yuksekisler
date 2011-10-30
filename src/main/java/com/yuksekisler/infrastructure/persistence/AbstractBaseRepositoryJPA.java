@@ -1,6 +1,7 @@
 package com.yuksekisler.infrastructure.persistence;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -279,5 +280,20 @@ public abstract class AbstractBaseRepositoryJPA implements BaseRepository {
 		cq.where(qb.and(cq.getRestriction(), qb.equal(parameterPath,
 				conversionService.convert(queryParameter.getValue(),
 						parameterPath.getModel().getBindableJavaType()))));
+	}
+
+	@Override
+	public <ID, E extends IdEnabledEntity<ID>> List<E> getEntities(
+			final List<ID> idx, Class<E> clazz) {
+		if (idx.isEmpty())
+			return new ArrayList<E>();
+		return prepareEntityQuery(clazz, clazz, new InnerQueryBuilder<E, E>() {
+
+			@Override
+			public void prepareQuery(CriteriaBuilder qb, CriteriaQuery<E> cq,
+					Root<E> root) {
+				cq.where(qb.and(cq.getRestriction(), root.get("id").in(idx)));
+			}
+		}).getResultList();
 	}
 }

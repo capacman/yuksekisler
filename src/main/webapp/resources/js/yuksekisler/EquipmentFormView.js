@@ -28,7 +28,7 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
         this.brandSelect.set('store', new dojo.data.ObjectStore({objectStore: this.brandStore,labelProperty:'name'}));
 
         if (this.equipment) {
-            this.equipment.then(dojo.hitch(this, function(value) {
+            dojo.when(this.equipment, dojo.hitch(this, function(value) {
 
                 this.productName.set('value', value.productName);
                 this.productCode.set('value', value.productCode);
@@ -89,6 +89,7 @@ dojo.declare('yuksekisler.EquipmentFormView', [dijit._Widget,dijit._Templated], 
                 url: this.equipmentID ? baseUrl + this.equipmentID : baseUrl,
                 handleAs: "json",
                 load: dojo.hitch(this, function(data) {
+                    this.equipmentStore.evict(this.equipmentID);
                     if (this.onSubmit)
                         this.onSubmit(this.equipmentID);
                     if (!this.noHashChange)

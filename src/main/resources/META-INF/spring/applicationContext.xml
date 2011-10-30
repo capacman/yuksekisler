@@ -122,8 +122,12 @@
 			<tx:method name="*" />
 		</tx:attributes>
 	</tx:advice>
+	<bean id="notificationService"
+		class="com.yuksekisler.application.impl.NotificationServiceImpl">
+		<property name="equipmentService" ref="equipmentService" />
+	</bean>
 	<bean id="eventGenerationAspectBean" class="com.yuksekisler.infrastructure.EventGenerationAspect">
-
+		<property name="notificationService" ref="notificationService" />
 	</bean>
 	<aop:config>
 		<aop:advisor advice-ref="transactionAdvice"

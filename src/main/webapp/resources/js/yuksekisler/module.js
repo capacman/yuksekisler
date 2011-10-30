@@ -12,6 +12,7 @@ dojo.require("dojo.hash");
 dojo.require("dojo.DeferredList");
 dojo.require("dojo.store.JsonRest");
 dojo.require("dojo.store.Memory");
+dojo.require("dojo.store.Cache");
 dojo.require("dojo.data.ObjectStore");
 dojo.require("dojo.date.locale");
 dojo.require("dojo.fx");
@@ -51,6 +52,7 @@ dojo.require('dojox.image.Lightbox');
 dojo.require('dojox.widget.TitleGroup');
 dojo.require('dojox.uuid.generateRandomUuid');
 dojo.require('dojox.form.CheckedMultiSelect');
+dojo.require('dojox.fx.scroll');
 
 dojo.require('yuksekisler._ProperDestroyMixin');
 dojo.require("yuksekisler.Login");

@@ -19,8 +19,8 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
     postCreate:function() {
         this.inherited(arguments);
 
-        var equipmentChain = this.equipment.then(dojo.hitch(this, this.prepareImageContent));
-        equipmentChain = equipmentChain.then(dojo.hitch(this, this.prepareInspectionReports));
+        var equipmentChain = dojo.when(this.equipment, dojo.hitch(this, this.prepareImageContent));
+        equipmentChain = dojo.when(equipmentChain, dojo.hitch(this, this.prepareInspectionReports));
 
         this.editEquipment = new yuksekisler.EquipmentFormView({
             categoryStore:this.categoryStore,

@@ -15,88 +15,169 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
     workDeferred:null,
     categoryStore:null,
     postCreate:function() {
-        if (this.workDeferred)
-            this.workDeferred.then(dojo.hitch(this, 'populateWorkForm')).then(dojo.hitch(this, function(value) {
-                this.populateEquipmentDragSource(value);
-            }));
-        else {
-            this.populateWorkForm();
-            this.populateEquipmentDragSource();
-        }
-        this.supervisorSelect.set('store', new dojo.data.ObjectStore({objectStore: this.employeeStore,labelProperty:'name'}));
+        this.inherited(arguments);
+        console.log('in postcreate');
+        var deferreds = []
+        var categorySelectDeferred = new dojo.Deferred();
+        deferreds.push(categorySelectDeferred);
+
         this.categorySelection.set('store', new dojo.data.ObjectStore({objectStore: this.categoryStore,labelProperty:'name'}));
 
+        dojo.connect(this.categorySelection, 'onSetStore', function() {
+            categorySelectDeferred.resolve();
+        });
+        var employeeStoreDeferred = yuksekisler.app.turnToPromise(dojo.when(this.employeeStore.query({}), dojo.hitch(this, function(results) {
+            for (var i in results)
+                results[i] = {value: results[i].id.toString(),label:results[i].name};
+            this.supervisorSelect.addOption(results);
+
+        })));
+        deferreds.push(employeeStoreDeferred);
+        deferreds.push(dojo.when(yuksekisler.app.turnToPromise(this.workDeferred), dojo.hitch(this, function(val) {
+            this.workDefinition = val;
+        })));
+        var deferredList = new dojo.DeferredList(deferreds);
+        deferredList.addCallback(dojo.hitch(this, function() {
+            if (this.workDefinition) {
+                this.populateWorkForm(this.workDefinition);
+                this.populateEquipmentDragSource(this.workDefinition);
+            }
+            else {
+                this.populateWorkForm();
+                this.populateEquipmentDragSource();
+            }
+            dojo.connect(this.startDate, 'onChange', this, this.dateValuesChanged);
+            dojo.connect(this.finishDate, 'onChange', this, this.dateValuesChanged);
+            dojo.connect(this.categorySelection, 'onChange', this, this.onCategoryChange);
+        }));
+
+    },
+    startup:function() {
+        console.log('in startup');
         this.inherited(arguments);
+
     },
     populateWorkForm:function(work) {
-        var startDate = work ? new Date(work.startDate) : null;
-        var finishDate = work || work.endDate ? new Date(work.endDate) : null;
+        var startDate = work ? new Date(work.startDate) : new Date();
+        var finishDate = work && work.endDate ? new Date(work.endDate) : null;
         if (work) {
             this.workName.set('value', work.name);
             this.customerName.set('value', work.customer);
+            var supervisorIDX = [];
+            dojo.forEach(work.supervisors, function(supervisor) {
+                supervisorIDX.push(supervisor.id.toString());
+            });
+            this.supervisorSelect.set('value', supervisorIDX);
         }
 
-        this.startDate.set('value', startDate);
+        this.startDate.set('value', startDate, false);
         this.startDate.constraints.min = startDate;
 
-        this.finishDate.set('value', finishDate);
+        this.finishDate.set('value', finishDate, false);
         this.finishDate.constraints.min = startDate;
-        return work;
+
+
     },
     dateValuesChanged:function() {
+        console.log("date value changed");
         this.finishDate.constraints.min = this.startDate.get('value');
         if (this.finishDate.get('value') < this.startDate.get('value'))
-            this.finishDate.set('value', this.startDate.get('value'));
+            this.finishDate.set('value', this.startDate.get('value'), false);
+        this.loadDragSource();
     },
-    populateEquipmentDragSource:function(workDefinition) {
-        var dndObj = new dojo.dnd.Source(this.equipmentDragSource, {
+    onCategoryChange:function() {
+        this.loadDragSource();
+    },
+    populateEquipmentDragSource:function(work) {
+        this.dndObj = new dojo.dnd.Source(this.equipmentDragSource, {
             copyOnly: false,
             creator: this.equipmentNodeCreator,
             accept: ["default"]
         });
-        dndObj.startup();
-        dojo.xhrGet({
-            url:dojo.config.applicationBase + '/equipment/available',
-            handleAs:'json',
-            load:function(data) {
-                dndObj.insertNodes(false, data);
-            },
-            content:{
-                startDate: dojo.date.stamp.toISOString(this.startDate.get('value'), {selector: 'date'}),
-                endDate:dojo.date.stamp.toISOString(this.finishDate.get('value'), {selector: 'date'})
-            }
-        });
-
-
-        if (workDefinition) {
-            var target = new dojo.dnd.Source(this.dropArea, {
+        this.dndObj.startup();
+        if (work) {
+            this.target = new dojo.dnd.Source(this.dropArea, {
                 copyOnly: false,
                 creator: this.equipmentNodeCreator,
                 accept: ["default"]
             });
-            target.startup();
-            target.insertNodes(false, workDefinition.equipments);
+            this.target.startup();
+            this.target.insertNodes(false, work.equipments);
         } else {
-            var target = new dojo.dnd.Source(this.dropArea, {accept: ["default"]});
-            target.startup();
+            this.target = new dojo.dnd.Source(this.dropArea, {accept: ["default"]});
+            this.target.startup();
         }
 
-        dojo.connect(dndObj, 'onMouseDown', function() {
-            target.selectNone();
+        dojo.connect(this.dndObj, 'onMouseDown', this, function() {
+            this.target.selectNone();
         });
-        dojo.connect(target, 'onMouseDown', function() {
-            dndObj.selectNone();
-            target.getAllNodes()
+        dojo.connect(this.target, 'onMouseDown', this, function() {
+            this.dndObj.selectNone();
         });
+        //dojo.connect(this.target, "onDrop", this.onDropTarget);
     },
-    equipmentNodeCreator:function(item) {
+    onDropTarget:function(source, nodes, copy) {
+        if (this != source) {
+            dojo.forEach(nodes, dojo.hitch(this, function(node) {
+                console.log(this.getItem(node.id));
+            }));
+        }
+    },
+    equipmentNodeCreator:function(item, hint) {
         var equipmentWidget = new yuksekisler.EquipmentWidget({
             equipment:item
         });
-
         return {node:equipmentWidget.domNode,data:item,type:['default']}
     },
-    onCategorySelection:function(value) {
-        console.log(value);
+    onSave:function() {
+        if (this.workDefinitionViewForm.validate()) {
+            var object = dojo.mixin(this.workDefinitionViewForm.get('value'), dojo.formToObject(this.workDefinitionViewForm.domNode));
+
+            object.equipments = [];
+            this.target.forInItems(function(obj, id, map) {
+                object.equipments.push(obj.data.id);
+            }, this);
+            object.workers = [];
+            object.id = this.workDefinition.id;
+            dojo.xhrPost({
+                url:dojo.config.applicationBase + '/work/',
+                handleAs:'json',
+                load:function(data) {
+                    yuksekisler.app.workStore.evict(data.id);
+                    dojo.hash('works');
+                },
+                content:object,
+                headers:{
+                    JsonStore:'false'
+                }
+            });
+        }
+    },
+    onCancel:function() {
+        dojo.hash('works');
+    },
+    loadDragSource:function () {
+
+        dojo.xhrGet({
+            url:dojo.config.applicationBase + '/equipment/available',
+            handleAs:'json',
+            load:dojo.hitch(this, function(data) {
+                var results = dojo.filter(data, dojo.hitch(this, function(item) {
+                    for (var i in this.target.map) {
+                        if (this.target.map[i].data.id == item.id)
+                            return false;
+                    }
+                    return true;
+                }));
+                this.dndObj.selectAll().deleteSelectedNodes();
+                this.dndObj.insertNodes(false, results);
+            }),
+            content:{
+                startDate: dojo.date.stamp.toISOString(this.startDate.get('value'), {selector: 'date'}),
+                endDate:this.finishDate.get('value') ? dojo.date.stamp.toISOString(this.finishDate.get('value'), {selector: 'date'}) : null,
+                categoryID:this.categorySelection.get('value')
+            }
+        });
+
     }
 });

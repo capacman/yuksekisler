@@ -301,4 +301,11 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 			usedIn.add(workDefinition);
 		}
 	}
+
+	public void removedFrom(WorkDefinition workDefinition) {
+		if (usedIn.contains(workDefinition)) {
+			usedIn.remove(workDefinition);
+			workDefinition.removeEquipment(this);
+		}
+	}
 }
