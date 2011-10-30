@@ -35,7 +35,7 @@ public class WorkServiceImpl extends AbstractBaseCrudService implements
 		WorkDefinition work = new WorkDefinition();
 		updateWork(name, customer, startDate, endDate, equipmentIDs,
 				supervisorIDs, workerIDs, work);
-		return work;
+		return saveEntity(work);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class WorkServiceImpl extends AbstractBaseCrudService implements
 				WorkDefinition.class);
 		updateWork(name, customer, startDate, endDate, equipmentIDs,
 				supervisorIDs, workerIDs, work);
-		return work;
+		return saveEntity(work);
 	}
 
 	private void updateWork(String name, String customer, Date startDate,

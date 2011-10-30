@@ -138,7 +138,9 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
                 object.equipments.push(obj.data.id);
             }, this);
             object.workers = [];
-            object.id = this.workDefinition.id;
+            if(this.workDefinition)
+                object.id = this.workDefinition.id;
+            yuksekisler.app.loadingDialog.show();
             dojo.xhrPost({
                 url:dojo.config.applicationBase + '/work/',
                 handleAs:'json',
