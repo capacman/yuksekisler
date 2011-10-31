@@ -63,6 +63,13 @@ yuksekisler.app = {
             id:'navigation'
         });
         dijit.byId("header").set("content", toolBar);
+        var contentPosition = dojo.position(dojo.query('.content')[0]);
+        dojo.place(dijit.byId("toaster").domNode, dojo.byId('toasterWrapper'));
+        dojo.style('toasterWrapper', {
+            'position':'absolute',
+            'top':contentPosition.y,
+            'left':contentPosition.x
+        });
         this.gridMenu = new dijit.Menu({style:{'display':'none'}});
         this.gridMenu.addChild(new dijit.MenuItem({
             label: "Delete",
@@ -171,6 +178,13 @@ yuksekisler.app = {
     },
     mapHistory:function(hashValue) {
         //hashValue might require some preprocessing
+        if (hashValue) {
+            dojo.publish("globalMessageTopic",
+                [
+                    { message: "hash value is: " + hashValue }
+                ]
+            );
+        }
         this.loadingDialog.show();
         if (!hashValue)
             dojo.hash('equipments');

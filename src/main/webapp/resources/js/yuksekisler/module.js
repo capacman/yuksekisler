@@ -53,6 +53,7 @@ dojo.require('dojox.widget.TitleGroup');
 dojo.require('dojox.uuid.generateRandomUuid');
 dojo.require('dojox.form.CheckedMultiSelect');
 dojo.require('dojox.fx.scroll');
+dojo.require('dojox.widget.Toaster');
 
 dojo.require('yuksekisler._ProperDestroyMixin');
 dojo.require("yuksekisler.Login");

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Yuksekisler</title>
-    <LINK REL="SHORTCUT ICON" HREF="favicon.ico"> 
+    <LINK REL="SHORTCUT ICON" HREF="favicon.ico">
     <link href="resources/css/style.css" rel="stylesheet">
     <link href="resources/js/dijit/themes/claro/document.css"
           rel="stylesheet">
@@ -40,14 +40,16 @@
             applicationBase : '/yuksekisler'
         };
     </script>
-    <script src="resources/js/dojo/dojo.js.uncompressed.js">
+    <script src="resources/js/dojo/dojo.js">
 
     </script>
-
+    <script>
+        dojo.require("yuksekisler.app");
+    </script>
 
     <script>
         // load initial set of dependencies - the app controller
-        dojo.require("yuksekisler.app");
+        //dojo.require("yuksekisler.app");
 
         dojo.ready(function() {
             // do whatever the controller considers necessary for initialization
@@ -63,6 +65,10 @@
 
 <div id='pageLayout' class='pageLayout'>
     <div class="content">
+        <div id='toasterWrapper' style="width:100%">
+            <div id='toaster' dojoType='dojox.widget.Toaster' positionDirection="tl-down"
+                 messageTopic='globalMessageTopic'></div>
+        </div>
         <div id="header" dojoType="dijit.layout.ContentPane" minSize="30"></div>
         <div id='innerpreloader'></div>
 

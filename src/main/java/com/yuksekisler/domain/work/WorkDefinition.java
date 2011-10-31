@@ -167,6 +167,9 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 			throw new EquipmentNotAwailable(equipment, getStartDate(),
 					getEndDate());
 		}
+		if (!equipment.isUsable()) {
+			throw new EquipmentNotAwailable(equipment);
+		}
 		this.equipments.add(equipment);
 		equipment.addedTo(this);
 	}

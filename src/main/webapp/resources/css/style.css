@@ -485,3 +485,56 @@ div.loading {
     vertical-align: middle;
     margin: 5px;
 }
+
+.dijitToasterContent {
+    padding: 1em;
+    padding-top: 0.25em;
+    background: transparent;
+}
+
+.dijitToasterMessage {
+    color: #505667;
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.dijitToasterWarning {
+}
+
+.dijitToasterError,
+.dijitToasterFatal {
+    font-weight: bold;
+    color: #505667;
+}
+
+.dijitToasterWarning .dijitToasterContent {
+    padding: 1em;
+    padding-top: 0.25em;
+    background: #ffff00;
+}
+
+.dijitToasterError .dijitToasterContent {
+    padding: 1em;
+    padding-top: 0.25em;
+    background: #ffff00;
+    color: red;
+}
+
+.dijitToasterClip {
+    position: absolute;
+    z-index: 5000;
+    overflow: hidden;
+}
+
+.dijitToasterContainer {
+    display: block;
+    position: absolute;
+    width: 17.5em;
+}
+
+#toaster {
+    margin: auto;
+}
+

@@ -24,6 +24,10 @@ public class EquipmentNotAwailable extends YuksekislerException {
 		this.endDate = endDate;
 	}
 
+	public EquipmentNotAwailable(Equipment equipment) {
+		super("equipment " + equipment + " is not usable!");
+	}
+
 	public Equipment getEquipment() {
 		return equipment;
 	}
