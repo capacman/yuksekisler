@@ -12,7 +12,7 @@ dojo.require('dijit.layout.BorderContainer');
 dojo.require('dijit._Templated');
 
 dojo.declare('yuksekisler.EquipmentListView', [dijit._Widget,dijit._Templated,yuksekisler._ProperDestroyMixin], {
-    templateString:dojo.cache('yuksekisler.EquipmentListView', '../../../templates/equipment_list_view_template.html'),
+    templateString:dojo["cache"]('yuksekisler.templates', 'equipment_list_view_template.html', {sanitize: true}),
     widgetsInTemplate:true,
     dataStore:null,
     gutters:false,

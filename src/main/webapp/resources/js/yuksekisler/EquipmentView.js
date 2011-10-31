@@ -8,7 +8,7 @@
 dojo.provide('yuksekisler.EquipmentView');
 
 dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksekisler._ProperDestroyMixin], {
-    templateString:dojo.cache('yuksekisler.EquipmentView', '../../../templates/equipment_view_template.html'),
+    templateString:dojo["cache"]('yuksekisler.templates', 'equipment_view_template.html', {sanitize: true}),
     widgetsInTemplate:true,
     categoryStore:null,
     brandStore:null,
@@ -33,7 +33,6 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
         });
         this.editEquipment.startup();
 
-        var container = dojo.create('div', {class:'equipmentFormContainer gradient'});
         this.editEquipmentContent.set('content', this.editEquipment);
         dojo.addClass(this.domNode, 'yuksekisler-widget');
     },
@@ -46,7 +45,7 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
             this.prepareImageGalery();
             this.initImageStore(value);
         } else {
-            var img = dojo.create('img', {class:'no-image',src:'/yuksekisler/resources/images/no-image.jpg'});
+            var img = dojo.create('img', {"class":'no-image',src:'/yuksekisler/resources/images/no-image.jpg'});
             this.imageContent.set('content', img);
         }
 
@@ -69,7 +68,7 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
         var placeHolderTextBox = new dijit.form.TextBox({
             id:'inspectionReportPlaceHolder',
             placeHolder:'new inspection report',
-            class:'newPlaceHolder',
+            "class":'newPlaceHolder',
             onFocus:dojo.hitch(this, function() {
                 dojo.fadeOut({
                     node:dojo.byId('inspectionReportView'),

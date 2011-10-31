@@ -12,11 +12,11 @@ dojo.declare('yuksekisler.EquipmentWidget', [dijit._Widget], {
     buildRendering: function() {
         // create the DOM for this widget
         this.domNode = dojo.create("div", {
-            class:'simpleWidgetContainer equipmentWidget'
+            "class":'simpleWidgetContainer equipmentWidget'
         });
-        this.equipmentImage = dojo.create('img', {class:'simpleWidgetImage',align:'right'}, this.domNode);
-        this.equipmentProductName = dojo.create('div', {class:'simpleWidgetDefinition'}, this.domNode);
-        this.equipmentProductCode = dojo.create('div', {class:'simpleWidgetDefinition'}, this.domNode);
+        this.equipmentImage = dojo.create('img', {"class":'simpleWidgetImage',align:'right'}, this.domNode);
+        this.equipmentProductName = dojo.create('div', {"class":'simpleWidgetDefinition'}, this.domNode);
+        this.equipmentProductCode = dojo.create('div', {"class":'simpleWidgetDefinition'}, this.domNode);
 
         this.inherited(arguments);
     },

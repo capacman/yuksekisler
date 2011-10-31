@@ -8,7 +8,7 @@
 dojo.provide('yuksekisler.Definitions');
 
 dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
-    templateString:dojo.cache('yuksekisler.Definitions', '../../../templates/definitions_template.html'),
+    templateString:dojo["cache"]('yuksekisler.templates', 'definitions_template.html', {sanitize: true}),
     widgetsInTemplate:true,
     categoryStore:null,
     brandStore:null,

@@ -12,11 +12,11 @@ dojo.declare('yuksekisler.EmployeeWidget', [dijit._Widget], {
     buildRendering: function() {
         // create the DOM for this widget
         this.domNode = dojo.create("div", {
-            class:'simpleWidgetContainer employeeWidget'
+            "class":'simpleWidgetContainer employeeWidget'
         });
-        this.employeeImage = dojo.create('img', {class:'simpleWidgetImage',align:'right'}, this.domNode);
-        this.employeeDefinition = dojo.create('div', {class:'simpleWidgetDefinition'}, this.domNode);
-        this.employeeStartDate = dojo.create('div', {class:'simpleWidgetDefinition'}, this.domNode);
+        this.employeeImage = dojo.create('img', {"class":'simpleWidgetImage',align:'right'}, this.domNode);
+        this.employeeDefinition = dojo.create('div', {"class":'simpleWidgetDefinition'}, this.domNode);
+        this.employeeStartDate = dojo.create('div', {"class":'simpleWidgetDefinition'}, this.domNode);
 
         this.inherited(arguments);
     },

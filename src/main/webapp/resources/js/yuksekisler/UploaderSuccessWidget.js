@@ -12,14 +12,14 @@ dojo.declare('yuksekisler.UploaderSuccessWidget', [dijit._Widget], {
     buildRendering: function() {
         // create the DOM for this widget
         this.domNode = dojo.create("div", {
-            class:'fileUploadResultWidget'
+            "class":'fileUploadResultWidget'
         });
         this.inherited(arguments);
     },
     postCreate:function() {
         if (this.uploadInfo.length == 1 && this.uploadInfo.operationFailed)
             dojo.create('div', {
-                class:'fileUploadFileInfo',
+                "class":'fileUploadFileInfo',
                 innerHtml:'<b>File upload failed</b>',
                 style:{'color':'red'}
             }, this.domNode);
@@ -27,7 +27,7 @@ dojo.declare('yuksekisler.UploaderSuccessWidget', [dijit._Widget], {
             var domNode = this.domNode;
             dojo.forEach(this.uploadInfo, function(file) {
                 var fileInfo = dojo.create("div", {
-                    class:'fileUploadFileInfo',
+                    "class":'fileUploadFileInfo',
                     innerHTML:'<i>' + file.file + '</i>' + (file.result == 'success' ? ' saved' : ' failed')
                 }, domNode);
                 if (file.result != 'success')

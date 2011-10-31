@@ -13,8 +13,7 @@ dojo.require("dijit._Templated");
 
 
 dojo.declare("yuksekisler.Toolbar", [dijit._Widget, dijit._Templated], {
-        templateString:
-            dojo.cache("yuksekisler.Toolbar", "../../../templates/toolbar_template.html"),
+        templateString: dojo["cache"]('yuksekisler.templates', "toolbar_template.html", {sanitize: true}),
         widgetsInTemplate: true,
         postCreate:function() {
             this.inherited(arguments);

@@ -8,7 +8,7 @@
 dojo.provide('yuksekisler.WorkDefinitionView');
 
 dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated], {
-    templateString:dojo.cache('yuksekisler.WorkDefinitionView', '../../../templates/workdefinition_view_template.html'),
+    templateString:dojo["cache"]('yuksekisler.templates', 'workdefinition_view_template.html', {sanitize: true}),
     widgetsInTemplate:true,
     employeeStore:null,
     equipmentStore:null,
@@ -138,7 +138,7 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
                 object.equipments.push(obj.data.id);
             }, this);
             object.workers = [];
-            if(this.workDefinition)
+            if (this.workDefinition)
                 object.id = this.workDefinition.id;
             yuksekisler.app.loadingDialog.show();
             dojo.xhrPost({

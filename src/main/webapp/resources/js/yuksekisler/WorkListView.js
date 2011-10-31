@@ -8,7 +8,7 @@
 dojo.provide('yuksekisler.WorkListView');
 
 dojo.declare('yuksekisler.WorkListView', [dijit._Widget,dijit._Templated,yuksekisler._ProperDestroyMixin], {
-    templateString:dojo.cache('yuksekisler.WorkListView', '../../../templates/worklist_view_template.html'),
+    templateString:dojo["cache"]('yuksekisler.templates', 'worklist_view_template.html', {sanitize: true}),
     widgetsInTemplate:true,
     workStore:null,
     postCreate:function() {

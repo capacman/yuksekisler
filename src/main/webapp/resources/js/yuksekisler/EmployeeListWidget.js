@@ -11,7 +11,7 @@ dojo.declare('yuksekisler.EmployeeListWidget', [dijit._Widget], {
     employeeStore:null,
     buildRendering:function() {
         this.domNode = dojo.create("div", {
-            class:'employeeListContainer'
+            "class":'employeeListContainer'
         });
         this.inherited(arguments);
     },

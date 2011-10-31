@@ -77,7 +77,7 @@ dojo.declare("yuksekisler.InspectionReportFormWidget", [dijit.form.Form,yuksekis
             label:'Upload Images',
             name:'uploadedfile',
             id:'inspectionReportUploader',
-            class:'fileUploader',
+            "class":'fileUploader',
             multiple:true
         }).placeAt(div);
         this.uploader.startup();
@@ -85,7 +85,7 @@ dojo.declare("yuksekisler.InspectionReportFormWidget", [dijit.form.Form,yuksekis
 
         var fileList = new dojox.form.uploader.FileList({
             uploaderId:'inspectionReportUploader',
-            class:'uploaderFileList'
+            "class":'uploaderFileList'
         }).placeAt(div);
         fileList.startup();
         this.addInner(fileList);
