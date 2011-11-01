@@ -36,6 +36,12 @@ public class LifeTime {
 		return endDate == null ? false : endDate.before(new Date());
 	}
 
+	public boolean isActive() {
+		Date current = new Date();
+		return startDate.before(current)
+				&& (endDate == null || endDate.after(current));
+	}
+
 	@Override
 	public String toString() {
 		return "LifeTime [startDate=" + startDate + ", endDate=" + endDate

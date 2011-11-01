@@ -4,7 +4,9 @@ import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,7 @@ import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.equipment.Brand;
 import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
+import com.yuksekisler.domain.equipment.EquipmentInActiveUseException;
 import com.yuksekisler.domain.equipment.InspectionReport;
 import com.yuksekisler.domain.equipment.InspectionStatus;
 import com.yuksekisler.domain.work.LifeTime;
@@ -138,10 +142,9 @@ public class EquipmentController {
 		LOGGER.debug("store equipment {}", equipment);
 	}
 
-	@ResponseStatus(reason = "com.yuksekisler.domain.equipment.EquipmentInActiveUseException.EquipmentInActiveUseException", value = HttpStatus.FORBIDDEN)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") Long id) {
-		this.equipmentDelagateController.delete(id);
+		this.equipmentService.removeEntity(id, Equipment.class);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -175,10 +178,21 @@ public class EquipmentController {
 	List<Equipment> getAvailable(
 			@RequestParam("startDate") Date startDate,
 			@RequestParam(value = "endDate", required = false) Date endDate,
-			@RequestParam(value = "categoryID", required = false) Long categoryID) {
+			@RequestParam(value = "categoryID", required = false) Long categoryID,
+			@RequestParam(value = "workID", required = false) Long workID) {
 		LifeTime lifetime = new LifeTime(startDate, endDate);
 		LOGGER.debug("returning available equipments for: {}", lifetime);
-		return equipmentService.getAvailableEquipments(lifetime, categoryID);
+		return equipmentService.getAvailableEquipments(lifetime, categoryID,
+				workID);
+	}
+
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ExceptionHandler(EquipmentInActiveUseException.class)
+	public Map<String, String> handleImageSaveFailed() {
+		// we should return ok and send client error in other form
+		Map<String, String> errorResponse = new HashMap<String, String>();
+		errorResponse.put("errorTextCode", "Equipment in active use");
+		return errorResponse;
 	}
 
 	public void setEquipmentService(final EquipmentService equipmentService) {

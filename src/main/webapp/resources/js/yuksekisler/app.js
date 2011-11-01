@@ -64,11 +64,13 @@ yuksekisler.app = {
         });
         dijit.byId("header").set("content", toolBar);
         var contentPosition = dojo.position(dojo.query('.content')[0]);
+        var leftValue = contentPosition.x + contentPosition.w / 2;
         dojo.place(dijit.byId("toaster").domNode, dojo.byId('toasterWrapper'));
         dojo.style('toasterWrapper', {
             'position':'absolute',
-            'top':contentPosition.y,
-            'left':contentPosition.x
+            top:contentPosition.y + 'px',
+            left:contentPosition.x + 'px',
+            width:contentPosition.w + 'px'
         });
         this.gridMenu = new dijit.Menu({style:{'display':'none'}});
         this.gridMenu.addChild(new dijit.MenuItem({
@@ -178,13 +180,6 @@ yuksekisler.app = {
     },
     mapHistory:function(hashValue) {
         //hashValue might require some preprocessing
-        if (hashValue) {
-            dojo.publish("globalMessageTopic",
-                [
-                    { message: "hash value is: " + hashValue }
-                ]
-            );
-        }
         this.loadingDialog.show();
         if (!hashValue)
             dojo.hash('equipments');
@@ -240,7 +235,7 @@ yuksekisler.app = {
                 "link":value[imagesAttr][x].id
             };
         }
-        var memoryStore = dojo.data.ObjectStore({objectStore: new dojo.store.Memory({data: storeData})});
+        var memoryStore = new dojo.data.ObjectStore({objectStore: new dojo.store.Memory({data: storeData})});
         return memoryStore;
     },
     definitionSelected:function() {
@@ -287,11 +282,26 @@ yuksekisler.app = {
     onRowContextMenu:function(e) {
         yuksekisler.app.gridMenu.bindDomNode(e.grid.domNode);
         yuksekisler.app.contextMenuClicked = function(d) {
-            e.grid.store.deleteItem(e.grid.getItem(e.rowIndex));
+            var item = e.grid.getItem(e.rowIndex);
+            e.grid.store.deleteItem(item);
             e.grid.store.save({
                 onError:function(err) {
-                    if (err.status == 403)
-                        alert("Item " + e.grid.getItem(e.rowIndex) + " in active use");
+                    if (err.status == 403) {
+                        var responseObject = dojo.fromJson(err.responseText);
+                        dojo.publish("globalMessageTopic", [
+                            {
+                                message: responseObject.errorTextCode,
+                                type:'warning'
+                            }
+                        ]);
+                    }
+                },
+                onComplete:function() {
+                    dojo.publish("globalMessageTopic", [
+                        {
+                            message: e.grid.store.getLabel(item) + ' deleted!'
+                        }
+                    ]);
                 }
             });
         }
@@ -306,8 +316,6 @@ yuksekisler.app = {
             case 401:
                 window.location = dojo.config.applicationBase + '/login.html';
                 break;
-            default:
-                alert(errorDef);
         }
     },
     turnToPromise:function(val) {

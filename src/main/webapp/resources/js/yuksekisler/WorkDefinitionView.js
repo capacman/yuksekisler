@@ -92,19 +92,19 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
         this.dndObj = new dojo.dnd.Source(this.equipmentDragSource, {
             copyOnly: false,
             creator: this.equipmentNodeCreator,
-            accept: ["default"]
+            accept: ["available","notavailable"]
         });
         this.dndObj.startup();
         if (work) {
             this.target = new dojo.dnd.Source(this.dropArea, {
                 copyOnly: false,
                 creator: this.equipmentNodeCreator,
-                accept: ["default"]
+                accept: ["available"]
             });
             this.target.startup();
             this.target.insertNodes(false, work.equipments);
         } else {
-            this.target = new dojo.dnd.Source(this.dropArea, {accept: ["default"]});
+            this.target = new dojo.dnd.Source(this.dropArea, {accept: ["available"]});
             this.target.startup();
         }
 
@@ -127,7 +127,7 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
         var equipmentWidget = new yuksekisler.EquipmentWidget({
             equipment:item
         });
-        return {node:equipmentWidget.domNode,data:item,type:['default']}
+        return {node:equipmentWidget.domNode,data:item,type:item.type ? item.type : ['available']}
     },
     onSave:function() {
         if (this.workDefinitionViewForm.validate()) {
@@ -146,7 +146,12 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
                 handleAs:'json',
                 load:function(data) {
                     yuksekisler.app.workStore.evict(data.id);
-                    dojo.hash('works');
+                    yuksekisler.app.loadingDialog.hide();
+                    dojo.publish("globalMessageTopic", [
+                        {
+                            message: 'WorkDefinition ' + data.name + ' saved'
+                        }
+                    ]);
                 },
                 content:object,
                 headers:{
@@ -159,11 +164,23 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
         dojo.hash('works');
     },
     loadDragSource:function () {
-
         dojo.xhrGet({
             url:dojo.config.applicationBase + '/equipment/available',
             handleAs:'json',
             load:dojo.hitch(this, function(data) {
+                for (var i in this.target.map) {
+                    var found = false;
+                    for (var j in data) {
+                        if (this.target.map[i].data.id == data[j].id) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        this.target.map[i].type = ['notavailable'];
+                        this.target.map[i].data.type = ['notavailable'];
+                    }
+                }
                 var results = dojo.filter(data, dojo.hitch(this, function(item) {
                     for (var i in this.target.map) {
                         if (this.target.map[i].data.id == item.id)
@@ -177,7 +194,8 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
             content:{
                 startDate: dojo.date.stamp.toISOString(this.startDate.get('value'), {selector: 'date'}),
                 endDate:this.finishDate.get('value') ? dojo.date.stamp.toISOString(this.finishDate.get('value'), {selector: 'date'}) : null,
-                categoryID:this.categorySelection.get('value')
+                categoryID:this.categorySelection.get('value'),
+                workID:this.workDefinition ? this.workDefinition.id : null
             }
         });
 

@@ -17,7 +17,7 @@ dojo.declare('yuksekisler.WorkListView', [dijit._Widget,dijit._Templated,yukseki
             selectionMode:'single',
             id:'workListGrid',
             rowCount:10,
-            store:new dojo.data.ObjectStore({objectStore: this.workStore}),
+            store:new dojo.data.ObjectStore({objectStore: this.workStore,labelProperty:'name'}),
             structure:
                 [
                     {name:'Name',field:'name',width:'auto'},

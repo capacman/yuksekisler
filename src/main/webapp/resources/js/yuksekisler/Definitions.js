@@ -20,7 +20,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
             selectionMode:'single',
             id:'categoryGrid',
             rowCount:10,
-            store:new dojo.data.ObjectStore({objectStore: this.categoryStore}),
+            store:new dojo.data.ObjectStore({objectStore: this.categoryStore,labelProperty:'name'}),
             autoHeight:5,
             structure:
                 [
@@ -39,7 +39,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
             selectionMode:'single',
             id:'brandGrid',
             rowCount:10,
-            store:new dojo.data.ObjectStore({objectStore: this.brandStore}),
+            store:new dojo.data.ObjectStore({objectStore: this.brandStore,labelProperty:'name'}),
             autoHeight:5,
             structure:
                 [
@@ -58,7 +58,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
             selectionMode:'single',
             id:'titleGrid',
             rowCount:10,
-            store:new dojo.data.ObjectStore({objectStore: this.titleStore}),
+            store:new dojo.data.ObjectStore({objectStore: this.titleStore,labelProperty:'name'}),
             autoHeight:5,
             structure:
                 [
@@ -77,7 +77,7 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
             selectionMode:'single',
             id:'certificateGrid',
             rowCount:10,
-            store:new dojo.data.ObjectStore({objectStore: this.certificateStore}),
+            store:new dojo.data.ObjectStore({objectStore: this.certificateStore,labelProperty:'name'}),
             autoHeight:5,
             structure:
                 [
@@ -94,7 +94,14 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
     },
     onBrand:function() {
         if (this.brandForm.validate()) {
-            dojo.when(this.brandStore.put(this.brandForm.get('value')), dojo.hitch(this, function() {
+            dojo.when(this.brandStore.put(this.brandForm.get('value')), dojo.hitch(this, function(id) {
+                dojo.when(this.brandStore.get(id), function(data) {
+                    dojo.publish("globalMessageTopic", [
+                        {
+                            message: 'Brand ' + data.name + ' saved'
+                        }
+                    ]);
+                });
                 this.brandForm.reset();
                 this.brandGrid._refresh();
             }));
@@ -102,7 +109,14 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
     },
     onCategory:function() {
         if (this.categoryForm.validate()) {
-            dojo.when(this.categoryStore.put(this.categoryForm.get('value')), dojo.hitch(this, function() {
+            dojo.when(this.categoryStore.put(this.categoryForm.get('value')), dojo.hitch(this, function(id) {
+                dojo.when(this.categoryStore.get(id), function(data) {
+                    dojo.publish("globalMessageTopic", [
+                        {
+                            message: 'Category ' + data.name + ' saved'
+                        }
+                    ]);
+                });
                 this.categoryForm.reset();
                 this.categoryGrid._refresh();
             }));
@@ -110,7 +124,14 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
     },
     onTitle:function() {
         if (this.titleForm.validate()) {
-            dojo.when(this.titleStore.put(this.titleForm.get('value')), dojo.hitch(this, function() {
+            dojo.when(this.titleStore.put(this.titleForm.get('value')), dojo.hitch(this, function(id) {
+                dojo.when(this.titleStore.get(id), function(data) {
+                    dojo.publish("globalMessageTopic", [
+                        {
+                            message: 'Title ' + data.name + ' saved'
+                        }
+                    ]);
+                });
                 this.titleForm.reset();
                 this.titleGrid._refresh();
             }));
@@ -118,7 +139,14 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
     },
     onCertificate:function() {
         if (this.certificateForm.validate()) {
-            dojo.when(this.certificateStore.put(this.certificateForm.get('value')), dojo.hitch(this, function() {
+            dojo.when(this.certificateStore.put(this.certificateForm.get('value')), dojo.hitch(this, function(id) {
+                dojo.when(this.certificateStore.get(id), function(data) {
+                    dojo.publish("globalMessageTopic", [
+                        {
+                            message: 'Certificate type ' + data.name + ' saved'
+                        }
+                    ]);
+                });
                 this.certificateForm.reset();
                 this.certificateGrid._refresh();
             }));
@@ -163,10 +191,8 @@ dojo.declare('yuksekisler.Definitions', [dijit._Widget,dijit._Templated], {
                         return true;
                     return false;
                 });
-                console.log("duplicateName " + duplicateName);
                 ctr.constraints = {'duplicateName':duplicateName,ajaxValidaton:true};
                 ctr.validate(false);
-                console.log('ajax validate state: ' + ctr.state);
             });
         }, 400);
     },

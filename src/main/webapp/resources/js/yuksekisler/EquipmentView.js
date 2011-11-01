@@ -172,23 +172,27 @@ dojo.declare('yuksekisler.EquipmentView', [dijit._Widget,dijit._Templated,yuksek
         dojo.subscribe(this.imageGallery.getClickTopicName(), this, this.lightboxShow);
     },
     onImageUpload:function(uploadInfo) {
-        var infoWidget = new yuksekisler.UploaderSuccessWidget({
-            uploadInfo:uploadInfo
-        }).placeAt(this.domNode, 'first');
-        dojo.style(infoWidget.domNode, 'opacity', '0');
-        dojo.fadeIn({
-            node:infoWidget.domNode,
-            duration:900
-        }).play();
-        setTimeout(function() {
-            dojo.fadeOut({
-                node:infoWidget.domNode,
-                duration:900,
-                onEnd:function() {
-                    dojo.style(infoWidget.domNode, 'display', 'none');
-                    infoWidget.destroyRecursive(false);
+        //var infoWidget = new yuksekisler.UploaderSuccessWidget({
+        //    uploadInfo:uploadInfo
+        //}).placeAt(this.domNode, 'first');
+        if (this.uploadInfo.length == 1 && this.uploadInfo.operationFailed)
+            dojo.publish("globalMessageTopic", [
+                {
+                    message: 'File upload failed',
+                    type:dojox.widget.Toaster.messageTypes.WARNING
                 }
-            }).play();
-        }, 6900);
+            ]);
+        else {
+            var domNode = this.domNode;
+            dojo.forEach(this.uploadInfo, function(file) {
+                var message = file.file + (file.result == 'success' ? ' saved' : ' failed');
+                dojo.publish("globalMessageTopic", [
+                    {
+                        message: 'File upload failed',
+                        type:file.result != 'success' ? dojox.widget.Toaster.messageTypes.WARNING : dojox.widget.Toaster.messageTypes.MESSAGE
+                    }
+                ]);
+            });
+        }
     }
 });

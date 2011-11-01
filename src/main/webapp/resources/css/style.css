@@ -490,14 +490,14 @@ div.loading {
     padding: 1em;
     padding-top: 0.25em;
     background: transparent;
-}
-
-.dijitToasterMessage {
-    color: #505667;
     text-align: center;
     font-style: italic;
     font-weight: bold;
     font-size: 1.2em;
+}
+
+.dijitToasterMessage {
+    color: #505667;
 }
 
 .dijitToasterWarning {

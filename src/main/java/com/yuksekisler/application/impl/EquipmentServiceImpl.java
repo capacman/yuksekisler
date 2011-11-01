@@ -56,8 +56,8 @@ public class EquipmentServiceImpl extends AbstractBaseCrudService implements
 
 	@Override
 	public List<Equipment> getAvailableEquipments(LifeTime lifetime,
-			Long categoryID) {
-		return getRepository().findAvailable(lifetime, categoryID);
+			Long categoryID, Long workID) {
+		return getRepository().findAvailable(lifetime, categoryID, workID);
 	}
 
 	@Override
@@ -66,8 +66,9 @@ public class EquipmentServiceImpl extends AbstractBaseCrudService implements
 		if (!entity.isInActiveUse()) {
 			entity.setErased(true);
 			getRepository().merge(entity);
+		} else {
+			throw new EquipmentInActiveUseException(entity);
 		}
-		throw new EquipmentInActiveUseException(entity);
 	}
 
 	@Override

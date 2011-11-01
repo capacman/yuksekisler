@@ -22,7 +22,7 @@ dojo.declare('yuksekisler.EquipmentListView', [dijit._Widget,dijit._Templated,yu
             selectionMode:'single',
             id:'equipmentListGrid',
             rowCount:10,
-            store:dojo.data.ObjectStore({objectStore: this.dataStore}),
+            store:new dojo.data.ObjectStore({objectStore: this.dataStore,labelProperty:'productName'}),
             structure:
                 [
                     {name:'Product Name',field:'productName',width:'auto'},

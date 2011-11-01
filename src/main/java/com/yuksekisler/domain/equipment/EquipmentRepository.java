@@ -7,7 +7,8 @@ import com.yuksekisler.domain.work.LifeTime;
 
 public interface EquipmentRepository extends BaseRepository {
 
-	List<Equipment> findAvailable(LifeTime lifetime, Long categoryID);
+	List<Equipment> findAvailable(LifeTime lifetime, Long categoryID,
+			Long workID);
 
 	Equipment findByInspectionReport(InspectionReport inspectionReport);
 
