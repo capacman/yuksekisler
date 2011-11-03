@@ -22,8 +22,8 @@ dojo.declare('yuksekisler.WorkListView', [dijit._Widget,dijit._Templated,yukseki
                 [
                     {name:'Name',field:'name',width:'auto'},
                     {name:'Customer',field:'customer',width:'auto'},
-                    {name:'Start Date',field:'startDate',formatter:this.formatDate,width:'auto'},
-                    {name:'End Date',field:'endDate',formatter:this.formatDate,width:'auto'}
+                    {name:'Start Date',get:this.getStartDate,formatter:this.formatDate,width:'auto'},
+                    {name:'End Date',get:this.getEndDate,formatter:this.formatDate,width:'auto'}
                 ],
             onRowContextMenu:dojo.hitch(this, yuksekisler.app.onRowContextMenu)
         });
@@ -51,6 +51,14 @@ dojo.declare('yuksekisler.WorkListView', [dijit._Widget,dijit._Templated,yukseki
                 selector:'date'
             });
         return "";
+    },
+    getStartDate:function(colIndex, item) {
+        if (item)
+            return item.lifeTime.startDate;
+    },
+    getEndDate:function(colIndex, item) {
+        if (item)
+            return item.lifeTime.endDate;
     },
     textBoxChanged:function(e) {
         if (this.timerId) {

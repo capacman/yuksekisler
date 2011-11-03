@@ -253,7 +253,8 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 		if (lifeTime == null)
 			throw new IllegalArgumentException("lifeTime is null");
 		for (WorkDefinition workDefinition : usedIn) {
-			if (workDefinition.getLifeTime().isConflictedWith(lifeTime))
+			if (!workDefinition.getErased()
+					&& workDefinition.getLifeTime().isConflictedWith(lifeTime))
 				return false;
 		}
 		return true;
@@ -261,7 +262,7 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 
 	public boolean isInActiveUse() {
 		for (WorkDefinition wd : usedIn) {
-			if (!wd.getLifeTime().isFinished())
+			if (!wd.getErased() && !wd.getLifeTime().isFinished())
 				return true;
 		}
 		return false;

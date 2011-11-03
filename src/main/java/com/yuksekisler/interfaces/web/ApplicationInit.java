@@ -29,6 +29,7 @@ import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.equipment.EquipmentNotAwailable;
 import com.yuksekisler.domain.equipment.InspectionReport;
 import com.yuksekisler.domain.equipment.InspectionStatus;
+import com.yuksekisler.domain.work.LifeTime;
 import com.yuksekisler.domain.work.WorkDefinition;
 import com.yuksekisler.infrastructure.security.GrantedAuthorityImpl;
 
@@ -104,9 +105,10 @@ public class ApplicationInit {
 				instance.set(Calendar.MINUTE, 0);
 				instance.set(Calendar.SECOND, 0);
 				instance.set(Calendar.MILLISECOND, 0);
-				workDefinition.setStartDate(instance.getTime());
+				Date startTime = instance.getTime();
 				instance.add(Calendar.DAY_OF_MONTH, random.nextInt(5) + 1);
-				workDefinition.setEndDate(instance.getTime());
+				Date endTime = instance.getTime();
+				workDefinition.setLifeTime(new LifeTime(startTime, endTime));
 				List<Equipment> randomEquipments = getRandomEquipments();
 				for (Equipment equipment : randomEquipments) {
 					try {

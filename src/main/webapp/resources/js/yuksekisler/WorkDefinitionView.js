@@ -58,8 +58,8 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
 
     },
     populateWorkForm:function(work) {
-        var startDate = work ? new Date(work.startDate) : new Date();
-        var finishDate = work && work.endDate ? new Date(work.endDate) : null;
+        var startDate = work ? new Date(work.lifeTime.startDate) : new Date();
+        var finishDate = work && work.lifeTime.endDate ? new Date(work.lifeTime.endDate) : null;
         if (work) {
             this.workName.set('value', work.name);
             this.customerName.set('value', work.customer);
@@ -181,6 +181,12 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
                         this.target.map[i].data.type = ['notavailable'];
                     }
                 }
+
+                this.target.getAllNodes().forEach(dojo.hitch(this, function(node) {
+                    if (this.target.map[node.id].type[0] == 'notavailable') {
+                        console.log(this.target.map[node.id].data.productName);
+                    }
+                }));
                 var results = dojo.filter(data, dojo.hitch(this, function(item) {
                     for (var i in this.target.map) {
                         if (this.target.map[i].data.id == item.id)

@@ -20,6 +20,7 @@
 		<class>com.yuksekisler.domain.employee.Certificate</class>
 		<class>com.yuksekisler.domain.Image</class>
 		<class>com.yuksekisler.domain.Comment</class>
+		<class>com.yuksekisler.domain.work.LifeTime</class>
 		<properties>
 			<!-- Uncomment the following two properties for JBoss only -->
 			<!-- property name="hibernate.validator.apply_to_ddl" value="false" / -->

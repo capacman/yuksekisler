@@ -12,8 +12,8 @@ public class WorkAlreadyFinished extends YuksekislerException {
 
 	public WorkAlreadyFinished(WorkDefinition workDefinition) {
 		super("work already finished between dates "
-				+ workDefinition.getStartDate() + " and "
-				+ workDefinition.getEndDate());
+				+ workDefinition.getLifeTime().getStartDate() + " and "
+				+ workDefinition.getLifeTime().getEndDate());
 		this.workDefinition = workDefinition;
 	}
 

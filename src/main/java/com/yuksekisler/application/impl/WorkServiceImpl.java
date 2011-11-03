@@ -10,6 +10,7 @@ import com.yuksekisler.application.WorkService;
 import com.yuksekisler.domain.BaseRepository;
 import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.equipment.Equipment;
+import com.yuksekisler.domain.work.LifeTime;
 import com.yuksekisler.domain.work.WorkDefinition;
 import com.yuksekisler.domain.work.WorkRepository;
 
@@ -55,8 +56,7 @@ public class WorkServiceImpl extends AbstractBaseCrudService implements
 			List<Long> workerIDs, WorkDefinition work) {
 		work.setName(name);
 		work.setCustomer(customer);
-		work.setStartDate(startDate);
-		work.setEndDate(endDate);
+		work.setLifeTime(new LifeTime(startDate, endDate));
 		LOGGER.debug(
 				"equipments will be added to workDefinition with lifeTime: {}",
 				work.getLifeTime());

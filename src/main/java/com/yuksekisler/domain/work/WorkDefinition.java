@@ -1,27 +1,22 @@
 package com.yuksekisler.domain.work;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.yuksekisler.domain.Comment;
 import com.yuksekisler.domain.IdEnabledEntity;
@@ -36,16 +31,6 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1652328536647975113L;
-
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "M-")
-	@Column(nullable = false)
-	private Date startDate;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "M-")
-	private Date endDate;
 
 	@NotNull
 	@Size(max = 500)
@@ -85,7 +70,7 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	@Column(nullable = false)
 	private Boolean erased = false;
 
-	@Transient
+	@Embedded
 	private LifeTime lifeTime;
 
 	public Long getId() {
@@ -94,33 +79,6 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 
 	public Integer getVersion() {
 		return this.version;
-	}
-
-	public Date getStartDate() {
-		return this.startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		if (startDate == null)
-			throw new IllegalArgumentException("startDate cannot be null");
-		if (getEndDate() != null && startDate.after(getEndDate()))
-			throw new IllegalArgumentException("endDate " + endDate
-					+ " could not be before startDate " + getStartDate());
-		this.startDate = startDate;
-		this.lifeTime = new LifeTime(this.startDate, this.endDate);
-	}
-
-	public Date getEndDate() {
-		return this.endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		if (endDate != null && getStartDate() != null
-				&& endDate.before(getStartDate()))
-			throw new IllegalArgumentException("endDate " + endDate
-					+ " could not be before startDate " + getStartDate());
-		this.endDate = endDate;
-		this.lifeTime = new LifeTime(this.startDate, this.endDate);
 	}
 
 	public String getName() {
@@ -164,8 +122,8 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 			throw new WorkAlreadyFinished(this);
 		}
 		if (!equipment.isAvailableFor(getLifeTime())) {
-			throw new EquipmentNotAwailable(equipment, getStartDate(),
-					getEndDate());
+			throw new EquipmentNotAwailable(equipment, getLifeTime()
+					.getStartDate(), getLifeTime().getEndDate());
 		}
 		if (!equipment.isUsable()) {
 			throw new EquipmentNotAwailable(equipment);
@@ -197,10 +155,11 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	}
 
 	public LifeTime getLifeTime() {
-		if (lifeTime == null) {
-			lifeTime = new LifeTime(startDate, endDate);
-		}
 		return lifeTime;
+	}
+
+	public void setLifeTime(LifeTime lifeTime) {
+		this.lifeTime = lifeTime;
 	}
 
 	@Override

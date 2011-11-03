@@ -2,11 +2,30 @@ package com.yuksekisler.domain.work;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+@Embeddable
 public class LifeTime {
 
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(style = "M-")
+	@Column(nullable = false)
 	private Date startDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(style = "M-")
 	private Date endDate;
 
+	protected LifeTime(){
+		
+	}
 	public LifeTime(Date startDate, Date endDate) {
 		super();
 		if (startDate == null)

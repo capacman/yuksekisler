@@ -82,8 +82,6 @@ public class WorkController extends
 			@RequestParam("supervisors") List<Long> supervisors,
 			@RequestParam(value = "workers", required = false) List<Long> workers,
 			@RequestParam(value = "equipments", required = false) List<Long> equipments) {
-		if (endDate != null)
-			endDate.setTime(endDate.getTime() + 24 * 60 * 60 * 1000);
 		if (workId == null)
 			return service.saveWorkDefinition(name, customer, startDate,
 					endDate, equipments == null ? new ArrayList<Long>(1)

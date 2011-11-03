@@ -52,7 +52,7 @@ public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
 				LOGGER.debug("equipments starting to fetch");
 				List<Equipment> workEquipments = entityManager
 						.createQuery(
-								"select e from Equipment e left join fetch e.usedIn where :workDefinition in(e.usedIn) and w.usedIn.erased=false",
+								"select e from Equipment e left join fetch e.usedIn u where :workDefinition in(u) and u.erased=false",
 								Equipment.class)
 						.setParameter("workDefinition", workDefinition)
 						.getResultList();
