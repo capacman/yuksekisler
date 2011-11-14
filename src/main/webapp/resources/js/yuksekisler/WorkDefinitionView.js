@@ -127,6 +127,8 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
         var equipmentWidget = new yuksekisler.EquipmentWidget({
             equipment:item
         });
+        if (item.type && item.type === ['notavailable'])
+            dojo.addClass(equipmentWidget.domNode, 'unavailableNode');
         return {node:equipmentWidget.domNode,data:item,type:item.type ? item.type : ['available']}
     },
     onSave:function() {
@@ -179,13 +181,17 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
                     if (!found) {
                         this.target.map[i].type = ['notavailable'];
                         this.target.map[i].data.type = ['notavailable'];
+                    } else {
+                        this.target.map[i].type = ['available'];
+                        this.target.map[i].data.type = ['available'];
                     }
                 }
 
                 this.target.getAllNodes().forEach(dojo.hitch(this, function(node) {
-                    if (this.target.map[node.id].type[0] == 'notavailable') {
-                        console.log(this.target.map[node.id].data.productName);
-                    }
+                    if (this.target.map[node.id].type[0] === 'notavailable') {
+                        dojo.addClass(node, 'unavailableNode');
+                    } else
+                        dojo.removeClass(node, 'unavailableNode');
                 }));
                 var results = dojo.filter(data, dojo.hitch(this, function(item) {
                     for (var i in this.target.map) {

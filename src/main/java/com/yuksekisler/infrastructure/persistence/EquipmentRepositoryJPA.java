@@ -63,7 +63,8 @@ public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
 					for (WorkDefinition w : e.getUsedIn()) {
 						if (w.getId() == workID)
 							continue;
-						if (w.getLifeTime().isConflictedWith(lifetime)) {
+						if (!w.getErased()
+								&& w.getLifeTime().isConflictedWith(lifetime)) {
 							conflicted = true;
 							i++;
 							break;
