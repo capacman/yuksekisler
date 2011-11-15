@@ -114,7 +114,7 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
         dojo.connect(this.target, 'onMouseDown', this, function() {
             this.dndObj.selectNone();
         });
-        //dojo.connect(this.target, "onDrop", this.onDropTarget);
+        //dojo.connect(this.dndObj, "onDrop", this.onDropTarget);
     },
     onDropTarget:function(source, nodes, copy) {
         if (this != source) {
@@ -127,8 +127,13 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
         var equipmentWidget = new yuksekisler.EquipmentWidget({
             equipment:item
         });
-        if (item.type && item.type === ['notavailable'])
+        if (item.type && item.type[0] === 'notavailable') {
             dojo.addClass(equipmentWidget.domNode, 'unavailableNode');
+            new dijit.Tooltip({
+                connectId: [equipmentWidget.domNode],
+                label: "This equipment used in another work!"
+            });
+        }
         return {node:equipmentWidget.domNode,data:item,type:item.type ? item.type : ['available']}
     },
     onSave:function() {
@@ -186,12 +191,16 @@ dojo.declare('yuksekisler.WorkDefinitionView', [dijit._Widget,dijit._Templated],
                         this.target.map[i].data.type = ['available'];
                     }
                 }
-
+                var tooltip = new dijit.Tooltip({
+                    label: "This equipment used in another work!"
+                });
                 this.target.getAllNodes().forEach(dojo.hitch(this, function(node) {
                     if (this.target.map[node.id].type[0] === 'notavailable') {
                         dojo.addClass(node, 'unavailableNode');
-                    } else
+                        tooltip.addTarget(node);
+                    } else {
                         dojo.removeClass(node, 'unavailableNode');
+                    }
                 }));
                 var results = dojo.filter(data, dojo.hitch(this, function(item) {
                     for (var i in this.target.map) {

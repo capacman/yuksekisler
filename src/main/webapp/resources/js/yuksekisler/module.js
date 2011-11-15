@@ -35,6 +35,7 @@ dojo.require("dijit.Menu");
 dojo.require("dijit.MenuItem");
 dojo.require("dijit.PopupMenuBarItem");
 dojo.require('dijit.TitlePane');
+dojo.require("dijit.Tooltip");
 dojo.require("dijit.Editor");
 // Require a few extra plugins
 dojo.require("dijit._editor.plugins.TextColor");

@@ -3,10 +3,15 @@ package com.yuksekisler.interfaces.web;
 import java.beans.PropertyEditorSupport;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javassist.expr.NewArray;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -181,9 +186,21 @@ public class EquipmentController {
 			@RequestParam(value = "categoryID", required = false) Long categoryID,
 			@RequestParam(value = "workID", required = false) Long workID) {
 		LifeTime lifetime = new LifeTime(startDate, endDate);
-		LOGGER.debug("returning available equipments for: {}", lifetime);
-		return equipmentService.getAvailableEquipments(lifetime, categoryID,
-				workID);
+
+		List<Equipment> availableEquipments = equipmentService
+				.getAvailableEquipments(lifetime, categoryID, workID);
+		Collections.sort(availableEquipments, new Comparator<Equipment>() {
+
+			@Override
+			public int compare(Equipment o1, Equipment o2) {
+				return o1.getProductName().compareTo(o2.getProductName());
+			}
+		});
+		LOGGER.debug(
+				"returning available equipments for: {} with size: {} workID: {} categoryID:{}",
+				new Object[] { lifetime, availableEquipments.size(), workID,
+						categoryID });
+		return availableEquipments;
 	}
 
 	@ResponseStatus(HttpStatus.FORBIDDEN)
