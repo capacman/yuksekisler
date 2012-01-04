@@ -27,33 +27,33 @@
     </style>
     <script>
         dojoConfig = {
-            isDebug : true,
+            isDebug:true,
             debugAtAllCost:true,
-            parseOnLoad : true,
-            baseUrl : '/yuksekisler/resources/js/',
-            modulePaths : {
-                "yuksekisler" : "yuksekisler",
-                "dojo" : "dojo",
-                "dijit" : "dijit",
-                "dojox" : "dojox"
+            parseOnLoad:true,
+            packagePaths:{
+                "/yuksekisler/resources/js":[
+                    "dojo",
+                    "dijit",
+                    "dojox",
+                    "yuksekisler"
+                ]
             },
-            applicationBase : '/yuksekisler'
+            applicationBase:'/yuksekisler',
+            async:1
         };
     </script>
     <script src="resources/js/dojo/dojo.js.uncompressed.js">
 
-    </script>
-    <script>
-        dojo.require("yuksekisler.app");
     </script>
 
     <script>
         // load initial set of dependencies - the app controller
         //dojo.require("yuksekisler.app");
 
-        dojo.ready(function() {
+        require(["yuksekisler/app"], function (app) {
             // do whatever the controller considers necessary for initialization
-            yuksekisler.app.init();
+            console.log("inseide init");
+            app.init();
         });
     </script>
 </head>

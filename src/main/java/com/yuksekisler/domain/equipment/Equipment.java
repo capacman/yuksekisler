@@ -239,6 +239,8 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 
 	public boolean isUsable() {
 		List<InspectionReport> inspectionReports = getInspectionReports();
+		if (inspectionReports.isEmpty())
+			return true;
 		InspectionStatus lastStatus = inspectionReports.get(
 				inspectionReports.size() - 1).getStatus();
 		return lastStatus == InspectionStatus.USABLE

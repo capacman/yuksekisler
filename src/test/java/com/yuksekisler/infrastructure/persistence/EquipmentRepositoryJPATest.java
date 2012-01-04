@@ -122,8 +122,7 @@ public class EquipmentRepositoryJPATest extends
 		WorkDefinition workDefinition = new WorkDefinition();
 		Calendar instance = Calendar.getInstance();
 		instance.add(Calendar.DAY_OF_MONTH, -1);
-		workDefinition.setStartDate(instance.getTime());
-		workDefinition.setEndDate(null);
+		workDefinition.setLifeTime(new LifeTime(instance.getTime(), null));
 		workDefinition.setCustomer("customer");
 		workDefinition.setName("workName");
 
@@ -140,7 +139,8 @@ public class EquipmentRepositoryJPATest extends
 		equipmentRepository.flush();
 		instance.add(Calendar.DAY_OF_MONTH, 2);
 		List<Equipment> availableList = equipmentRepository.findAvailable(
-				new LifeTime(new Date(), instance.getTime()), null);
+				new LifeTime(new Date(), instance.getTime()), null,
+				workDefinition.getId());
 		for (Equipment availableEquipment : availableList) {
 			assertFalse(equipment.getId() == availableEquipment.getId());
 		}
