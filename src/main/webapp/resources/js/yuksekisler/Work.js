@@ -190,6 +190,11 @@ define(["dojo/_base/declare", "dijit/_Widget", "dijit/_Templated", "dojo", "dojo
                             }
                         ]);
                     },
+                    error:function(err,ioargs){
+                      if(ioargs.xhr.status==403){
+
+                      }
+                    },
                     content:object,
                     headers:{
                         JsonStore:'false'

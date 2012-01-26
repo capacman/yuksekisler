@@ -6,8 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 define(["dojo", "dojo/data/ObjectStore", "dojo/store/Memory", "dojo/store/Cache",
-    "dojo/store/JsonRest", "dojox/image/Lightbox", "dijit/DialogUnderlay", "dijit/Menu", "dijit/MenuItem"],
-    function (dojo, ObjectStore, Memory, Cache, JsonRest, Lightbox, DialogUnderlay, Menu, MenuItem) {
+    "dojo/store/JsonRest", "dojox/image/Lightbox", "dijit/DialogUnderlay", "dijit/Menu", "dijit/MenuItem","dijit/Dialog"],
+    function (dojo, ObjectStore, Memory, Cache, JsonRest, Lightbox, DialogUnderlay, Menu, MenuItem,Dialog) {
         var loadingDialog = new DialogUnderlay({'class':'loading'});
         var gridMenu = new Menu({style:{'display':'none'}});
         var contextMenuClicked = function () {
@@ -19,6 +19,9 @@ define(["dojo", "dojo/data/ObjectStore", "dojo/store/Memory", "dojo/store/Cache"
                 contextMenuClicked(d);
             })
         }));
+        var dialog = new Dialog({
+            style:"width:300px"
+        });
         var lightbox = new dojox.image.LightboxDialog({
             id:'imageLightBox'
         }).startup();
@@ -94,6 +97,11 @@ define(["dojo", "dojo/data/ObjectStore", "dojo/store/Memory", "dojo/store/Cache"
                 this.titleStore = new Cache(new JsonRest({target:dojo.config.applicationBase + '/employee/title/', idProperty:'id'}), new Memory({}));
                 this.certificateStore = new Cache(new JsonRest({target:dojo.config.applicationBase + '/employee/certificate/', idProperty:'id'}), new Memory({}));
                 this.workStore = new Cache(new JsonRest({target:dojo.config.applicationBase + '/work/', idProperty:'id'}), new Memory({}));
+            },
+            showDialog:function(title,content){
+                dialog.set('content',content);
+                dialog.set('title',title);
+                dialog.show();
             }
         }
     });
