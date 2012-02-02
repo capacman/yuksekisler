@@ -9,15 +9,19 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.yuksekisler.application.CrudService;
 import com.yuksekisler.application.WorkService;
+import com.yuksekisler.domain.equipment.EquipmentNotAwailable;
 import com.yuksekisler.domain.work.WorkDefinition;
 
 @RequestMapping("/work")
@@ -93,6 +97,12 @@ public class WorkController extends
 					equipments == null ? new ArrayList<Long>(1) : equipments,
 					supervisors, workers == null ? new ArrayList<Long>(1)
 							: workers);
+	}
+
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ExceptionHandler(EquipmentNotAwailable.class)
+	public void handleEquipmentNotAvailable() {
+		LOGGER.info("return forbidden for equipment not available");
 	}
 
 	public void setWorkService(WorkService service) {
