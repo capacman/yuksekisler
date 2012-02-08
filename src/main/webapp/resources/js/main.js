@@ -14,7 +14,8 @@ require.config({
         jquery: 'libs/jquery-1.7.1.min',
         jquerybind: 'libs/jquery-bind',
         underscore: 'libs/underscore',
-        Backbone: 'libs/backbone'
+        Backbone: 'libs/backbone',
+        Slick:'libs/Slick'
     }
 });
 require([

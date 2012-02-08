@@ -8,6 +8,8 @@
 define(['jquery',
     'order!resources/js/libs/bootstrap.min.js',
     'order!resources/js/libs/jquery-ui-1.8.17.custom.min.js',
-    'order!resources/js/libs/jquery.validationEngine.js'], function ($) {
+    'order!resources/js/libs/languages/jquery.validationEngine-en.js',
+    'order!resources/js/libs/jquery.validationEngine.js',
+    'order!resources/js/libs/jquery.form.js'], function ($) {
     return $;
 });

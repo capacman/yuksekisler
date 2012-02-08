@@ -26,5 +26,5 @@ define(['jquerybind', 'underscore', 'Backbone'], function ($, _, Backbone) {
     return {
         Brands:new Brands(),
         Categories:new Categories()
-    }
+    };
 });

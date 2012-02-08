@@ -8,6 +8,7 @@
     <link rel="stylesheet" href='<c:out value="${pageContext.request.contextPath}" />/resources/css/bootstrap.min.css'/>
 
     <link rel="stylesheet" href='<c:out value="${pageContext.request.contextPath}" />/resources/css/validationEngine.jquery.css'/>
+    <link rel="stylesheet" href='<c:out value="${pageContext.request.contextPath}" />/resources/css/slick.grid.css'/>
     <link rel="stylesheet" href='<c:out value="${pageContext.request.contextPath}" />/resources/css/style.css'/>
     <script type="text/javascript">
         appconfig={
