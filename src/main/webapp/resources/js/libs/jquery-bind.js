@@ -6,10 +6,13 @@
  * To change this template use File | Settings | File Templates.
  */
 define(['jquery',
-    'order!resources/js/libs/bootstrap.min.js',
-    'order!resources/js/libs/jquery-ui-1.8.17.custom.min.js',
-    'order!resources/js/libs/languages/jquery.validationEngine-en.js',
-    'order!resources/js/libs/jquery.validationEngine.js',
-    'order!resources/js/libs/jquery.form.js'], function ($) {
+    'order!/resources/js/libs/bootstrap.min.js',
+    'order!/resources/js/libs/jquery-ui-1.8.17.custom.min.js',
+    'order!/resources/js/libs/languages/jquery.validationEngine-en.js',
+    'order!/resources/js/libs/jquery.validationEngine.js',
+    'order!/resources/js/libs/jquery.form.js',
+    'order!/resources/js/libs/load-image.min.js',
+    'order!/resources/js/libs/tmpl.min.js',
+    'order!/resources/js/libs/jquery.wysiwyg.js'], function ($) {
     return $;
 });

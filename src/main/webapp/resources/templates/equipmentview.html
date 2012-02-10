@@ -1,0 +1,97 @@
+<form id='equipmentForm' class='form-horizontal'>
+    <div class="row">
+        <div class="span5">
+            <div class="control-group">
+                <label for='productName' class="control-label">Product Name:</label>
+
+                <div class="controls">
+                    <span id='productName' name="productName" class='uneditable-input span3'><%=equipment.get('productName')%></span>
+                </div>
+
+            </div>
+            <div class="control-group">
+                <label for='productCode' class="control-label">Product Code:</label>
+
+                <div class="controls">
+                    <span id='productCode' name='productCode' class='uneditable-input span3'><%=equipment.get('productCode')%></span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for='categories' class="control-label">Category</label>
+
+                <div class="controls">
+                    <span id='categories' name='categories' class='uneditable-input span3'><%=equipment.get('category').name%></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for='brands' class="control-label">Brand:</label>
+
+                <div class="controls">
+                    <span id='brands' name='brands'
+                          class='uneditable-input span3'><%=equipment.get('brand').name%></span>
+                </div>
+            </div>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label for='stockEntrance' class="control-label">StockEntrance Date:</label>
+
+                <div class="controls">
+                    <span id='stockEntrance' name='stockEntrance' class='uneditable-input span3'><%=$.datepicker.formatDate('yy-mm-dd', new Date(equipment.get('stockEntrance')))%></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for='bestBefore' class="control-label">BestBefore Date:</label>
+
+                <div class="controls">
+                    <span id='bestBefore' name='bestBeforeDate' class='uneditable-input span3'><%=$.datepicker.formatDate('yy-mm-dd', new Date(equipment.get('bestBeforeDate')))%></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for='production' class="control-label">Production Date:</label>
+
+                <div class="controls">
+                    <span id='production' name='productionDate' class='uneditable-input span3'><%=$.datepicker.formatDate('yy-mm-dd', new Date(equipment.get('productionDate')))%></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row">
+    <div class="span2">
+        <div id="addFileButton" class="btn fileinput-button">
+            <i>Upload Pictures</i>
+        </div>
+        <input id="fileInput" type="file" multiple="" name="uploadedfiles[]">
+    </div>
+    <div class="span3">
+        <div id="uploadProgressbar" style="display: none"></div>
+        <div id="uploadFailedAlert" class="alert alert-error" style="display: none">
+            File upload failed!
+        </div>
+        <div id="uploadSuccessAlert" class="alert alert-success" style="display: none">
+            File upload successfull!
+        </div>
+    </div>
+</div>
+<div class="row">
+    <h3>Inspection Reports</h3>
+    <% _.each(equipment.get('inspectionReports'),function(inspectionReport,index){ %>
+    <div class="row">
+        <div class="span9 offset1">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#" data-toggle="collapse" class="accordion-toggle" data-target="#collapse<%=index%>">
+                        Report by <%=inspectionReport.inspector.name%> <%=$.datepicker.formatDate('yy-mm-dd', new Date(inspectionReport.inspectionDate))%>
+                    </a>
+                </div>
+                <div id="collapse<%=index%>" class="accordion-body collapse">
+                    <div class="accordion-inner"> <%=inspectionReport.report%></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }) %>
+</div>
+<div id="addInspectionReport">Add Report</div>

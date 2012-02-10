@@ -15,7 +15,8 @@ require.config({
         jquerybind: 'libs/jquery-bind',
         underscore: 'libs/underscore',
         Backbone: 'libs/backbone',
-        Slick:'libs/Slick'
+        Slick:'libs/Slick',
+        fileupload:'libs/jquery.fileupload'
     }
 });
 require([

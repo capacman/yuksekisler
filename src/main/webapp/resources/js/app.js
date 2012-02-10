@@ -20,6 +20,32 @@ define([
             lastView = undefined;
         }
     };
+
+    var Workspace = Backbone.Router.extend({
+        routes:{
+            "equipments":"equipments", // #items
+            "equipment/:equipmentNumber":"equipment", // #item/{itemnumber}
+            "newequipment":"newEquipment"
+        },
+        equipments:function () {
+            console.log('router equipments');
+            eventroute.eventBus.trigger('equipments');
+        },
+        equipment:function (itemNumber) {
+            console.log('equipment with itemNumber: ' + itemNumber + " requested");
+            var eq = new equipment.Equipment({id:itemNumber});
+            eq.fetch().then(function () {
+                eventroute.eventBus.trigger('equipment', eq);
+            });
+        },
+        newEquipment:function () {
+            console.log('router newequipment');
+            eventroute.eventBus.trigger('newequipment');
+        }
+    });
+
+    var workSpace = new Workspace();
+
     var applicationController = {
         newEquipment:function () {
             clearLastView();
@@ -29,23 +55,38 @@ define([
             }).render();
             $('#content').append(e.el);
             lastView = e;
-            eventroute.workSpace.navigate('newequipment');
+            workSpace.navigate('newequipment');
         },
         equipments:function () {
             clearLastView();
             var e = new equipment.EquipmentsView().render();
             $('#content').append(e.el);
             lastView = e;
-            eventroute.workSpace.navigate('equipments');
+            workSpace.navigate('equipments');
         },
-        equipment:function () {
-
+        equipment:function (item) {
+            clearLastView();
+            var e = new equipment.EquipmentView({equipment:item}).render();
+            $('#content').append(e.el);
+            lastView = e;
+            workSpace.navigate('equipment/' + item.id);
+        },
+        addInspection:function(item){
+            clearLastView();
+            var e = new equipment.InspectionReportForm({
+                equipment:item
+            }).render();
+            $('#content').append(e.el);
+            e.renderEditor();
+            lastView=e;
+            workSpace.navigate('equipment/'+item.id+"/newreport");
         }
     };
     _.bindAll(applicationController);
     eventroute.eventBus.on('equipments', applicationController.equipments);
     eventroute.eventBus.on('equipment', applicationController.equipment);
     eventroute.eventBus.on('newequipment', applicationController.newEquipment);
+    eventroute.eventBus.on('addinspection',applicationController.addInspection);
 
     var Menu = Backbone.View.extend({
         events:{

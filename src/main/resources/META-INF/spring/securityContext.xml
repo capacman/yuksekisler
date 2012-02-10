@@ -15,7 +15,7 @@
 			access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<security:intercept-url pattern="/**" access="ROLE_USER" />
 		<security:form-login login-page="/login.html"
-			default-target-url="/index.html" always-use-default-target="true"
+			default-target-url="/equipments" always-use-default-target="true"
 			authentication-failure-url="/login.html?login_error" />
 		<security:remember-me user-service-ref="userDetailService"
 			key="yuksekisler" />

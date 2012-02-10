@@ -2,17 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3b0afd78-53c8-442a-b40a-f425a8d91030" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/js/eventroute.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/js/libs/Slick.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/templates/equipmentview.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/templates/inspectionreportform.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/META-INF/spring/securityContext.xml" afterPath="$PROJECT_DIR$/../resources/META-INF/spring/securityContext.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WEB-INF/yuksekisler-servlet.xml" afterPath="$PROJECT_DIR$/WEB-INF/yuksekisler-servlet.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.jsp" afterPath="$PROJECT_DIR$/index.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/css/style.css" afterPath="$PROJECT_DIR$/resources/css/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/app.js" afterPath="$PROJECT_DIR$/resources/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/definitions.js" afterPath="$PROJECT_DIR$/resources/js/definitions.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/equipment.js" afterPath="$PROJECT_DIR$/resources/js/equipment.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/eventroute.js" afterPath="$PROJECT_DIR$/resources/js/eventroute.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/libs/Slick.js" afterPath="$PROJECT_DIR$/resources/js/libs/Slick.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/libs/jquery-bind.js" afterPath="$PROJECT_DIR$/resources/js/libs/jquery-bind.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/main.js" afterPath="$PROJECT_DIR$/resources/js/main.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/templates/equipmentform.html" afterPath="$PROJECT_DIR$/resources/templates/equipmentform.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/templates/equipments.html" afterPath="$PROJECT_DIR$/resources/templates/equipments.html" />
     </list>
     <ignored path="webapp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,68 +37,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="equipmentform.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/templates/equipmentform.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="18" selection-start="395" selection-end="395" vertical-scroll-proportion="0.24680074">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="69" selection-start="2350" selection-end="2350" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="equipment.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/equipment.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="55" selection-start="3589" selection-end="3589" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="slick.grid.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/libs/slick.grid.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1900" column="32" selection-start="59826" selection-end="59832" vertical-scroll-proportion="240.52">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="eventroute.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/eventroute.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="44" selection-start="987" selection-end="987" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#157#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="backbone.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/libs/backbone.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="783" column="3" selection-start="29453" selection-end="29453" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="51" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0">
+            <state line="181" column="48" selection-start="7300" selection-end="7300" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -104,7 +49,61 @@
       <file leaf-file-name="index.jsp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="13" selection-start="930" selection-end="930" vertical-scroll-proportion="-10.0">
+            <state line="16" column="91" selection-start="762" selection-end="762" vertical-scroll-proportion="-10.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jquery.wysiwyg.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/css/jquery.wysiwyg.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="162" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="equipmentview.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/templates/equipmentview.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="96" column="40" selection-start="4247" selection-end="4247" vertical-scroll-proportion="-18.5">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="43" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="65" column="10" selection-start="2049" selection-end="2049" vertical-scroll-proportion="-0.73380035">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inspectionreportform.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/templates/inspectionreportform.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="0" selection-start="849" selection-end="849" vertical-scroll-proportion="-11.875">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="equipmentform.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/templates/equipmentform.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="104" selection-start="49" selection-end="104" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
@@ -113,17 +112,19 @@
       <file leaf-file-name="jquery-bind.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/libs/jquery-bind.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="44" selection-start="456" selection-end="456" vertical-scroll-proportion="0.0">
+            <state line="15" column="47" selection-start="604" selection-end="604" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="equipments.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/templates/equipments.html">
+      <file leaf-file-name="jquery.wysiwyg.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/libs/jquery.wysiwyg.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="17" selection-start="95" selection-end="95" vertical-scroll-proportion="-1.875">
-              <folding />
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -143,22 +144,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/login.html" />
-        <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/login.jsp" />
-        <option value="$PROJECT_DIR$/resources/templates/menu.html" />
-        <option value="$PROJECT_DIR$/resources/css/style.css" />
-        <option value="$PROJECT_DIR$/resources/js/definitions.js" />
-        <option value="$PROJECT_DIR$/resources/js/libs/slick-bind.js" />
-        <option value="$PROJECT_DIR$/index.jsp" />
         <option value="$PROJECT_DIR$/resources/js/libs/grid.js" />
-        <option value="$PROJECT_DIR$/resources/js/main.js" />
-        <option value="$PROJECT_DIR$/resources/js/libs/jquery-bind.js" />
         <option value="$PROJECT_DIR$/resources/templates/equipments.html" />
-        <option value="$PROJECT_DIR$/resources/js/equipment.js" />
-        <option value="$PROJECT_DIR$/resources/js/eventroute.js" />
-        <option value="$PROJECT_DIR$/resources/js/app.js" />
         <option value="$PROJECT_DIR$/resources/templates/equipmentform.html" />
+        <option value="$PROJECT_DIR$/resources/js/libs/Slick.js" />
+        <option value="$PROJECT_DIR$/resources/js/eventroute.js" />
+        <option value="$PROJECT_DIR$/resources/js/main.js" />
+        <option value="$PROJECT_DIR$/resources/js/libs/jquery.fileupload.js" />
+        <option value="$PROJECT_DIR$/resources/css/style.css" />
+        <option value="$PROJECT_DIR$/resources/templates/equipmentview.html" />
+        <option value="$PROJECT_DIR$/resources/js/libs/jquery.fileupload-ui.js" />
+        <option value="$PROJECT_DIR$/resources/js/libs/jquery-bind.js" />
+        <option value="$PROJECT_DIR$/resources/css/jquery.wysiwyg.css" />
+        <option value="$PROJECT_DIR$/index.jsp" />
+        <option value="$PROJECT_DIR$/resources/templates/inspectionreportform.html" />
+        <option value="$PROJECT_DIR$/resources/js/equipment.js" />
+        <option value="$PROJECT_DIR$/resources/js/app.js" />
       </list>
     </option>
   </component>
@@ -275,6 +276,10 @@
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -350,7 +355,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="765" extended-state="1" />
+    <frame x="0" y="0" width="1280" height="765" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32847896" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -426,81 +431,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/login.jsp">
+    <entry file="file://$PROJECT_DIR$/resources/js/libs/bootstrap.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="127" selection-start="1206" selection-end="1263" vertical-scroll-proportion="0.28089887" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/definitions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="6" selection-start="659" selection-end="659" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="360" selection-end="360" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/libs/jquery.validationEngine.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="126" selection-start="1605" selection-end="1611" vertical-scroll-proportion="-6.281496">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/libs/slick.core.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-9.58669">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/libs/Slick.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="42" selection-start="219" selection-end="219" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#158#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/libs/jquery-bind.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="44" selection-start="456" selection-end="456" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/templates/equipments.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="17" selection-start="95" selection-end="95" vertical-scroll-proportion="-1.875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="51" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/libs/slick.grid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1900" column="32" selection-start="59826" selection-end="59832" vertical-scroll-proportion="240.52">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="13" selection-start="930" selection-end="930" vertical-scroll-proportion="-10.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -512,32 +445,110 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/libs/jquery.iframe-transport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/eventroute.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="44" selection-start="987" selection-end="987" vertical-scroll-proportion="0.0">
+        <state line="15" column="22" selection-start="332" selection-end="332" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#157#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/app.js">
+    <entry file="file://$PROJECT_DIR$/resources/js/libs/jquery.fileupload.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="69" selection-start="2350" selection-end="2350" vertical-scroll-proportion="0.0">
+        <state line="173" column="42" selection-start="9613" selection-end="9613" vertical-scroll-proportion="-51.16">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/libs/jquery.fileupload-ui.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="64" selection-start="364" selection-end="364" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="43" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/equipment.js">
+    <entry file="file://$PROJECT_DIR$/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="55" selection-start="3589" selection-end="3589" vertical-scroll-proportion="0.0">
+        <state line="16" column="91" selection-start="762" selection-end="762" vertical-scroll-proportion="-10.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/css/jquery.wysiwyg.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="162" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/templates/equipmentform.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="18" selection-start="395" selection-end="395" vertical-scroll-proportion="0.24680074">
+        <state line="0" column="104" selection-start="49" selection-end="104" vertical-scroll-proportion="-0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/libs/jquery-bind.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="47" selection-start="604" selection-end="604" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/templates/equipmentview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="40" selection-start="4247" selection-end="4247" vertical-scroll-proportion="-18.5">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/libs/jquery.wysiwyg.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/equipment.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="181" column="48" selection-start="7300" selection-end="7300" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/templates/inspectionreportform.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="0" selection-start="849" selection-end="849" vertical-scroll-proportion="-11.875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="10" selection-start="2049" selection-end="2049" vertical-scroll-proportion="-0.73380035">
           <folding />
         </state>
       </provider>

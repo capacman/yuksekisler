@@ -52,8 +52,13 @@
 	<bean id="handlerMapping"
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="order" value="0" />
+		<property name="interceptors">
+			<list>
+				<bean class="com.yuksekisler.interfaces.web.ContentNegotiationInterceptor" />
+			</list>
+		</property>
 	</bean>
-	
+
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
@@ -105,8 +110,8 @@
 	<bean id="employeeTitleController" class="com.yuksekisler.interfaces.web.EmployeeTitleController">
 		<property name="employeeService" ref="employeeService" />
 	</bean>
-	
-	<bean id="httpErrorController" class="com.yuksekisler.interfaces.web.HTTPErrorController"/>
+
+	<bean id="httpErrorController" class="com.yuksekisler.interfaces.web.HTTPErrorController" />
 
 	<bean id="exceptionHandlerController"
 		class="com.yuksekisler.interfaces.web.ExceptionHandlerController">
