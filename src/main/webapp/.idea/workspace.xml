@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3b0afd78-53c8-442a-b40a-f425a8d91030" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/templates/equipmentview.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/templates/inspectionreportform.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../resources/META-INF/spring/securityContext.xml" afterPath="$PROJECT_DIR$/../resources/META-INF/spring/securityContext.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WEB-INF/yuksekisler-servlet.xml" afterPath="$PROJECT_DIR$/WEB-INF/yuksekisler-servlet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.jsp" afterPath="$PROJECT_DIR$/index.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/css/style.css" afterPath="$PROJECT_DIR$/resources/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/app.js" afterPath="$PROJECT_DIR$/resources/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/equipment.js" afterPath="$PROJECT_DIR$/resources/js/equipment.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/eventroute.js" afterPath="$PROJECT_DIR$/resources/js/eventroute.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/libs/Slick.js" afterPath="$PROJECT_DIR$/resources/js/libs/Slick.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/libs/jquery-bind.js" afterPath="$PROJECT_DIR$/resources/js/libs/jquery-bind.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/js/main.js" afterPath="$PROJECT_DIR$/resources/js/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/templates/equipmentform.html" afterPath="$PROJECT_DIR$/resources/templates/equipmentform.html" />
-    </list>
+    <list default="true" id="3b0afd78-53c8-442a-b40a-f425a8d91030" name="Default" comment="" />
     <ignored path="webapp.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />

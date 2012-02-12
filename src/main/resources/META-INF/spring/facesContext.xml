@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="exceptionMailNotifier" class="com.yuksekisler.infrastructure.ExceptionMailNotifier" />
+	<task:scheduled-tasks scheduler="scheduler">
+		<task:scheduled ref="exceptionMailNotifier" method="scheduleErrorMails"
+			fixed-delay="#{3600*6*1000}" />
+	</task:scheduled-tasks>
+
+	<bean id="equipmentController" class="com.yuksekisler.web.EquipmentController"
+		scope="request">
+		<property name="sessionInfo" ref="sessionInfo" />
+		<property name="equipmentService" ref="equipmentService" />
+		<property name="fileService" ref="fileService" />
+	</bean>
+
+	<bean id="definitionsController" class="com.yuksekisler.web.DefinitionsController"
+		scope="request">
+		<property name="equipmentService" ref="equipmentService" />
+		<property name="sessionInfo" ref="sessionInfo" />
+	</bean>
+	<bean id="employeeController" class="com.yuksekisler.web.EmployeeController"
+		scope="request">
+		<property name="employeeService" ref="employeeService" />
+	</bean>
+
+	<bean id="sessionInfo" class="com.yuksekisler.web.SessionInfo"
+		scope="session">
+		<property name="authenticationManager"
+			ref="org.springframework.security.authenticationManager"></property>
+		<property name="messageSource" ref="messageSource" />
+		<property name="localeResolver" ref="localeResolver" />
+	</bean>
+
+	<bean id="applicationController" class="com.yuksekisler.web.Application" />
+	<bean id="credentials" class="com.yuksekisler.web.Credentials" />
+
+</beans>

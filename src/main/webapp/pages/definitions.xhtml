@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/mainlayout.xhtml">
+	<ui:define name="container">
+		<div style="width: 100%; margin: auto">
+			<h:form id="formCategory" style="width:40%;margin:auto;">
+				<p:panel header="#{msgs.newCategory}">
+					<h:panelGrid columns="3">
+						<h:outputLabel value="#{msgs.name}" for="categoryName"></h:outputLabel>
+						<p:inputText id="categoryName"
+							value="#{definitionsController.category.name}" required="true"
+							label="#{msgs.name}"
+							validator="#{definitionsController.categoryNameCheck}" />
+						<p:message for="categoryName" />
+
+						<h:outputLabel value="#{msgs.description}"
+							for="categoryDescription"></h:outputLabel>
+						<p:inputText id="categoryDescription"
+							value="#{definitionsController.category.description}"
+							label="#{msgs.description}" />
+						<p:message for="categoryDescription" />
+					</h:panelGrid>
+				</p:panel>
+
+				<p:commandButton value="#{msgs.add}"
+					action="#{definitionsController.addCategory}" update="@form"
+					style="margin:10px 0" />
+				<p:dataTable value="#{equipmentController.categories}"
+					var="category" id="categoryTable">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.name}" />
+						</f:facet>
+						<h:outputText value="#{category.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.description}" />
+						</f:facet>
+						<h:outputText value="#{category.description}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<h:form id="formBrand">
+				<p:panel header="#{msgs.newBrand}">
+					<h:panelGrid columns="3">
+						<h:outputLabel value="#{msgs.name}" for="brandName"></h:outputLabel>
+						<p:inputText id="brandName"
+							value="#{definitionsController.brand.name}" required="true"
+							label="#{msgs.name}"
+							validator="#{definitionsController.brandNameCheck}" />
+						<p:message for="brandName" />
+
+						<h:outputLabel value="#{msgs.description}" for="brandDescription"></h:outputLabel>
+						<p:inputText id="brandDescription"
+							value="#{definitionsController.brand.description}"
+							label="#{msgs.description}" />
+						<p:message for="brandDescription" />
+					</h:panelGrid>
+				</p:panel>
+
+				<p:commandButton value="#{msgs.add}"
+					action="#{definitionsController.addBrand}" update="@form"
+					style="margin:10px 0" />
+				<p:dataTable value="#{equipmentController.brands}" var="brand"
+					id="brandTable">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.name}" />
+						</f:facet>
+						<h:outputText value="#{brand.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.description}" />
+						</f:facet>
+						<h:outputText value="#{brand.description}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<h:form id="formEmployeeTitle">
+				<p:panel header="#{msgs.newEmployeeTitle}">
+					<h:panelGrid columns="3">
+						<h:outputLabel value="#{msgs.name}" for="titleName"></h:outputLabel>
+						<p:inputText id="titleName"
+							value="#{definitionsController.employeeTitle.name}"
+							required="true" label="#{msgs.name}"
+							validator="#{definitionsController.employeeTitleNameCheck}" />
+						<p:message for="titleName" />
+
+						<h:outputLabel value="#{msgs.description}" for="titleDescription"></h:outputLabel>
+						<p:inputText id="titleDescription"
+							value="#{definitionsController.employeeTitle.description}"
+							label="#{msgs.description}" />
+						<p:message for="titleDescription" />
+					</h:panelGrid>
+				</p:panel>
+
+				<p:commandButton value="#{msgs.add}"
+					action="#{definitionsController.addEmpoyeeTitle}" update="@form"
+					style="margin:10px 0" />
+				<p:dataTable value="#{employeeController.titles}" var="title"
+					id="titleTable">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.name}" />
+						</f:facet>
+						<h:outputText value="#{title.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.description}" />
+						</f:facet>
+						<h:outputText value="#{title.description}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<h:form id="formCertificateType">
+				<p:panel header="#{msgs.newCertificateType}">
+					<h:panelGrid columns="3">
+						<h:outputLabel value="#{msgs.name}" for="certificateName"></h:outputLabel>
+						<p:inputText id="certificateName"
+							value="#{definitionsController.certificateType.name}"
+							required="true" label="#{msgs.name}"
+							validator="#{definitionsController.certificateNameCheck}" />
+						<p:message for="certificateName" />
+
+						<h:outputLabel value="#{msgs.description}"
+							for="certificateDescription"></h:outputLabel>
+						<p:inputText id="certificateDescription"
+							value="#{definitionsController.certificateType.description}"
+							label="#{msgs.description}" />
+						<p:message for="certificateDescription" />
+					</h:panelGrid>
+				</p:panel>
+
+				<p:commandButton value="#{msgs.add}"
+					action="#{definitionsController.addCertificateType}" update="@form"
+					style="margin:10px 0" />
+				<p:dataTable value="#{employeeController.certificateTypes}"
+					var="certificate" id="certificateTable">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.name}" />
+						</f:facet>
+						<h:outputText value="#{certificate.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs.description}" />
+						</f:facet>
+						<h:outputText value="#{certificate.description}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

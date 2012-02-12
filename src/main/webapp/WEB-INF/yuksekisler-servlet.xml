@@ -1,128 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-
-	<mvc:default-servlet-handler />
-	<mvc:resources location="/resources/" mapping="/resources/**" />
-	<bean
-		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="mediaTypes">
-			<map>
-				<entry key="json" value="application/json" />
-				<entry key="html" value="text/html" />
-			</map>
-		</property>
-		<property name="viewResolvers">
-			<list>
-				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
-			</list>
-		</property>
-		<property name="defaultViews">
-			<list>
-				<bean
-					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
-					<property name="objectMapper" ref="objectMapper" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="defaultView"
-		class="org.springframework.web.servlet.view.InternalResourceView">
-		<property name="url" value="/index.jsp" />
-	</bean>
-	<bean id="loginView"
-		class="org.springframework.web.servlet.view.InternalResourceView">
-		<property name="url" value="/login.jsp" />
-	</bean>
-
-	<bean id="jsonConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-		<property name="supportedMediaTypes" value="application/json" />
-		<property name="objectMapper" ref="objectMapper" />
-	</bean>
-
-	<bean id="objectMapper" class="com.yuksekisler.infrastructure.ViewAwareObjectMapper" />
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="handlerMapping"
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="order" value="0" />
-		<property name="interceptors">
-			<list>
-				<bean class="com.yuksekisler.interfaces.web.ContentNegotiationInterceptor" />
-			</list>
-		</property>
 	</bean>
-
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<ref bean="jsonConverter" />
-			</list>
-		</property>
-	</bean>
-
-
-	<bean
-		class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
-
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-
-		<!-- one of the properties available; the maximum file size in bytes -->
-		<property name="maxUploadSize" value="5000000" />
-	</bean>
-	<bean id="userController" class="com.yuksekisler.interfaces.web.UserController">
-		<property name="userDetailsService" ref="userDetailService" />
-	</bean>
-	<bean id="equipmentController" class="com.yuksekisler.interfaces.web.EquipmentController">
-		<property name="equipmentService" ref="equipmentService" />
+	<bean id="fileController" class="com.yuksekisler.web.mvc.FileController">
 		<property name="fileService" ref="fileService" />
 	</bean>
-
-	<bean id="workController" class="com.yuksekisler.interfaces.web.WorkController">
-		<property name="workService" ref="workService" />
-	</bean>
-
-	<bean id="brandController" class="com.yuksekisler.interfaces.web.BrandController">
-		<property name="equipmentService" ref="equipmentService" />
-	</bean>
-	<bean id="categoryController" class="com.yuksekisler.interfaces.web.CategoryController">
-		<property name="equipmentService" ref="equipmentService" />
-	</bean>
-	<bean id="fileController" class="com.yuksekisler.interfaces.web.FileController">
-		<property name="fileService" ref="fileService" />
-	</bean>
-	<bean id="employeeController" class="com.yuksekisler.interfaces.web.EmployeeController">
-		<property name="employeeService" ref="employeeService" />
-	</bean>
-	<bean id="certificateTypeController"
-		class="com.yuksekisler.interfaces.web.EmployeeCertificateTypeController">
-		<property name="employeeService" ref="employeeService" />
-	</bean>
-
-	<bean id="employeeTitleController" class="com.yuksekisler.interfaces.web.EmployeeTitleController">
-		<property name="employeeService" ref="employeeService" />
-	</bean>
-
-	<bean id="httpErrorController" class="com.yuksekisler.interfaces.web.HTTPErrorController" />
-
-	<bean id="exceptionHandlerController"
-		class="com.yuksekisler.interfaces.web.ExceptionHandlerController">
-		<property name="order" value="1" />
-	</bean>
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
-		<property name="order" value="0" />
-	</bean>
-	<task:scheduled-tasks scheduler="scheduler">
-		<task:scheduled ref="exceptionHandlerController"
-			method="scheduleErrorMails" fixed-delay="#{3600*6*1000}" />
-	</task:scheduled-tasks>
 </beans>

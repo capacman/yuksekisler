@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +26,6 @@ import com.yuksekisler.domain.equipment.InspectionReport;
 import com.yuksekisler.domain.equipment.InspectionStatus;
 import com.yuksekisler.domain.work.LifeTime;
 import com.yuksekisler.domain.work.WorkDefinition;
-import com.yuksekisler.interfaces.web.AbstractBaseCrudController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:META-INF/spring/*Context.xml")
@@ -80,18 +78,6 @@ public class EquipmentRepositoryJPATest extends
 	@Override
 	public String getEntityTableName() {
 		return "EQUIPMENT";
-	}
-
-	@Test
-	public void testRegEx() {
-		Matcher matcher = AbstractBaseCrudController.SORT_PATTERN
-				.matcher("sort( osman)");
-		assertTrue(matcher.matches());
-		String group1 = matcher.group(1);
-		assertEquals(1, group1.length());
-		String group2 = matcher.group(2);
-		assertEquals(5, group2.length());
-
 	}
 
 	@Test

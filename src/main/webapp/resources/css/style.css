@@ -1,39 +1,32 @@
-body{
-    background: #eeeeee;
-    padding-top: 120px; /* 60px to make the container go all the way to the bottom of the topbar */
-}
-.login-form {
-    border: #808080;
-    border-style: solid;
-    border-width: thin;
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 200px;
+@CHARSET "UTF-8";
+
+html,body {
+	font-size: 12px;
+	background: #666;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	overflow: auto; /* when page gets too small */
 }
 
-#topbar{
-    width:100%
+.stretch {
+	width: 100%;
+	height: 60px;
 }
 
-.stretch{
-    width:100%;
-    height: 60px;
+#container {
+	width: 960px;
+	margin: auto;
 }
-#fileInput{
-    -moz-border-bottom-colors: none;
-    -moz-border-image: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    -moz-transform: translate(-300px, 0pt) scale(4);
-    border-color: transparent;
-    border-style: solid;
-    border-width: 0 0 100px 200px;
-    cursor: pointer;
-    direction: ltr;
-    margin: 0;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: -100px;
+
+#toolbar {
+	margin-bottom: 20px;
+}
+
+.borderlessPanel td {
+	border: none !important;
+}
+.borderlessPanel tr {
+	border: none !important;
 }

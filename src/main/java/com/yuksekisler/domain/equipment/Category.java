@@ -114,4 +114,12 @@ public class Category implements HasName<Long> {
 				+ ", enabled=" + erased + ", id=" + id + ", version=" + version
 				+ "]";
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

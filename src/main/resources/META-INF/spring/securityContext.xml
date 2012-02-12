@@ -4,18 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.4.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ajaxAuthenticationEntryPoint"
-		class="com.yuksekisler.infrastructure.security.AjaxAuthenticationEntryPoint">
-		<property name="loginFormUrl" value="/login.html" />
-	</bean>
-	<security:http auto-config="true" entry-point-ref="ajaxAuthenticationEntryPoint">
-		<security:intercept-url pattern="/login.html*"
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/login.xhtml*"
 			access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<security:intercept-url pattern="/resources/**"
 			access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<security:intercept-url pattern="/**" access="ROLE_USER" />
-		<security:form-login login-page="/login.html"
-			default-target-url="/equipments" always-use-default-target="true"
+		<security:form-login login-page="/login.xhtml"
+			default-target-url="/equipments.xhtml" always-use-default-target="true"
 			authentication-failure-url="/login.html?login_error" />
 		<security:remember-me user-service-ref="userDetailService"
 			key="yuksekisler" />
@@ -28,8 +24,8 @@
 	</security:authentication-manager>
 	<security:global-method-security>
 		<security:protect-pointcut
-			expression="execution(* com.yuksekisler.interfaces.web.*Controller.*(..))"
+			expression="execution(* com.yuksekisler.web.*Controller.*(..))"
 			access="ROLE_USER" />
 	</security:global-method-security>
-	<bean id="applicationInitialUser" class="com.yuksekisler.interfaces.web.ApplicationInit" />
+	<bean id="applicationInitialUser" class="com.yuksekisler.web.ApplicationInit" />
 </beans>
