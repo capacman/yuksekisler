@@ -9,7 +9,7 @@
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<ui:define name="container">
-		<h:form>
+		<h:form enctype="multipart/form-data">
 			<p:panelGrid id="grid" styleClass="borderlessPanel">
 				<p:row>
 					<p:column>
@@ -127,9 +127,6 @@
 							mode="advanced" update="@form" multiple="true"
 							sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
 							process="@form" />
-					</p:column>
-					<p:column>
-						<h:inputHidden id="uuidfield" value="#{equipmentController.uuid}" />
 					</p:column>
 				</p:row>
 				<p:row>

@@ -16,6 +16,10 @@
 					<p:menuitem value="#{msgs.newEquipment}" action="#{applicationController.newEquipment}" immediate="true"/>
 					<p:menuitem value="#{msgs.equipment}" action="#{applicationController.equipmentList}" immediate="true"/>
 				</p:submenu>
+				<p:submenu label="#{msgs.works}">
+					<p:menuitem value="#{msgs.newWork}" action="#{applicationController.newWork}" immediate="true"/>
+					<p:menuitem value="#{msgs.works}" action="#{applicationController.workList}" immediate="true"/>
+				</p:submenu>
 				<p:menuitem value="#{msgs.definitions}" action="#{applicationController.definitions}" immediate="true"/>
 			</p:menubar>
 		</h:form>

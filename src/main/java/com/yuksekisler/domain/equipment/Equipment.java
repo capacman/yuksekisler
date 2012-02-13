@@ -311,4 +311,15 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 			workDefinition.removeEquipment(this);
 		}
 	}
+
+	public Long getImage() {
+		for (Image image : images)
+			return image.getId();
+		return 0L;
+	}
+
+	@Override
+	public boolean hasImage() {
+		return !images.isEmpty();
+	}
 }

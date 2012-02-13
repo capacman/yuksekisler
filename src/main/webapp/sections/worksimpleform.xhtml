@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<p:panelGrid>
+		<p:row>
+			<p:column>
+				<h:outputLabel for="workName" value="#{msgs.name}" />
+			</p:column>
+			<p:column>
+				<p:inputText id="workName" value="#{workController.work.name}"
+					required="true" requiredMessage="#{msgs.nameRequired}"
+					disabled="#{isView}" />
+			</p:column>
+			<p:column>
+				<h:outputLabel for="customer" value="#{msgs.customer}" />
+			</p:column>
+			<p:column>
+				<p:inputText id="customer" value="#{workController.work.customer}"
+					required="true" requiredMessage="#{msgs.customerRequired}"
+					disabled="#{isView}" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:outputLabel for="startDate" value="#{msgs.startDate}" />
+			</p:column>
+			<p:column>
+				<p:calendar id="startDate" value="#{workController.startDate}"
+					required="true" requiredMessage="#{msgs.startDateRequired}"
+					disabled="#{isView}" />
+			</p:column>
+			<p:column>
+				<h:outputLabel for="supervisors" value="#{msgs.supervisors}" />
+			</p:column>
+			<p:column rowspan="2">
+				<p:selectManyMenu value="#{workController.work.supervisors}"
+					disabled="#{isView}">
+					<f:selectItems value="#{employeeController.employees}"
+						var="employee" itemLabel="#{employee.name}"
+						itemValue="#{employee}" />
+				</p:selectManyMenu>
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:outputLabel for="endDate" value="#{msgs.endDate}" />
+			</p:column>
+			<p:column>
+				<p:calendar id="endDate" value="#{workController.endDate}"
+					required="true" requiredMessage="#{msgs.endDateRequired}"
+					disabled="#{isView}" />
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+</ui:composition>
+</html>

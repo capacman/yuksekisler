@@ -11,6 +11,16 @@
 			<base-name>yuksekislermessages</base-name>
 			<var>msgs</var>
 		</resource-bundle>
+		<system-event-listener>
+			<system-event-listener-class>com.yuksekisler.infrastructure.spring.ViewScopeCallbackRegistrar</system-event-listener-class>
+			<system-event-class>javax.faces.event.PostConstructViewMapEvent</system-event-class>
+			<source-class>javax.faces.component.UIViewRoot</source-class>
+		</system-event-listener>
+		<system-event-listener>
+			<system-event-listener-class>com.yuksekisler.infrastructure.spring.ViewScopeCallbackRegistrar</system-event-listener-class>
+			<system-event-class>javax.faces.event.PreDestroyViewMapEvent</system-event-class>
+			<source-class>javax.faces.component.UIViewRoot</source-class>
+		</system-event-listener>
 	</application>
 
 	<navigation-rule>
@@ -19,6 +29,15 @@
 		<navigation-case>
 			<from-outcome>login</from-outcome>
 			<to-view-id>/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>/login.xhtml</display-name>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/equipment/list.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -55,19 +74,38 @@
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
+		<display-name>/pages/equipment/view.xhtml</display-name>
+		<from-view-id>/pages/equipment/view.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>addInspectionReport</from-outcome>
+			<to-view-id>/pages/equipment/newInspectionReport.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>id</name>
+					<value>#{equipmentController.equipmentId}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>/pages/equipment/newInspectionReport.xhtml</display-name>
+		<from-view-id>/pages/equipment/newInspectionReport.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>view</from-outcome>
+			<to-view-id>/pages/equipment/view.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>id</name>
+					<value>#{equipmentController.equipmentId}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
 		<display-name>*</display-name>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>equipment</from-outcome>
-			<to-view-id>/pages/equipment/list.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>/login.xhtml</display-name>
-		<from-view-id>/login.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>success</from-outcome>
 			<to-view-id>/pages/equipment/list.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
@@ -81,5 +119,36 @@
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
-
+	<navigation-rule>
+		<display-name>*</display-name>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>work</from-outcome>
+			<to-view-id>/pages/work/list.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>*</display-name>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>newwork</from-outcome>
+			<to-view-id>/pages/work/new.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>/pages/work/list.xhtml</display-name>
+		<from-view-id>/pages/work/list.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>view</from-outcome>
+			<to-view-id>/pages/work/view.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>id</name>
+					<value>#{workController.work.id}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>

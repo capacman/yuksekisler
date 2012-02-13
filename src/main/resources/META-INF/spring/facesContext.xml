@@ -7,6 +7,15 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="view">
+					<bean class="com.yuksekisler.infrastructure.spring.ViewScope" />
+				</entry>
+			</map>
+		</property>
+	</bean>
 	<bean id="exceptionMailNotifier" class="com.yuksekisler.infrastructure.ExceptionMailNotifier" />
 	<task:scheduled-tasks scheduler="scheduler">
 		<task:scheduled ref="exceptionMailNotifier" method="scheduleErrorMails"
@@ -18,6 +27,7 @@
 		<property name="sessionInfo" ref="sessionInfo" />
 		<property name="equipmentService" ref="equipmentService" />
 		<property name="fileService" ref="fileService" />
+		<property name="uuidBean" ref="fileUploadFormUUID" />
 	</bean>
 
 	<bean id="definitionsController" class="com.yuksekisler.web.DefinitionsController"
@@ -29,6 +39,10 @@
 		scope="request">
 		<property name="employeeService" ref="employeeService" />
 	</bean>
+	<bean id="workController" class="com.yuksekisler.web.WorkController"
+		scope="request">
+		<property name="workService" ref="workService" />
+	</bean>
 
 	<bean id="sessionInfo" class="com.yuksekisler.web.SessionInfo"
 		scope="session">
@@ -38,6 +52,8 @@
 		<property name="localeResolver" ref="localeResolver" />
 	</bean>
 
+	<bean id="fileUploadFormUUID" class="com.yuksekisler.web.FileUploadFormUUIDBean"
+		scope="view" />
 	<bean id="applicationController" class="com.yuksekisler.web.Application" />
 	<bean id="credentials" class="com.yuksekisler.web.Credentials" />
 

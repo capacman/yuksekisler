@@ -14,7 +14,6 @@
 		<param-name>com.sun.faces.expressionFactory</param-name>
 		<param-value>com.sun.el.ExpressionFactoryImpl</param-value>
 	</context-param>
-
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>

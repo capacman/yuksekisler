@@ -44,8 +44,15 @@ public class Application {
 	}
 
 	public String newEquipment() {
-		LOGGER.info("new equipment called");
 		return "newequipment";
+	}
+
+	public String newWork() {
+		return "newwork";
+	}
+
+	public String workList() {
+		return "work";
 	}
 
 	public String equipmentList() {

@@ -3,15 +3,11 @@ package com.yuksekisler.web;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
 
-import javax.faces.context.FacesContext;
-import javax.faces.event.PhaseEvent;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.media.jai.JAI;
 import javax.media.jai.RenderedOp;
 
@@ -22,10 +18,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 import org.slf4j.Logger;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import bsh.This;
 
 import com.sun.media.jai.codec.ByteArraySeekableStream;
 import com.yuksekisler.application.EquipmentService;
@@ -45,9 +37,10 @@ public class EquipmentController {
 	private LazyDataModel<Equipment> model;
 	private Equipment equipment = new Equipment();
 	private Long equipmentId;
-	private String uuid = "";
-	private String newuuid = "";
 	private FileService fileService;
+	private FileUploadFormUUIDBean uuidBean;
+	private InspectionReport inspectionReport = new InspectionReport();
+	private HtmlInputHidden htmlInputText;
 
 	// since equipment value decides whether some views should be visible or not
 	// it should be not null
@@ -104,8 +97,8 @@ public class EquipmentController {
 	}
 
 	public String create() {
-		LOGGER.info("in create newuuid {}", newuuid);
-		String[] imageSplits = newuuid.split(";");
+		LOGGER.info("in create newuuid {}", uuidBean.getUuid());
+		String[] imageSplits = uuidBean.getUuid().split(";");
 		for (String imageUUID : imageSplits) {
 			if (!imageUUID.isEmpty()) {
 				List<Image> files = fileService
@@ -147,6 +140,7 @@ public class EquipmentController {
 	}
 
 	public void setEquipmentId(Long equipmentId) {
+		LOGGER.info("equipment id set {}", equipmentId);
 		this.equipmentId = equipmentId;
 	}
 
@@ -168,23 +162,12 @@ public class EquipmentController {
 			Thumbnails.of(bufferedImage).size(100, 100).outputFormat("png")
 					.toOutputStream(outputStream);
 			image.setThumbnailData(outputStream.toByteArray());
-			String uuid = UUID.randomUUID().toString();
-			newuuid += uuid + ";";
-			LOGGER.info("new uuid {}", newuuid);
-			image.setUploadId(uuid);
+			LOGGER.info("new uuid {}", uuidBean.getUuid());
+			image.setUploadId(uuidBean.getUuid());
 			fileService.saveEntity(image);
 		} catch (IOException e) {
 			throw new ImageSaveFailedException(e);
 		}
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = newuuid + uuid;
-		LOGGER.info("set uuid called {}", this.uuid);
 	}
 
 	public FileService getFileService() {
@@ -195,4 +178,53 @@ public class EquipmentController {
 		this.fileService = fileService;
 	}
 
+	public FileUploadFormUUIDBean getUuidBean() {
+		return uuidBean;
+	}
+
+	public void setUuidBean(FileUploadFormUUIDBean uuidBean) {
+		this.uuidBean = uuidBean;
+	}
+
+	public List<Long> getImageIds() {
+		List<Long> imageIDs = new ArrayList<Long>();
+		for (Image img : equipment.getImages()) {
+			imageIDs.add(img.getId());
+		}
+		return imageIDs;
+	}
+
+	public InspectionReport getInspectionReport() {
+		return inspectionReport;
+	}
+
+	public void setInspectionReport(InspectionReport inspectionReport) {
+		this.inspectionReport = inspectionReport;
+	}
+
+	public String addInspectionReport() {
+		return "addInspectionReport";
+	}
+
+	public String createInspectionReport() {
+		loadEquipment();
+		inspectionReport.setInspector(sessionInfo.getUser());
+		equipment.addInspectionReport(inspectionReport);
+		equipmentService.saveEntity(equipment);
+		return "view";
+	}
+
+	public String cancelInspectionReport() {
+		equipmentId = (Long) htmlInputText.getValue();
+		LOGGER.info("equipmentID {}", htmlInputText.getValue());
+		return "view";
+	}
+
+	public HtmlInputHidden getHtmlInputText() {
+		return htmlInputText;
+	}
+
+	public void setHtmlInputText(HtmlInputHidden htmlInputText) {
+		this.htmlInputText = htmlInputText;
+	}
 }

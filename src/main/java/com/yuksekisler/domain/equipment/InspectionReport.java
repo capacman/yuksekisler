@@ -181,4 +181,15 @@ public class InspectionReport implements IdEnabledEntity<Long>, ContainsImage {
 	public Set<Image> getImages() {
 		return images;
 	}
+
+	public boolean hasImage() {
+		return !images.isEmpty();
+	}
+
+	public Long getImage() {
+		for (Image image : images) {
+			return image.getId();
+		}
+		return 0L;
+	}
 }

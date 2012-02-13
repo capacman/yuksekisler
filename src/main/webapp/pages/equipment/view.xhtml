@@ -5,7 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<f:metadata>
@@ -74,9 +75,42 @@
 				disabled="true" />
 			<p:message for="productionDate" />
 		</h:panelGrid>
-		<p:galleria value="#{equipmentController.equipment.images}" var="image">
-			<p:graphicImage value="/images/image/#{image.id}" />
+		<p:galleria value="#{equipmentController.imageIds}" var="imageID">
+			<p:graphicImage value="/images/image/#{imageID}" />
 		</p:galleria>
+		<p:accordionPanel
+			value="#{equipmentController.equipment.inspectionReports}"
+			var="report">
+			<p:tab title="Report by #{report.inspector.name}">
+				<h:panelGrid columns="2" cellpadding="10">
+
+					<c:choose>
+
+						<c:when test="#{report.hasImage}">
+							<p:lightBox styleClass="imagebox">
+								<h:outputLink value="/images/image/#{report.image}">
+									<h:graphicImage value="/images/image/#{report.image}/thumbnail" />
+								</h:outputLink>
+							</p:lightBox>
+						</c:when>
+						<c:otherwise>
+							<h:graphicImage value="/resources/images/no-image-150.jpg" />
+						</c:otherwise>
+					</c:choose>
+
+					<p:outputPanel>
+						<h:outputText id="htmlStuff" value="#{report.report}"
+							escape="false" />
+
+					</p:outputPanel>
+				</h:panelGrid>
+			</p:tab>
+		</p:accordionPanel>
+		<h:form>
+			<h:inputHidden value="#{equipmentController.equipmentId}"></h:inputHidden>
+			<p:commandButton value="#{msgs.newInspectionReport}"
+				action="#{equipmentController.addInspectionReport}" ajax="false" />
+		</h:form>
 	</ui:define>
 </ui:composition>
 </html>

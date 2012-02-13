@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/mainlayout.xhtml">
+	<f:metadata>
+		<f:viewParam name="id" value="#{equipmentController.equipmentId}"
+			required="true" requiredMessage="#{msgs.noEquipmentSpecified}">
+			<f:validateLongRange minimum="1" />
+		</f:viewParam>
+		<f:event type="preRenderView"
+			listener="#{equipmentController.loadEquipment}" />
+	</f:metadata>
+	<ui:define name="container">
+		<h:form>
+			<p:panelGrid styleClass="borderlessPanel">
+				<p:row>
+					<p:column colspan="4">
+						<p:editor id="editor"
+							value="#{equipmentController.inspectionReport.report}"
+							width="600" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputLabel for="stateSelect" value="#{msgs.selectState}" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="stateSelect"
+							value="#{equipmentController.inspectionReport.status}"
+							required="true">
+							<f:selectItem itemLabel="#{msgs.selectState}"
+								noSelectionOption="true" />
+							<f:selectItem itemLabel="USABLE" itemValue="USABLE" />
+							<f:selectItem itemLabel="NOTUSABLE" itemValue="NOTUSABLE" />
+							<f:selectItem itemLabel="FIXED" itemValue="FIXED" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<h:outputLabel for="inspectionReportDate"
+							value="#{msgs.inspectionDate}" />
+					</p:column>
+					<p:column>
+						<p:calendar id="inspectionReportDate" required="true"
+							requiredMessage="#{msgs.inspectionDateRequired}"
+							value="#{equipmentController.inspectionReport.inspectionDate}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:commandButton value="#{msgs.create}"
+							action="#{equipmentController.createInspectionReport}" />
+						<h:inputHidden id="equipmentId" binding="#{equipmentController.htmlInputText}"
+							value="#{equipmentController.equipmentId}" immediate="true"/>
+					</p:column>
+					<p:column colspan="1">
+						<p:commandButton value="#{msgs.cancel}"
+							action="#{equipmentController.cancelInspectionReport}"
+							immediate="true" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

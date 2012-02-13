@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yuksekisler.application.EmployeeService;
 import com.yuksekisler.domain.employee.CertificateType;
+import com.yuksekisler.domain.employee.Employee;
 import com.yuksekisler.domain.employee.EmployeeTitle;
 
 public class EmployeeController {
@@ -23,5 +24,9 @@ public class EmployeeController {
 
 	public List<CertificateType> getCertificateTypes() {
 		return employeeService.getAllEntities(CertificateType.class);
+	}
+
+	public List<Employee> getEmployees() {
+		return employeeService.getAllEntities(Employee.class);
 	}
 }
