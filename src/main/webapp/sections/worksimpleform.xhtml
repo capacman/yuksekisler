@@ -8,13 +8,13 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
-	<p:panelGrid>
+	<p:panelGrid styleClass="borderlessPanel">
 		<p:row>
 			<p:column>
 				<h:outputLabel for="workName" value="#{msgs.name}" />
 			</p:column>
 			<p:column>
-				<p:inputText id="workName" value="#{workController.work.name}"
+				<p:inputText id="workName" value="#{wc.work.name}"
 					required="true" requiredMessage="#{msgs.nameRequired}"
 					disabled="#{isView}" />
 			</p:column>
@@ -22,7 +22,7 @@
 				<h:outputLabel for="customer" value="#{msgs.customer}" />
 			</p:column>
 			<p:column>
-				<p:inputText id="customer" value="#{workController.work.customer}"
+				<p:inputText id="customer" value="#{wc.work.customer}"
 					required="true" requiredMessage="#{msgs.customerRequired}"
 					disabled="#{isView}" />
 			</p:column>
@@ -32,7 +32,7 @@
 				<h:outputLabel for="startDate" value="#{msgs.startDate}" />
 			</p:column>
 			<p:column>
-				<p:calendar id="startDate" value="#{workController.startDate}"
+				<p:calendar id="startDate" value="#{wc.startDate}"
 					required="true" requiredMessage="#{msgs.startDateRequired}"
 					disabled="#{isView}" />
 			</p:column>
@@ -40,7 +40,7 @@
 				<h:outputLabel for="supervisors" value="#{msgs.supervisors}" />
 			</p:column>
 			<p:column rowspan="2">
-				<p:selectManyMenu value="#{workController.work.supervisors}"
+				<p:selectManyMenu value="#{wc.work.supervisors}"
 					disabled="#{isView}">
 					<f:selectItems value="#{employeeController.employees}"
 						var="employee" itemLabel="#{employee.name}"
@@ -53,7 +53,7 @@
 				<h:outputLabel for="endDate" value="#{msgs.endDate}" />
 			</p:column>
 			<p:column>
-				<p:calendar id="endDate" value="#{workController.endDate}"
+				<p:calendar id="endDate" value="#{wc.endDate}"
 					required="true" requiredMessage="#{msgs.endDateRequired}"
 					disabled="#{isView}" />
 			</p:column>

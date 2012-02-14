@@ -43,6 +43,11 @@
 		scope="request">
 		<property name="workService" ref="workService" />
 	</bean>
+	<bean id="workFormController" class="com.yuksekisler.web.WorkDefinitionFormController"
+		scope="view"> 
+		<property name="workService" ref="workService" />
+		<property name="equipmentService" ref="equipmentService" />
+	</bean>
 
 	<bean id="sessionInfo" class="com.yuksekisler.web.SessionInfo"
 		scope="session">

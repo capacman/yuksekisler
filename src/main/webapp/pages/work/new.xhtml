@@ -5,14 +5,60 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<ui:define name="container">
 		<h:form enctype="multipart/form-data">
 			<ui:include src="/sections/worksimpleform.xhtml">
-				<ui:param name="isView" value="false"/>
+				<ui:param name="isView" value="false" />
+				<ui:param name="wc" value="#{workFormController}" />
 			</ui:include>
+			<p:separator id="separator" />
+			<p:panelGrid styleClass="borderlessPanel">
+				<p:row>
+					<p:column colspan="1">
+						<h:outputLabel for="selectedCategory"
+							value="#{msgs.selectCategory}" />
+					</p:column>
+					<p:column colspan="1">
+						<p:selectOneMenu id="selectedCategory"
+							value="#{workFormController.selectedCategory}">
+							<f:selectItems value="#{equipmentController.categories}"
+								var="category" itemLabel="#{category.name}"
+								itemValue="#{category}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<p:dataGrid var="equipment"
+							value="#{workFormController.availableCategories}" columns="3"
+							rows="12">
+							<p:column>
+								<p:panel id="pnl" header="#{equipment.productName}"
+									style="text-align:center">
+									<h:panelGrid columns="1" style="width:100%">
+										<c:choose>
+											<c:when test="#{equipment.hasImage}">
+												<h:graphicImage value="/images/image/#{equipment}/thumbnail" />
+											</c:when>
+											<c:otherwise>
+												<h:graphicImage value="/resources/images/no-image-150.jpg"
+													width="48" height="48" />
+											</c:otherwise>
+										</c:choose>
+
+										<h:outputText value="#{equipment.productCode}" />
+									</h:panelGrid>
+								</p:panel>
+								<p:draggable for="pnl" revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
+							</p:column>
+						</p:dataGrid>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
 		</h:form>
 	</ui:define>
 </ui:composition>

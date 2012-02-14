@@ -130,7 +130,7 @@
 	<bean id="eventGenerationAspectBean" class="com.yuksekisler.infrastructure.EventGenerationAspect">
 		<property name="notificationService" ref="notificationService" />
 	</bean>
-	<aop:config>
+	<aop:config proxy-target-class="true">
 		<aop:advisor advice-ref="transactionAdvice"
 			pointcut="execution (* com.yuksekisler.application..*Service+.*(..))"
 			order="2" />
