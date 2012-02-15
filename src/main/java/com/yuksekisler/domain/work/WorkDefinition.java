@@ -1,8 +1,9 @@
 package com.yuksekisler.domain.work;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -17,6 +18,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.yuksekisler.domain.Comment;
 import com.yuksekisler.domain.IdEnabledEntity;
@@ -38,8 +42,9 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	private String name;
 
 	@NotNull
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<Employee> supervisors = new HashSet<Employee>();
+	@ManyToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Employee> supervisors = new ArrayList<Employee>();
 
 	@NotNull
 	@Size(max = 500)
@@ -47,14 +52,17 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	private String customer;
 
 	@NotNull
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<Employee> workers = new HashSet<Employee>();
+	@ManyToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Employee> workers = new ArrayList<Employee>();
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<Equipment> equipments = new HashSet<Equipment>();
+	@ManyToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Equipment> equipments = new ArrayList<Equipment>();
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Comment> comments = new HashSet<Comment>();
+	@ManyToMany(cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Comment> comments = new ArrayList<Comment>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -71,7 +79,7 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	private Boolean erased = false;
 
 	@Embedded
-	private LifeTime lifeTime;
+	private LifeTime lifeTime=new LifeTime();
 
 	public Long getId() {
 		return this.id;
@@ -89,7 +97,7 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 		this.name = name;
 	}
 
-	public Set<Employee> getSupervisors() {
+	public List<Employee> getSupervisors() {
 		return this.supervisors;
 	}
 
@@ -105,16 +113,16 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 		this.customer = customer;
 	}
 
-	public Set<Employee> getWorkers() {
-		return Collections.unmodifiableSet(this.workers);
+	public List<Employee> getWorkers() {
+		return Collections.unmodifiableList(this.workers);
 	}
 
 	public void addWorker(Employee worker) {
 		this.workers.add(worker);
 	}
 
-	public Set<Equipment> getEquipments() {
-		return Collections.unmodifiableSet(this.equipments);
+	public List<Equipment> getEquipments() {
+		return this.equipments;
 	}
 
 	public void addEquipment(Equipment equipment) {
@@ -132,8 +140,8 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 		equipment.addedTo(this);
 	}
 
-	public Set<Comment> getComments() {
-		return Collections.unmodifiableSet(this.comments);
+	public List<Comment> getComments() {
+		return Collections.unmodifiableList(this.comments);
 	}
 
 	public void addComment(Comment comment) {
@@ -141,7 +149,7 @@ public class WorkDefinition implements IdEnabledEntity<Long> {
 	}
 
 	public void removeEquipments() {
-		Set<Equipment> unmodifiableSet = new HashSet<Equipment>(equipments);
+		List<Equipment> unmodifiableSet = new ArrayList<Equipment>(equipments);
 		for (Equipment equipment : unmodifiableSet) {
 			removeEquipment(equipment);
 		}

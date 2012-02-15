@@ -10,7 +10,7 @@
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<ui:define name="container">
-		<h:form enctype="multipart/form-data">
+		<h:form id="mainForm" enctype="multipart/form-data">
 			<ui:include src="/sections/worksimpleform.xhtml">
 				<ui:param name="isView" value="false" />
 				<ui:param name="wc" value="#{workFormController}" />
@@ -18,11 +18,11 @@
 			<p:separator id="separator" />
 			<p:panelGrid styleClass="borderlessPanel">
 				<p:row>
-					<p:column colspan="1">
+					<p:column>
 						<h:outputLabel for="selectedCategory"
 							value="#{msgs.selectCategory}" />
 					</p:column>
-					<p:column colspan="1">
+					<p:column>
 						<p:selectOneMenu id="selectedCategory"
 							value="#{workFormController.selectedCategory}">
 							<f:selectItems value="#{equipmentController.categories}"
@@ -33,33 +33,84 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="3">
-						<p:dataGrid var="equipment"
-							value="#{workFormController.availableCategories}" columns="3"
-							rows="12">
-							<p:column>
-								<p:panel id="pnl" header="#{equipment.productName}"
-									style="text-align:center">
-									<h:panelGrid columns="1" style="width:100%">
-										<c:choose>
-											<c:when test="#{equipment.hasImage}">
-												<h:graphicImage value="/images/image/#{equipment}/thumbnail" />
-											</c:when>
-											<c:otherwise>
-												<h:graphicImage value="/resources/images/no-image-150.jpg"
-													width="48" height="48" />
-											</c:otherwise>
-										</c:choose>
+						<p:fieldset legend="Available Equipments!">
+							<p:dataGrid id="dragArea" var="equipment"
+								value="#{workFormController.availableCategories}" columns="4">
+								<p:column>
+									<p:panel id="pnl" header="#{equipment.productName}"
+										style="text-align:center">
+										<h:panelGrid columns="1" style="width:100%">
+											<c:choose>
+												<c:when test="#{equipment.hasImage}">
+													<h:graphicImage
+														value="/images/image/#{equipment}/thumbnail" />
+												</c:when>
+												<c:otherwise>
+													<h:graphicImage value="/resources/images/no-image-150.jpg"
+														width="48" height="48" />
+												</c:otherwise>
+											</c:choose>
 
-										<h:outputText value="#{equipment.productCode}" />
-									</h:panelGrid>
-								</p:panel>
-								<p:draggable for="pnl" revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
-							</p:column>
-						</p:dataGrid>
+											<h:outputText value="#{equipment.productCode}" />
+										</h:panelGrid>
+									</p:panel>
+									<p:draggable for="pnl" revert="true"
+										handle=".ui-panel-titlebar" stack=".ui-panel" />
+								</p:column>
+							</p:dataGrid>
+						</p:fieldset>
+					</p:column>
+					<p:column colspan="3">
+						<p:fieldset id="selectedEquipments" legend="#{msgs.equipments}"
+							style="margin-top:20px">
+							<h:outputText value="!!!Drop here!!!"
+								rendered="#{empty workFormController.work.equipments}"
+								style="font-size:24px;" />
+							<p:outputPanel id="dropArea">
+								<p:dataGrid var="equipment"
+									value="#{workFormController.work.equipments}" columns="4" style="width:100%">
+									<p:column>
+										<p:panel header="#{equipment.productName}"
+											style="text-align:center" closable="true" closeSpeed="300">
+											<f:attribute name="equipmentID" value="#{equipment.id}" />
+											<p:ajax event="close"
+												listener="#{workFormController.handleClose}"
+												update=":mainForm:dragArea,:mainForm:dropArea">
+											</p:ajax>
+											<h:panelGrid columns="1" style="width:100%">
+												<c:choose>
+													<c:when test="#{equipment.hasImage}">
+														<h:graphicImage
+															value="/images/image/#{equipment}/thumbnail" />
+													</c:when>
+													<c:otherwise>
+														<h:graphicImage value="/resources/images/no-image-150.jpg"
+															width="48" height="48" />
+													</c:otherwise>
+												</c:choose>
+												<h:outputText value="#{equipment.productCode}" />
+											</h:panelGrid>
+										</p:panel>
+									</p:column>
+								</p:dataGrid>
+							</p:outputPanel>
+						</p:fieldset>
+						<p:droppable for="selectedEquipments" tolerance="touch"
+							activeStyleClass="ui-state-highlight" datasource="dragArea"
+							onDrop="handleDrop">
+
+							<p:ajax listener="#{workFormController.onEquipmentDrop}"
+								update="dragArea dropArea" />
+						</p:droppable>
 					</p:column>
 				</p:row>
 			</p:panelGrid>
 		</h:form>
+		<script type="text/javascript">
+			function handleDrop(event, ui) {
+				ui.draggable.fadeOut('fast');
+			}
+		</script>
 	</ui:define>
 </ui:composition>
 </html>

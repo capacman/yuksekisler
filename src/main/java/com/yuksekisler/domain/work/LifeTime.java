@@ -23,9 +23,10 @@ public class LifeTime {
 	@DateTimeFormat(style = "M-")
 	private Date endDate;
 
-	protected LifeTime(){
-		
+	public LifeTime() {
+		this(new Date(), null);
 	}
+
 	public LifeTime(Date startDate, Date endDate) {
 		super();
 		if (startDate == null)

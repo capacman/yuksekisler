@@ -4,7 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<f:metadata>
@@ -12,14 +14,40 @@
 			required="true" requiredMessage="#{msgs.noWorkSpecified}">
 			<f:validateLongRange minimum="1" />
 		</f:viewParam>
-		<f:event type="preRenderView"
-			listener="#{workController.loadWork}" />
+		<f:event type="preRenderView" listener="#{workController.loadWork}" />
 	</f:metadata>
 	<ui:define name="container">
 		<ui:include src="/sections/worksimpleform.xhtml">
 			<ui:param name="isView" value="true" />
-			<ui:param name="wc" value="#{workController}"/>
+			<ui:param name="wc" value="#{workController}" />
 		</ui:include>
+
+		<p:fieldset legend="#{msgs.equipments}" style="margin-top:20px">
+			<p:outputPanel>
+				<p:dataGrid var="equipment"
+					value="#{workController.work.equipments}" columns="3"
+					style="width:100%">
+					<p:column>
+						<p:panel header="#{equipment.productName}"
+							style="text-align:center" closable="true" closeSpeed="300">
+							<h:panelGrid columns="1" style="width:100%">
+								<c:choose>
+									<c:when test="#{equipment.hasImage}">
+										<h:graphicImage value="/images/image/#{equipment}/thumbnail" />
+									</c:when>
+									<c:otherwise>
+										<h:graphicImage value="/resources/images/no-image-150.jpg"
+											width="48" height="48" />
+									</c:otherwise>
+								</c:choose>
+								<h:outputText value="#{equipment.productCode}" />
+							</h:panelGrid>
+						</p:panel>
+					</p:column>
+				</p:dataGrid>
+			</p:outputPanel>
+		</p:fieldset>
+
 	</ui:define>
 </ui:composition>
 </html>

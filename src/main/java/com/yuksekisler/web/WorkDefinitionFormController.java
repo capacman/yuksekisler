@@ -1,13 +1,26 @@
 package com.yuksekisler.web;
 
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
+
+import org.primefaces.event.CloseEvent;
+import org.primefaces.event.DragDropEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.yuksekisler.application.EquipmentService;
 import com.yuksekisler.domain.equipment.Category;
 import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.work.LifeTime;
 
-public class WorkDefinitionFormController extends AbstractBaseWorkFormController {
+public class WorkDefinitionFormController extends
+		AbstractBaseWorkFormController implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1485168065748144028L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(WorkDefinitionFormController.class);
 	private Category selectedCategory;
 	private EquipmentService equipmentService;
 
@@ -24,8 +37,14 @@ public class WorkDefinitionFormController extends AbstractBaseWorkFormController
 	}
 
 	public List<Equipment> getAvailableCategories() {
-		return equipmentService.getAvailableEquipments(new LifeTime(getStartDate(),
-				getEndDate()), getSelectedCategory().getId(), work.getId());
+		List<Equipment> availableEquipments = equipmentService
+				.getAvailableEquipments(new LifeTime(getStartDate(),
+						getEndDate()), getSelectedCategory().getId(), work
+						.getId());
+		for (Equipment equipment : work.getEquipments()) {
+			availableEquipments.remove(equipment);
+		}
+		return availableEquipments;
 	}
 
 	public EquipmentService getEquipmentService() {
@@ -34,5 +53,23 @@ public class WorkDefinitionFormController extends AbstractBaseWorkFormController
 
 	public void setEquipmentService(EquipmentService equipmentService) {
 		this.equipmentService = equipmentService;
+	}
+
+	public void onEquipmentDrop(DragDropEvent event) {
+		
+		Equipment eq = ((Equipment) event.getData());
+		LOGGER.info("dropped event id {} ",eq.getId());
+		work.addEquipment(eq);
+	}
+
+	public void handleClose(CloseEvent event) {
+		LOGGER.info("event id {} ",event.getComponent().getAttributes().get("equipmentID"));
+		Long equipmentID = (Long) event.getComponent().getAttributes().get("equipmentID");
+		Iterator<Equipment> iterator = work.getEquipments().iterator();
+		while (iterator.hasNext())
+			if (iterator.next().getId() == equipmentID) {
+				iterator.remove();
+				break;
+			}
 	}
 }

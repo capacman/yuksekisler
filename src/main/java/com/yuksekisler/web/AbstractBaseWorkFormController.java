@@ -76,6 +76,7 @@ public abstract class AbstractBaseWorkFormController implements WorkForm {
 			work = workService.getEntity(workId, WorkDefinition.class);
 			startDate = work.getLifeTime().getStartDate();
 			endDate = work.getLifeTime().getEndDate();
+			LOGGER.info("work equipment size:{}",work.getEquipments().size());
 		} else {
 			LOGGER.info("workId is null");
 		}
