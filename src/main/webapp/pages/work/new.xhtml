@@ -6,14 +6,15 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:yuksekisler="http://java.sun.com/jsf/composite/yuksekisler">
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<ui:define name="container">
 		<h:form id="mainForm" enctype="multipart/form-data">
 			<ui:include src="/sections/worksimpleform.xhtml">
 				<ui:param name="isView" value="false" />
-				<ui:param name="wc" value="#{workFormController}" />
+				<ui:param name="workController" value="#{workFormController}" />
 			</ui:include>
 			<p:separator id="separator" />
 			<p:panelGrid styleClass="borderlessPanel">
@@ -30,54 +31,27 @@
 								itemValue="#{category}" />
 						</p:selectOneMenu>
 					</p:column>
+					<p:column>
+						<p:commandButton action="#{workFormController.create}"
+							value="#{msgs.create}" />
+					</p:column>
+					<p:column>
+						<p:commandButton action="#{workFormController.cancel}"
+							value="#{msgs.cancel}" immediate="true" />
+					</p:column>
 				</p:row>
 				<p:row>
 					<p:column colspan="3">
 						<p:fieldset legend="Available Equipments!">
 							<p:dataGrid id="dragArea" var="equipment"
-								value="#{workFormController.availableCategories}" columns="4">
+								value="#{workFormController.availableCategories}" columns="3"
+								rows="15" paginator="true" paginatorPosition="top"
+								paginatorTemplate="{CurrentPageReport}  {PreviousPageLink} {PageLinks} {NextPageLink}"
+								style="width:100%;border:none" styleClass="equipmentWidgetGrid">
 								<p:column>
-									<p:panel id="pnl" header="#{equipment.productName}"
-										style="text-align:center">
-										<h:panelGrid columns="1" style="width:100%">
-											<c:choose>
-												<c:when test="#{equipment.hasImage}">
-													<h:graphicImage
-														value="/images/image/#{equipment}/thumbnail" />
-												</c:when>
-												<c:otherwise>
-													<h:graphicImage value="/resources/images/no-image-150.jpg"
-														width="48" height="48" />
-												</c:otherwise>
-											</c:choose>
-
-											<h:outputText value="#{equipment.productCode}" />
-										</h:panelGrid>
-									</p:panel>
-									<p:draggable for="pnl" revert="true"
-										handle=".ui-panel-titlebar" stack=".ui-panel" />
-								</p:column>
-							</p:dataGrid>
-						</p:fieldset>
-					</p:column>
-					<p:column colspan="3">
-						<p:fieldset id="selectedEquipments" legend="#{msgs.equipments}"
-							style="margin-top:20px">
-							<h:outputText value="!!!Drop here!!!"
-								rendered="#{empty workFormController.work.equipments}"
-								style="font-size:24px;" />
-							<p:outputPanel id="dropArea">
-								<p:dataGrid var="equipment"
-									value="#{workFormController.work.equipments}" columns="4" style="width:100%">
-									<p:column>
-										<p:panel header="#{equipment.productName}"
-											style="text-align:center" closable="true" closeSpeed="300">
-											<f:attribute name="equipmentID" value="#{equipment.id}" />
-											<p:ajax event="close"
-												listener="#{workFormController.handleClose}"
-												update=":mainForm:dragArea,:mainForm:dropArea">
-											</p:ajax>
-											<h:panelGrid columns="1" style="width:100%">
+									<p:panelGrid id="equipment" styleClass="equipmentWidget">
+										<p:row>
+											<p:column rowspan="2">
 												<c:choose>
 													<c:when test="#{equipment.hasImage}">
 														<h:graphicImage
@@ -88,9 +62,72 @@
 															width="48" height="48" />
 													</c:otherwise>
 												</c:choose>
+											</p:column>
+											<p:column>
+												<h:outputText value="#{equipment.productName}" />
+											</p:column>
+										</p:row>
+										<p:row>
+											<p:column>
 												<h:outputText value="#{equipment.productCode}" />
-											</h:panelGrid>
-										</p:panel>
+											</p:column>
+										</p:row>
+									</p:panelGrid>
+									<p:draggable for="equipment" revert="true" />
+								</p:column>
+							</p:dataGrid>
+						</p:fieldset>
+					</p:column>
+					<p:column colspan="3">
+						<p:fieldset id="selectedEquipments" legend="#{msgs.equipments}">
+							<h:outputText value="!!!Drop here!!!"
+								rendered="#{empty workFormController.work.equipments}"
+								style="font-size:24px;" />
+							<p:outputPanel id="dropArea">
+								<p:dataGrid var="equipment"
+									value="#{workFormController.work.equipments}" columns="3"
+									style="width:100%;border:none" styleClass="equipmentWidgetGrid">
+									<p:column>
+										<p:panelGrid id="equipment" styleClass="equipmentWidget">
+											<p:row>
+												<p:column>
+													<p:commandLink
+														actionListener="#{workFormController.handleClose}"
+														immediate="true"
+														update=":mainForm:dropArea,:mainForm:dragArea">
+														<f:attribute name="equipmentID" value="#{equipment.id}" />
+														<div title=".ui-icon-trash"
+															class="ui-state-default ui-corner-all"
+															style="width: 24px; height: 16px">
+															<span class="ui-icon ui-icon-trash"></span>
+														</div>
+													</p:commandLink>
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column rowspan="2">
+													<c:choose>
+														<c:when test="#{equipment.hasImage}">
+															<h:graphicImage
+																value="/images/image/#{equipment}/thumbnail" />
+														</c:when>
+														<c:otherwise>
+															<h:graphicImage
+																value="/resources/images/no-image-150.jpg" width="48"
+																height="48" />
+														</c:otherwise>
+													</c:choose>
+												</p:column>
+												<p:column>
+													<h:outputText value="#{equipment.productName}" />
+												</p:column>
+											</p:row>
+											<p:row>
+												<p:column>
+													<h:outputText value="#{equipment.productCode}" />
+												</p:column>
+											</p:row>
+										</p:panelGrid>
 									</p:column>
 								</p:dataGrid>
 							</p:outputPanel>

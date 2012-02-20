@@ -8,15 +8,17 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
+	<f:metadata>
+		<ui:param name="wc" value="#{workController}" />
+	</f:metadata>
 	<p:panelGrid styleClass="borderlessPanel">
 		<p:row>
 			<p:column>
 				<h:outputLabel for="workName" value="#{msgs.name}" />
 			</p:column>
 			<p:column>
-				<p:inputText id="workName" value="#{wc.work.name}"
-					required="true" requiredMessage="#{msgs.nameRequired}"
-					disabled="#{isView}" />
+				<p:inputText id="workName" value="#{wc.work.name}" required="true"
+					requiredMessage="#{msgs.nameRequired}" disabled="#{isView}" />
 			</p:column>
 			<p:column>
 				<h:outputLabel for="customer" value="#{msgs.customer}" />
@@ -32,9 +34,11 @@
 				<h:outputLabel for="startDate" value="#{msgs.startDate}" />
 			</p:column>
 			<p:column>
-				<p:calendar id="startDate" value="#{wc.startDate}"
-					required="true" requiredMessage="#{msgs.startDateRequired}"
-					disabled="#{isView}" />
+				<p:calendar id="startDate" value="#{wc.startDate}" required="true"
+					requiredMessage="#{msgs.startDateRequired}" disabled="#{isView}">
+					<p:ajax event="dateSelect" listener="#{wc.handleDateSelect}"
+						disabled="#{isView}" />
+				</p:calendar>
 			</p:column>
 			<p:column>
 				<h:outputLabel for="supervisors" value="#{msgs.supervisors}" />
@@ -53,9 +57,11 @@
 				<h:outputLabel for="endDate" value="#{msgs.endDate}" />
 			</p:column>
 			<p:column>
-				<p:calendar id="endDate" value="#{wc.endDate}"
-					required="true" requiredMessage="#{msgs.endDateRequired}"
-					disabled="#{isView}" />
+				<p:calendar id="endDate" value="#{wc.endDate}" required="true"
+					requiredMessage="#{msgs.endDateRequired}" disabled="#{isView}">
+					<p:ajax event="dateSelect" listener="#{wc.handleDateSelect}"
+						disabled="#{isView}" />
+				</p:calendar>
 			</p:column>
 		</p:row>
 	</p:panelGrid>

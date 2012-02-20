@@ -26,7 +26,31 @@ html,body {
 
 .borderlessPanel td {
 	border: none !important;
+	vertical-align: top;
 }
+
 .borderlessPanel tr {
 	border: none !important;
+}
+
+.workEquipment div:nth-child(2) {
+	padding: 0px !important;
+}
+
+.editForm {
+	float: right;
+}
+
+.equipmentWidgetGrid>div {
+	border: none !important;
+}
+
+.equipmentWidgetGrid td {
+	padding: 4px 7px !important;
+}
+
+.equipmentWidget {
+	border: solid;
+	border-width: 1px;
+	border-color: gray;
 }

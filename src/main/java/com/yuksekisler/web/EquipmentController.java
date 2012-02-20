@@ -14,6 +14,7 @@ import javax.media.jai.RenderedOp;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.IOUtils;
+import org.primefaces.event.CloseEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -97,7 +98,6 @@ public class EquipmentController {
 	}
 
 	public String create() {
-		LOGGER.info("in create newuuid {}", uuidBean.getUuid());
 		String[] imageSplits = uuidBean.getUuid().split(";");
 		for (String imageUUID : imageSplits) {
 			if (!imageUUID.isEmpty()) {
@@ -112,26 +112,30 @@ public class EquipmentController {
 		return "equipment";
 	}
 
+	public String update() {
+		equipmentService.saveEntity(equipment);
+		return "view";
+	}
+
+	public String cancelUpdate() {
+		return "cancel";
+	}
+
 	public String cancel() {
 		return "equipment";
 	}
 
 	public void loadEquipment() {
 		if (equipmentId != null) {
+			LOGGER.info("equipment id is {}", equipmentId);
 			try {
 				equipment = equipmentService.getEntity(equipmentId,
 						Equipment.class);
-				LOGGER.debug("equipment find {}", equipment);
 			} catch (Exception e) {
 				equipment = null;
 			}
 		} else {
 			LOGGER.info("equipment id is null");
-		}
-		if (equipment != null) {
-			LOGGER.debug("equipment find not null");
-			LOGGER.debug("equipment has {} inspection reports", equipment
-					.getInspectionReports().size());
 		}
 	}
 
@@ -140,7 +144,6 @@ public class EquipmentController {
 	}
 
 	public void setEquipmentId(Long equipmentId) {
-		LOGGER.info("equipment id set {}", equipmentId);
 		this.equipmentId = equipmentId;
 	}
 
@@ -216,7 +219,6 @@ public class EquipmentController {
 
 	public String cancelInspectionReport() {
 		equipmentId = (Long) htmlInputText.getValue();
-		LOGGER.info("equipmentID {}", htmlInputText.getValue());
 		return "view";
 	}
 
@@ -226,5 +228,15 @@ public class EquipmentController {
 
 	public void setHtmlInputText(HtmlInputHidden htmlInputText) {
 		this.htmlInputText = htmlInputText;
+	}
+
+	public void handleImageClose(CloseEvent event) {
+		LOGGER.info("image id {} ",
+				event.getComponent().getAttributes().get("imageID"));
+		long imageID = (Long) event.getComponent().getAttributes()
+				.get("imageID");
+		Image image = equipmentService.getEntity(imageID, Image.class);
+		image.setErased(true);
+		equipmentService.saveEntity(image);
 	}
 }

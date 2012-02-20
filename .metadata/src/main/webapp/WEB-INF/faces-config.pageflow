@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13288906529960" configfile="/yuksekisler/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="1330" id="pf13288908293101" referenceLink="//@navigationRule.10/@fromViewId|" outlinks="pf13288908293102 pf13288908293106 pf13288915239340 pf13290462266740 pf13291440077065 pf13291440077066" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="1330" id="pf13288908293101" referenceLink="//@navigationRule.13/@fromViewId|" outlinks="pf13288908293102 pf13288908293106 pf13288915239340 pf13290462266740 pf13291440077065 pf13291440077066" path="*"/>
   <nodes xsi:type="pageflow:PFPage" name="/login.xhtml" x="417" y="951" id="pf13288908293117" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf13288915239342" inlinks="pf13288908293102" path="/login.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="/pages/equipment/new.xhtml" x="357" y="1536" id="pf132889082931110" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf132889082931111" inlinks="pf13288908293106" path="/pages/equipment/new.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/pages/equipment/list.xhtml" x="554" y="1330" id="pf132889082931112" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" outlinks="pf13288922154524" inlinks="pf132889082931111 pf13288915239340 pf13288915239342" path="/pages/equipment/list.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/pages/equipment/view.xhtml" x="888" y="1330" id="pf13288922154525" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" outlinks="pf13291250898932" inlinks="pf13288922154524 pf13291306600804" path="/pages/equipment/view.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/definitions.xhtml" x="65" y="852" id="pf13290462266741" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" inlinks="pf13290462266740" path="/pages/definitions.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/pages/equipment/newInspectionReport.xhtml" x="1128" y="1330" id="pf13291240178901" referenceLink="//@navigationRule.6/@fromViewId|" outlinks="pf13291306600804" inlinks="pf13291250898932" path="/pages/equipment/newInspectionReport.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="/pages/work/list.xhtml" x="338" y="1735" id="pf13291440077077" referenceLink="//@navigationRule.11/@fromViewId|" outlinks="pf13291440077078" inlinks="pf13291440077065" path="/pages/work/list.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/work/new.xhtml" x="72" y="1716" id="pf13291440077079" referenceLink="//@navigationRule.10/@navigationCase.0/@toViewId|" inlinks="pf13291440077066" path="/pages/work/new.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/work/view.xhtml" x="554" y="1735" id="pf132914400770710" referenceLink="//@navigationRule.11/@navigationCase.0/@toViewId|" inlinks="pf13291440077078" path="/pages/work/view.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/pages/equipment/list.xhtml" x="554" y="1330" id="pf132889082931112" referenceLink="//@navigationRule.10/@navigationCase.0/@toViewId|" outlinks="pf13288922154524" inlinks="pf132889082931111 pf13288915239340 pf13288915239342" path="/pages/equipment/list.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/pages/equipment/view.xhtml" x="888" y="1330" id="pf13288922154525" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" outlinks="pf13291250898932" inlinks="pf13288922154524 pf13291306600804 pf13297348744422 pf13297357859500 pf13297357859501" path="/pages/equipment/view.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/definitions.xhtml" x="65" y="852" id="pf13290462266741" referenceLink="//@navigationRule.11/@navigationCase.0/@toViewId|" inlinks="pf13290462266740" path="/pages/definitions.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/pages/equipment/newInspectionReport.xhtml" x="1128" y="1330" id="pf13291240178901" referenceLink="//@navigationRule.9/@fromViewId|" outlinks="pf13291306600804" inlinks="pf13291250898932" path="/pages/equipment/newInspectionReport.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/pages/work/list.xhtml" x="338" y="1735" id="pf13291440077077" referenceLink="//@navigationRule.14/@fromViewId|" outlinks="pf13291440077078" inlinks="pf13291440077065" path="/pages/work/list.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/work/new.xhtml" x="72" y="1716" id="pf13291440077079" referenceLink="//@navigationRule.13/@navigationCase.0/@toViewId|" inlinks="pf13291440077066" path="/pages/work/new.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/work/view.xhtml" x="554" y="1735" id="pf132914400770710" referenceLink="//@navigationRule.14/@navigationCase.0/@toViewId|" inlinks="pf13291440077078" path="/pages/work/view.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="/pages/equipment/edit.xhtml" id="pf13297342887531" referenceLink="//@navigationRule.8/@fromViewId|" outlinks="pf13297348744422 pf13297357859500 pf13297357859501" path="/pages/equipment/edit.xhtml"/>
   <links id="pf13288908293102" target="pf13288908293117" source="pf13288908293101" outcome="login" redirect="true"/>
   <links id="pf132889082931111" target="pf132889082931112" source="pf132889082931110" outcome="success" redirect="true"/>
   <links id="pf13288908293106" target="pf132889082931110" source="pf13288908293101" outcome="newequipment" redirect="true"/>
@@ -22,4 +23,7 @@
   <links id="pf13291440077065" target="pf13291440077077" source="pf13288908293101" outcome="work" redirect="true"/>
   <links id="pf13291440077066" target="pf13291440077079" source="pf13288908293101" outcome="newwork" redirect="true"/>
   <links id="pf13291440077078" target="pf132914400770710" source="pf13291440077077" outcome="view" redirect="true"/>
+  <links id="pf13297348744422" target="pf13288922154525" source="pf13297342887531" outcome="view" redirect="true"/>
+  <links id="pf13297357859500" target="pf13288922154525" source="pf13297342887531" outcome="cancel" redirect="true"/>
+  <links id="pf13297357859501" target="pf13288922154525" source="pf13297342887531" outcome="view" redirect="true"/>
 </pageflow:Pageflow>

@@ -31,6 +31,11 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.ParamDef;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.yuksekisler.domain.ContainsImage;
@@ -41,6 +46,7 @@ import com.yuksekisler.domain.work.WorkDefinition;
 
 @JsonAutoDetect(getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @Entity
+@FilterDef(name = "erasedFilter", parameters = @ParamDef(name = "erasedFilterParam", type = "boolean"))
 public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 
 	/**
@@ -106,9 +112,11 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 	@Column(nullable = false)
 	private Boolean erased = false;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable
-	private Set<Image> images = new HashSet<Image>();
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@Filter(name = "erasedFilter", condition = "erased = :erasedFilterParam")
+	private List<Image> images = new ArrayList<Image>();
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "equipments", fetch = FetchType.EAGER)
@@ -233,7 +241,7 @@ public class Equipment implements IdEnabledEntity<Long>, ContainsImage {
 	}
 
 	@Override
-	public Set<Image> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 

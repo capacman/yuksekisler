@@ -1,11 +1,11 @@
 package com.yuksekisler.domain;
 
-import java.util.Set;
+import java.util.List;
 
 public interface ContainsImage {
 	void addImage(Image image);
 
-	Set<Image> getImages();
+	List<Image> getImages();
 	
 	Long getImage();
 	

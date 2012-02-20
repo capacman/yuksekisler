@@ -88,6 +88,48 @@
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
+		<display-name>/pages/equipment/edit.xhtml</display-name>
+		<from-view-id>/pages/equipment/edit.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>view</from-outcome>
+			<to-view-id>/pages/equipment/view.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>id</name>
+					<value>#{equipmentController.equipment.id}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>/pages/equipment/edit.xhtml</display-name>
+		<from-view-id>/pages/equipment/edit.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/pages/equipment/view.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>id</name>
+					<value>#{equipmentController.equipment.id}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>/pages/equipment/edit.xhtml</display-name>
+		<from-view-id>/pages/equipment/edit.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>view</from-outcome>
+			<to-view-id>/pages/equipment/view.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>id</name>
+					<value>#{equipmentController.equipment.id}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
 		<display-name>/pages/equipment/newInspectionReport.xhtml</display-name>
 		<from-view-id>/pages/equipment/newInspectionReport.xhtml</from-view-id>
 		<navigation-case>

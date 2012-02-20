@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<p:panelGrid id="grid" styleClass="borderlessPanel">
+		<p:row>
+			<p:column>
+				<h:outputLabel for="productName" value="#{msgs.productName}" />
+			</p:column>
+			<p:column>
+				<p:inputText id="productName"
+					value="#{equipmentController.equipment.productName}"
+					maxlength="500" required="true"
+					requiredMessage="#{msgs.nameRequired}" disabled="#{isView}"/>
+
+			</p:column>
+			<p:column>
+				<p:message for="productName" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:outputLabel for="productCode" value="#{msgs.productCode}" />
+			</p:column>
+			<p:column>
+				<p:inputText id="productCode"
+					value="#{equipmentController.equipment.productCode}"
+					maxlength="500" disabled="#{isView}"/>
+			</p:column>
+			<p:column>
+				<p:message for="productCode" />
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column>
+				<h:outputLabel for="brand" value="#{msgs.brand}" />
+			</p:column>
+			<p:column>
+				<p:selectOneMenu id="brand"
+					value="#{equipmentController.equipment.brand}" required="true"
+					requiredMessage="#{msgs.brandRequired}" disabled="#{isView}">
+					<f:selectItem itemLabel="#{msgs.selectBrand}"
+						noSelectionOption="true" />
+					<f:selectItems value="#{equipmentController.brands}" var="brand"
+						itemLabel="#{brand.name}" itemValue="#{brand}" />
+				</p:selectOneMenu>
+			</p:column>
+			<p:column>
+				<p:message for="brand" />
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column>
+				<h:outputLabel for="category" value="#{msgs.category}" />
+			</p:column>
+			<p:column>
+				<p:selectOneMenu id="category"
+					value="#{equipmentController.equipment.category}" required="true"
+					requiredMessage="#{msgs.categoryRequired}" disabled="#{isView}">
+					<f:selectItem itemLabel="#{msgs.selectCategory}"
+						noSelectionOption="true" />
+					<f:selectItems value="#{equipmentController.categories}"
+						var="category" itemLabel="#{category.name}"
+						itemValue="#{category}" />
+				</p:selectOneMenu>
+			</p:column>
+			<p:column>
+				<p:message for="category" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:outputLabel for="stockEntrance" value="#{msgs.stockEntrance}" />
+			</p:column>
+			<p:column>
+				<p:calendar id="stockEntrance" required="true"
+					requiredMessage="#{msgs.stockEntranceRequired}"
+					value="#{equipmentController.equipment.stockEntrance}" disabled="#{isView}"/>
+			</p:column>
+			<p:column>
+				<p:message for="stockEntrance" />
+			</p:column>
+		</p:row>
+
+		<p:row>
+			<p:column>
+				<h:outputLabel for="bestBeforeDate" value="#{msgs.bestBeforeDate}" />
+			</p:column>
+			<p:column>
+				<p:calendar id="bestBeforeDate" required="true"
+					requiredMessage="#{msgs.bestBeforeDateRequired}"
+					value="#{equipmentController.equipment.bestBeforeDate}" disabled="#{isView}"/>
+			</p:column>
+			<p:column>
+				<p:message for="bestBeforeDate" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:outputLabel for="productionDate" value="#{msgs.productionDate}" />
+			</p:column>
+			<p:column>
+				<p:calendar id="productionDate" required="true"
+					requiredMessage="#{msgs.productionDateRequired}"
+					value="#{equipmentController.equipment.productionDate}" disabled="#{isView}"/>
+			</p:column>
+			<p:column>
+				<p:message for="productionDate" />
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+</ui:composition>
+</html>

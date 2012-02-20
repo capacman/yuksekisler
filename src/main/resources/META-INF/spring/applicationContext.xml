@@ -130,6 +130,9 @@
 	<bean id="eventGenerationAspectBean" class="com.yuksekisler.infrastructure.EventGenerationAspect">
 		<property name="notificationService" ref="notificationService" />
 	</bean>
+	<bean id="hibernateFilterAspectBean" class="com.yuksekisler.infrastructure.persistence.HibernateFilterAspect">
+		<property name="entityManager" ref="entityManager"/>
+	</bean>
 	<aop:config proxy-target-class="true">
 		<aop:advisor advice-ref="transactionAdvice"
 			pointcut="execution (* com.yuksekisler.application..*Service+.*(..))"
@@ -138,6 +141,10 @@
 			order="1">
 			<aop:around method="aroundsaveInspectionReport"
 				pointcut="execution (public com.yuksekisler.domain.equipment.InspectionReport com.yuksekisler.application.EquipmentService.saveInspectionReport(Long,com.yuksekisler.domain.equipment.InspectionReport,String))" />
+		</aop:aspect>
+		<aop:aspect ref="hibernateFilterAspectBean" id="hibernateFilterAspect">
+			<aop:before method="enableFilter"
+			 pointcut="execution (* com.yuksekisler.domain..*Repository.*(..))"/>
 		</aop:aspect>
 	</aop:config>
 

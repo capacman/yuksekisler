@@ -25,12 +25,11 @@
 		<p:fieldset legend="#{msgs.equipments}" style="margin-top:20px">
 			<p:outputPanel>
 				<p:dataGrid var="equipment"
-					value="#{workController.work.equipments}" columns="3"
-					style="width:100%">
+					value="#{workController.work.equipments}" columns="3">
 					<p:column>
 						<p:panel header="#{equipment.productName}"
-							style="text-align:center" closable="true" closeSpeed="300">
-							<h:panelGrid columns="1" style="width:100%">
+							style="text-align:center" closable="true" closeSpeed="300" styleClass="workEquipment">
+							<h:panelGrid columns="2">
 								<c:choose>
 									<c:when test="#{equipment.hasImage}">
 										<h:graphicImage value="/images/image/#{equipment}/thumbnail" />

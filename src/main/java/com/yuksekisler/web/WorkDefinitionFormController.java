@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-import org.primefaces.event.CloseEvent;
+import javax.faces.event.ActionEvent;
+
+import org.primefaces.event.DateSelectEvent;
 import org.primefaces.event.DragDropEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +17,13 @@ import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.work.LifeTime;
 
 public class WorkDefinitionFormController extends
-		AbstractBaseWorkFormController implements Serializable{
+		AbstractBaseWorkFormController implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1485168065748144028L;
-	private static final Logger LOGGER = LoggerFactory.getLogger(WorkDefinitionFormController.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(WorkDefinitionFormController.class);
 	private Category selectedCategory;
 	private EquipmentService equipmentService;
 
@@ -56,20 +59,38 @@ public class WorkDefinitionFormController extends
 	}
 
 	public void onEquipmentDrop(DragDropEvent event) {
-		
+
 		Equipment eq = ((Equipment) event.getData());
-		LOGGER.info("dropped event id {} ",eq.getId());
+		LOGGER.info("dropped event id {} ", eq.getId());
 		work.addEquipment(eq);
 	}
 
-	public void handleClose(CloseEvent event) {
-		LOGGER.info("event id {} ",event.getComponent().getAttributes().get("equipmentID"));
-		Long equipmentID = (Long) event.getComponent().getAttributes().get("equipmentID");
+	public void handleClose(ActionEvent event) {
+		LOGGER.info("event id {} ",
+				event.getComponent().getAttributes().get("equipmentID"));
+		Long equipmentID = (Long) event.getComponent().getAttributes()
+				.get("equipmentID");
 		Iterator<Equipment> iterator = work.getEquipments().iterator();
 		while (iterator.hasNext())
 			if (iterator.next().getId() == equipmentID) {
 				iterator.remove();
 				break;
 			}
+	}
+
+	public void handleDateSelect(DateSelectEvent event) {
+		LOGGER.info("event date: {}", event.getDate());
+		LOGGER.info("startDate: {}", getStartDate());
+		LOGGER.info("endDate: {}", getEndDate());
+	}
+
+	public String create() {
+		// TODO: there are some checkings
+		workService.saveEntity(work);
+		return "work";
+	}
+
+	public String cancel() {
+		return "work";
 	}
 }

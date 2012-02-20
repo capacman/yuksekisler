@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/mainlayout.xhtml">
+	<f:metadata>
+		<f:viewParam name="id" value="#{equipmentController.equipmentId}"
+			required="true" requiredMessage="#{msgs.noEquipmentSpecified}">
+			<f:validateLongRange minimum="1" />
+		</f:viewParam>
+		<f:event type="preRenderView"
+			listener="#{equipmentController.loadEquipment}" />
+	</f:metadata>
+	<ui:define name="container">
+		<h:form id="mainForm" enctype="multipart/form-data">
+			<ui:include src="/sections/equipmentsimpleform.xhtml">
+				<ui:param name="isView" value="false" />
+			</ui:include>
+			<h:inputHidden value="#{equipmentController.equipment.id}" />
+			<p:dataGrid id="images" var="image"
+				value="#{equipmentController.equipment.images}" columns="4">
+				<p:column>
+					<p:panel header="#{image.title}" closable="true" closeSpeed="300">
+						<f:attribute name="imageID" value="#{image.id}" />
+						<p:ajax event="close"
+							listener="#{equipmentController.handleImageClose}"
+							update="@form">
+						</p:ajax>
+						<h:graphicImage value="/images/image/#{image.id}/thumbnail" />
+					</p:panel>
+				</p:column>
+			</p:dataGrid>
+			<p:panelGrid styleClass="borderlessPanel">
+				<p:row rendered="#{!isView}">
+					<p:column>
+						<p:commandButton value="#{msgs.update}"
+							action="#{equipmentController.update}" update="grid" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="#{msgs.cancel}"
+							action="#{equipmentController.cancelUpdate}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,8 +1,8 @@
 package com.yuksekisler.domain.equipment;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -23,6 +23,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.yuksekisler.domain.ContainsImage;
@@ -97,9 +99,10 @@ public class InspectionReport implements IdEnabledEntity<Long>, ContainsImage {
 	@Column(nullable = false)
 	private Boolean erased = false;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable
-	private Set<Image> images = new HashSet<Image>();
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Image> images = new ArrayList<Image>();
 
 	public InspectionReport() {
 		super();
@@ -178,7 +181,7 @@ public class InspectionReport implements IdEnabledEntity<Long>, ContainsImage {
 	}
 
 	@Override
-	public Set<Image> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 
