@@ -10,29 +10,30 @@
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<f:metadata>
-		<f:viewParam name="id" value="#{equipmentController.equipmentId}"
+		<f:viewParam name="id" value="#{equipmentViewController.equipmentId}"
 			required="true" requiredMessage="#{msgs.noEquipmentSpecified}">
 			<f:validateLongRange minimum="1" />
 		</f:viewParam>
 		<f:event type="preRenderView"
-			listener="#{equipmentController.loadEquipment}" />
+			listener="#{equipmentViewController.loadEquipment}" />
 	</f:metadata>
 
 	<ui:define name="container">
 		<h:form id="edit" styleClass="editForm">
 			<h:link outcome="edit" includeViewParams="true" value="#{msgs.edit}">
-				<f:param name="id" value="#{equipmentController.equipmentId}" />
+				<f:param name="id" value="#{equipmentViewController.equipmentId}" />
 			</h:link>
 		</h:form>
 		<ui:include src="/sections/equipmentsimpleform.xhtml">
 			<ui:param name="isView" value="true" />
+			<ui:param name="ec" value="#{equipmentViewController}" />
 		</ui:include>
 
-		<p:galleria value="#{equipmentController.imageIds}" var="imageID">
-			<p:graphicImage value="/images/image/#{imageID}" />
+		<p:galleria value="#{equipmentViewController.equipment.images}" var="image">
+			<p:graphicImage value="/images/image/#{image.id}" />
 		</p:galleria>
 		<p:accordionPanel
-			value="#{equipmentController.equipment.inspectionReports}"
+			value="#{equipmentViewController.equipment.inspectionReports}"
 			var="report">
 			<p:tab title="Report by #{report.inspector.name}">
 				<h:panelGrid columns="2" cellpadding="10">
@@ -60,9 +61,9 @@
 			</p:tab>
 		</p:accordionPanel>
 		<h:form>
-			<h:inputHidden value="#{equipmentController.equipmentId}"></h:inputHidden>
+			<h:inputHidden value="#{equipmentViewController.equipmentId}"></h:inputHidden>
 			<p:commandButton value="#{msgs.newInspectionReport}"
-				action="#{equipmentController.addInspectionReport}" ajax="false" />
+				action="#{equipmentViewController.addInspectionReport}" ajax="false" />
 		</h:form>
 	</ui:define>
 </ui:composition>

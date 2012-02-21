@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+<!-- work simple form converted to composite component since p:ajax could not resolve parameter when it is template -->
+<composite:interface>
+	<composite:attribute name="wc"/>
+	<composite:attribute name="isView"/>
+	<composite:attribute name="employeeController"/>
+</composite:interface>
+<composite:implementation>
+	<p:panelGrid styleClass="borderlessPanel">
+		<p:row>
+			<p:column>
+				<h:outputLabel for="workName" value="#{msgs.name}" />
+			</p:column>
+			<p:column>
+				<p:inputText id="workName" value="#{cc.attrs.wc.work.name}" required="true"
+					requiredMessage="#{msgs.nameRequired}" disabled="#{cc.attrs.isView}" />
+			</p:column>
+			<p:column>
+				<h:outputLabel for="customer" value="#{msgs.customer}" />
+			</p:column>
+			<p:column>
+				<p:inputText id="customer" value="#{cc.attrs.wc.work.customer}"
+					required="true" requiredMessage="#{msgs.customerRequired}"
+					disabled="#{cc.attrs.isView}" />
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:outputLabel for="startDate" value="#{msgs.startDate}" />
+			</p:column>
+			<p:column>
+				<p:calendar id="startDate" value="#{cc.attrs.wc.startDate}" required="true"
+					requiredMessage="#{msgs.startDateRequired}" disabled="#{cc.attrs.isView}">
+					<p:ajax event="dateSelect" listener="#{cc.attrs.wc.handleDateSelect}"
+						disabled="#{cc.attrs.isView}" update=":mainForm:dropArea,:mainForm:dragArea"/>
+				</p:calendar>
+			</p:column>
+			<p:column>
+				<h:outputLabel for="supervisors" value="#{msgs.supervisors}" />
+			</p:column>
+			<p:column rowspan="2">
+				<p:selectManyMenu value="#{cc.attrs.wc.work.supervisors}"
+					disabled="#{cc.attrs.isView}">
+					<f:selectItems value="#{cc.attrs.employeeController.employees}"
+						var="employee" itemLabel="#{employee.name}"
+						itemValue="#{employee}" />
+				</p:selectManyMenu>
+			</p:column>
+		</p:row>
+		<p:row>
+			<p:column>
+				<h:outputLabel for="endDate" value="#{msgs.endDate}" />
+			</p:column>
+			<p:column>
+				<p:calendar id="endDate" value="#{cc.attrs.wc.endDate}" required="true"
+					requiredMessage="#{msgs.endDateRequired}" disabled="#{cc.attrs.isView}">
+					<p:ajax event="dateSelect" listener="#{cc.attrs.wc.handleDateSelect}"
+						disabled="#{cc.attrs.isView}" update=":mainForm:dropArea,:mainForm:dragArea"/>
+				</p:calendar>
+			</p:column>
+		</p:row>
+	</p:panelGrid>
+</composite:implementation>
+</html>

@@ -8,16 +8,16 @@ import org.slf4j.LoggerFactory;
 import com.yuksekisler.application.WorkService;
 import com.yuksekisler.domain.work.WorkDefinition;
 
-public abstract class AbstractBaseWorkFormController implements WorkForm {
+public abstract class AbstractWorkDefinitionController {
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AbstractBaseWorkFormController.class);
+			.getLogger(AbstractWorkDefinitionController.class);
 	protected WorkService workService;
 	protected WorkDefinition work = new WorkDefinition();
 	protected Date startDate;
 	protected Date endDate;
 	protected Long workId;
 
-	public AbstractBaseWorkFormController() {
+	public AbstractWorkDefinitionController() {
 		super();
 	}
 
@@ -29,44 +29,36 @@ public abstract class AbstractBaseWorkFormController implements WorkForm {
 		this.workService = workService;
 	}
 
-	@Override
 	public WorkDefinition getWork() {
 		return work;
 	}
 
-	@Override
 	public void setWork(WorkDefinition work) {
 		this.work = work;
 	}
 
-	@Override
 	public Date getStartDate() {
 		if (startDate == null)
 			startDate = new Date();
 		return startDate;
 	}
 
-	@Override
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	@Override
 	public Date getEndDate() {
 		return endDate;
 	}
 
-	@Override
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
-	@Override
 	public Long getWorkId() {
 		return workId;
 	}
 
-	@Override
 	public void setWorkId(Long workId) {
 		this.workId = workId;
 	}
@@ -76,7 +68,7 @@ public abstract class AbstractBaseWorkFormController implements WorkForm {
 			work = workService.getEntity(workId, WorkDefinition.class);
 			startDate = work.getLifeTime().getStartDate();
 			endDate = work.getLifeTime().getEndDate();
-			LOGGER.info("work equipment size:{}",work.getEquipments().size());
+			LOGGER.info("work equipment size:{}", work.getEquipments().size());
 		} else {
 			LOGGER.info("workId is null");
 		}

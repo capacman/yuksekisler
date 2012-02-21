@@ -17,7 +17,7 @@ import com.yuksekisler.domain.equipment.Equipment;
 import com.yuksekisler.domain.work.LifeTime;
 
 public class WorkDefinitionFormController extends
-		AbstractBaseWorkFormController implements Serializable {
+		AbstractWorkDefinitionController implements Serializable {
 	/**
 	 * 
 	 */
@@ -79,9 +79,11 @@ public class WorkDefinitionFormController extends
 	}
 
 	public void handleDateSelect(DateSelectEvent event) {
-		LOGGER.info("event date: {}", event.getDate());
-		LOGGER.info("startDate: {}", getStartDate());
-		LOGGER.info("endDate: {}", getEndDate());
+		if (event.getComponent().getId().equalsIgnoreCase("startDate")) {
+			setStartDate(event.getDate());
+		} else {
+			setEndDate(event.getDate());
+		}
 	}
 
 	public String create() {

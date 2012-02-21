@@ -9,26 +9,27 @@
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<f:metadata>
-		<f:viewParam name="id" value="#{equipmentController.equipmentId}"
-			required="true" requiredMessage="#{msgs.noEquipmentSpecified}">
+		<f:viewParam name="id" value="#{equipmentFormController.equipmentId}"
+			required="true" requiredMessage="#{msgs.noEquipmentSpecified}" >
 			<f:validateLongRange minimum="1" />
 		</f:viewParam>
 		<f:event type="preRenderView"
-			listener="#{equipmentController.loadEquipment}" />
+			listener="#{equipmentFormController.loadEquipment}" />
 	</f:metadata>
 	<ui:define name="container">
 		<h:form id="mainForm" enctype="multipart/form-data">
+			<p:messages id="messages" showDetail="true" autoUpdate="true" />
 			<ui:include src="/sections/equipmentsimpleform.xhtml">
 				<ui:param name="isView" value="false" />
+				<ui:param name="ec" value="#{equipmentFormController}" />
 			</ui:include>
-			<h:inputHidden value="#{equipmentController.equipment.id}" />
 			<p:dataGrid id="images" var="image"
-				value="#{equipmentController.equipment.images}" columns="4">
+				value="#{equipmentFormController.equipment.images}" columns="4">
 				<p:column>
 					<p:panel header="#{image.title}" closable="true" closeSpeed="300">
 						<f:attribute name="imageID" value="#{image.id}" />
 						<p:ajax event="close"
-							listener="#{equipmentController.handleImageClose}"
+							listener="#{equipmentFormController.handleImageClose}"
 							update="@form">
 						</p:ajax>
 						<h:graphicImage value="/images/image/#{image.id}/thumbnail" />
@@ -39,11 +40,11 @@
 				<p:row rendered="#{!isView}">
 					<p:column>
 						<p:commandButton value="#{msgs.update}"
-							action="#{equipmentController.update}" update="grid" />
+							action="#{equipmentFormController.update}" update="grid" />
 					</p:column>
 					<p:column>
 						<p:commandButton value="#{msgs.cancel}"
-							action="#{equipmentController.cancelUpdate}" />
+							action="#{equipmentFormController.cancelUpdate}" immediate="true" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>

@@ -31,6 +31,31 @@
 			<to-view-id>/login.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>newequipment</from-outcome>
+			<to-view-id>/pages/equipment/new.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>definitions</from-outcome>
+			<to-view-id>/pages/definitions.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>work</from-outcome>
+			<to-view-id>/pages/work/list.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>newwork</from-outcome>
+			<to-view-id>/pages/work/new.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>equipment</from-outcome>
+			<to-view-id>/pages/equipment/list.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<display-name>/login.xhtml</display-name>
@@ -38,24 +63,6 @@
 		<navigation-case>
 			<from-outcome>success</from-outcome>
 			<to-view-id>/pages/equipment/list.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>/pages/equipment/new.xhtml</display-name>
-		<from-view-id>/pages/equipment/new.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>success</from-outcome>
-			<to-view-id>/pages/equipment/list.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>*</display-name>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>newequipment</from-outcome>
-			<to-view-id>/pages/equipment/new.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -68,7 +75,7 @@
 			<redirect>
 				<view-param>
 					<name>id</name>
-					<value>#{equipmentController.equipment.id}</value>
+					<value>#{equipmentViewController.equipmentId}</value>
 				</view-param>
 			</redirect>
 		</navigation-case>
@@ -82,7 +89,17 @@
 			<redirect>
 				<view-param>
 					<name>id</name>
-					<value>#{equipmentController.equipmentId}</value>
+					<value>#{equipmentViewController.equipmentId}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>edit</from-outcome>
+			<to-view-id>/pages/equipment/edit.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>id</name>
+					<value>#{equipmentViewController.equipmentId}</value>
 				</view-param>
 			</redirect>
 		</navigation-case>
@@ -96,35 +113,7 @@
 			<redirect>
 				<view-param>
 					<name>id</name>
-					<value>#{equipmentController.equipment.id}</value>
-				</view-param>
-			</redirect>
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>/pages/equipment/edit.xhtml</display-name>
-		<from-view-id>/pages/equipment/edit.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>cancel</from-outcome>
-			<to-view-id>/pages/equipment/view.xhtml</to-view-id>
-			<redirect>
-				<view-param>
-					<name>id</name>
-					<value>#{equipmentController.equipment.id}</value>
-				</view-param>
-			</redirect>
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>/pages/equipment/edit.xhtml</display-name>
-		<from-view-id>/pages/equipment/edit.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>view</from-outcome>
-			<to-view-id>/pages/equipment/view.xhtml</to-view-id>
-			<redirect>
-				<view-param>
-					<name>id</name>
-					<value>#{equipmentController.equipment.id}</value>
+					<value>#{equipmentFormController.equipment.id}</value>
 				</view-param>
 			</redirect>
 		</navigation-case>
@@ -138,45 +127,9 @@
 			<redirect>
 				<view-param>
 					<name>id</name>
-					<value>#{equipmentController.equipmentId}</value>
+					<value>#{equipmentFormController.equipment.id}</value>
 				</view-param>
 			</redirect>
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>*</display-name>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>equipment</from-outcome>
-			<to-view-id>/pages/equipment/list.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>*</display-name>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>definitions</from-outcome>
-			<to-view-id>/pages/definitions.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>*</display-name>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>work</from-outcome>
-			<to-view-id>/pages/work/list.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>*</display-name>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>newwork</from-outcome>
-			<to-view-id>/pages/work/new.xhtml</to-view-id>
-			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
@@ -188,7 +141,35 @@
 			<redirect>
 				<view-param>
 					<name>id</name>
-					<value>#{workController.work.id}</value>
+					<value>#{workViewController.workId}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>/pages/work/view.xhtml</display-name>
+		<from-view-id>/pages/work/view.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>edit</from-outcome>
+			<to-view-id>/pages/work/edit.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>id</name>
+					<value>#{workViewController.workId}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>/pages/work/edit.xhtml</display-name>
+		<from-view-id>/pages/work/edit.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>view</from-outcome>
+			<to-view-id>/pages/work/view.xhtml</to-view-id>
+			<redirect>
+				<view-param>
+					<name>id</name>
+					<value>#{workFormController.equipment.id}</value>
 				</view-param>
 			</redirect>
 		</navigation-case>

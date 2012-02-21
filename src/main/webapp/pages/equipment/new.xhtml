@@ -12,6 +12,7 @@
 		<h:form enctype="multipart/form-data">
 			<ui:include src="/sections/equipmentsimpleform.xhtml">
 				<ui:param name="isView" value="false" />
+				<ui:param name="ec" value="#{equipmentFormController}" />
 			</ui:include>
 			<p:panelGrid styleClass="borderlessPanel">
 				<p:row rendered="#{!isView}">
@@ -20,7 +21,7 @@
 					</p:column>
 					<p:column>
 						<p:fileUpload id="fileUpload"
-							fileUploadListener="#{equipmentController.handleFileUpload}"
+							fileUploadListener="#{equipmentFormController.handleFileUpload}"
 							mode="advanced" update="@form" multiple="true"
 							sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
 							process="@form" />
@@ -29,11 +30,11 @@
 				<p:row rendered="#{!isView}">
 					<p:column>
 						<p:commandButton value="#{msgs.create}"
-							action="#{equipmentController.create}" update="grid" />
+							action="#{equipmentFormController.create}" update="grid" />
 					</p:column>
 					<p:column>
 						<p:commandButton value="#{msgs.cancel}"
-							action="#{equipmentController.cancel}" />
+							action="#{equipmentFormController.cancel}" immediate="true" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>

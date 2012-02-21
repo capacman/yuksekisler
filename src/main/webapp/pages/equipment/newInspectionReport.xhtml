@@ -9,12 +9,12 @@
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<f:metadata>
-		<f:viewParam name="id" value="#{equipmentController.equipmentId}"
+		<f:viewParam name="id" value="#{equipmentFormController.equipmentId}"
 			required="true" requiredMessage="#{msgs.noEquipmentSpecified}">
 			<f:validateLongRange minimum="1" />
 		</f:viewParam>
 		<f:event type="preRenderView"
-			listener="#{equipmentController.loadEquipment}" />
+			listener="#{equipmentFormController.loadEquipment}" />
 	</f:metadata>
 	<ui:define name="container">
 		<h:form>
@@ -22,7 +22,7 @@
 				<p:row>
 					<p:column colspan="4">
 						<p:editor id="editor"
-							value="#{equipmentController.inspectionReport.report}"
+							value="#{equipmentFormController.inspectionReport.report}"
 							width="600" />
 					</p:column>
 				</p:row>
@@ -32,7 +32,7 @@
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="stateSelect"
-							value="#{equipmentController.inspectionReport.status}"
+							value="#{equipmentFormController.inspectionReport.status}"
 							required="true">
 							<f:selectItem itemLabel="#{msgs.selectState}"
 								noSelectionOption="true" />
@@ -48,19 +48,20 @@
 					<p:column>
 						<p:calendar id="inspectionReportDate" required="true"
 							requiredMessage="#{msgs.inspectionDateRequired}"
-							value="#{equipmentController.inspectionReport.inspectionDate}" />
+							value="#{equipmentFormController.inspectionReport.inspectionDate}" />
 					</p:column>
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
 						<p:commandButton value="#{msgs.create}"
-							action="#{equipmentController.createInspectionReport}" />
-						<h:inputHidden id="equipmentId" binding="#{equipmentController.htmlInputText}"
-							value="#{equipmentController.equipmentId}" immediate="true"/>
+							action="#{equipmentFormController.createInspectionReport}">
+							<f:attribute name="equipmentID"
+								value="#{equipmentFormController.equipmentId}" />
+						</p:commandButton>
 					</p:column>
 					<p:column colspan="1">
 						<p:commandButton value="#{msgs.cancel}"
-							action="#{equipmentController.cancelInspectionReport}"
+							action="#{equipmentFormController.cancelInspectionReport}"
 							immediate="true" />
 					</p:column>
 				</p:row>

@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import com.yuksekisler.domain.work.WorkDefinition;
 
-public class WorkController extends AbstractBaseWorkFormController implements WorkForm {
-	static final Logger LOGGER = LoggerFactory.getLogger(WorkController.class);
+public class WorkDefinitionViewController extends
+		AbstractWorkDefinitionController {
+	static final Logger LOGGER = LoggerFactory
+			.getLogger(WorkDefinitionViewController.class);
 	protected LazyDataModel<WorkDefinition> model;
 
 	public LazyDataModel<WorkDefinition> getModel() {

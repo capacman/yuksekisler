@@ -22,12 +22,15 @@
 			fixed-delay="#{3600*6*1000}" />
 	</task:scheduled-tasks>
 
-	<bean id="equipmentController" class="com.yuksekisler.web.EquipmentController"
-		scope="request">
+	<bean id="equipmentFormController" class="com.yuksekisler.web.EquipmentFormController"
+		scope="view">
 		<property name="sessionInfo" ref="sessionInfo" />
 		<property name="equipmentService" ref="equipmentService" />
 		<property name="fileService" ref="fileService" />
-		<property name="uuidBean" ref="fileUploadFormUUID" />
+	</bean>
+	<bean id="equipmentViewController" class="com.yuksekisler.web.EquipmentViewController"
+		scope="request">
+		<property name="equipmentService" ref="equipmentService" />
 	</bean>
 
 	<bean id="definitionsController" class="com.yuksekisler.web.DefinitionsController"
@@ -39,12 +42,12 @@
 		scope="request">
 		<property name="employeeService" ref="employeeService" />
 	</bean>
-	<bean id="workController" class="com.yuksekisler.web.WorkController"
+	<bean id="workViewController" class="com.yuksekisler.web.WorkDefinitionViewController"
 		scope="request">
 		<property name="workService" ref="workService" />
 	</bean>
 	<bean id="workFormController" class="com.yuksekisler.web.WorkDefinitionFormController"
-		scope="view"> 
+		scope="view">
 		<property name="workService" ref="workService" />
 		<property name="equipmentService" ref="equipmentService" />
 	</bean>
@@ -57,8 +60,6 @@
 		<property name="localeResolver" ref="localeResolver" />
 	</bean>
 
-	<bean id="fileUploadFormUUID" class="com.yuksekisler.web.FileUploadFormUUIDBean"
-		scope="view" />
 	<bean id="applicationController" class="com.yuksekisler.web.Application" />
 	<bean id="credentials" class="com.yuksekisler.web.Credentials" />
 
