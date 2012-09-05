@@ -4,7 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:yuksekisler="http://java.sun.com/jsf/composite/yuksekisler">
 
 <ui:composition template="/templates/mainlayout.xhtml">
 	<f:metadata>
@@ -12,11 +15,13 @@
 			required="true" requiredMessage="#{msgs.noWorkSpecified}">
 			<f:validateLongRange minimum="1" />
 		</f:viewParam>
-		<f:event type="preRenderView" listener="#{workFormController.loadWork}" />
+		<f:event type="preRenderView"
+			listener="#{workFormController.loadWork}" />
 	</f:metadata>
 	<ui:define name="container">
+	<ui:debug hotkey="k"/>
 		<h:form id="mainForm" enctype="multipart/form-data">
-
+			<p:messages id="messages" showDetail="true" autoUpdate="true" />
 			<yuksekisler:worksimpleform wc="#{workFormController}" isView="false"
 				employeeController="#{employeeController}" />
 
@@ -30,7 +35,7 @@
 					<p:column>
 						<p:selectOneMenu id="selectedCategory"
 							value="#{workFormController.selectedCategory}">
-							<f:selectItems value="#{equipmentController.categories}"
+							<f:selectItems value="#{equipmentViewController.categories}"
 								var="category" itemLabel="#{category.name}"
 								itemValue="#{category}" />
 						</p:selectOneMenu>
@@ -139,9 +144,10 @@
 						<p:droppable for="selectedEquipments" tolerance="touch"
 							activeStyleClass="ui-state-highlight" datasource="dragArea"
 							onDrop="handleDrop">
-
+							<f:param name="id" value="#{workFormController.workId}"/>
 							<p:ajax listener="#{workFormController.onEquipmentDrop}"
-								update="dragArea dropArea" />
+								update="dragArea dropArea" immediate="true">
+							</p:ajax>
 						</p:droppable>
 					</p:column>
 				</p:row>

@@ -4,17 +4,19 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
 import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.media.jai.JAI;
 import javax.media.jai.RenderedOp;
 
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.IOUtils;
-import org.primefaces.event.CloseEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.slf4j.Logger;
 
@@ -34,6 +36,7 @@ public class EquipmentFormController extends AbstractEquipmentController {
 	private InspectionReport inspectionReport = new InspectionReport();
 	private String uuid = UUID.randomUUID().toString();
 	private HtmlInputHidden htmlInputText;
+	private List<Image> erasedImages = new ArrayList<Image>();
 
 	// since equipment value decides whether some views should be visible or not
 	// it should be not null
@@ -51,16 +54,16 @@ public class EquipmentFormController extends AbstractEquipmentController {
 	}
 
 	public String create() {
-		List<Image> files = fileService.getFiles(uuid, Image.class);
-		for (Image image : files) {
-			equipment.addImage(image);
-		}
 		equipmentService.saveEntity(equipment);
 		return "equipment";
 	}
 
 	public String update() {
 		LOGGER.info("inside update");
+		for (Image image : erasedImages) {
+			image.setErased(true);
+			equipmentService.saveEntity(image);
+		}
 		equipmentService.saveEntity(equipment);
 		return "view";
 	}
@@ -92,7 +95,8 @@ public class EquipmentFormController extends AbstractEquipmentController {
 					.toOutputStream(outputStream);
 			image.setThumbnailData(outputStream.toByteArray());
 			image.setUploadId(uuid);
-			fileService.saveEntity(image);
+			image = fileService.saveEntity(image);
+			equipment.addImage(image);
 		} catch (IOException e) {
 			throw new ImageSaveFailedException(e);
 		}
@@ -134,13 +138,26 @@ public class EquipmentFormController extends AbstractEquipmentController {
 		return "view";
 	}
 
-	public void handleImageClose(CloseEvent event) {
-		LOGGER.info("image id {} ",
+	public void handleImageClose(ActionEvent event) {
+		LOGGER.debug("image id {} ",
 				event.getComponent().getAttributes().get("imageID"));
 		long imageID = (Long) event.getComponent().getAttributes()
 				.get("imageID");
-		Image image = equipmentService.getEntity(imageID, Image.class);
-		image.setErased(true);
-		equipmentService.saveEntity(image);
+		Iterator<Image> iterator = equipment.getImages().iterator();
+		while (iterator.hasNext()) {
+			Image image = iterator.next();
+			if (image.getId() == imageID) {
+				iterator.remove();
+				erasedImages.add(image);
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void loadEquipment() {
+		// prevents this running from partial rendering
+		if (!FacesContext.getCurrentInstance().isPostback())
+			super.loadEquipment();
 	}
 }

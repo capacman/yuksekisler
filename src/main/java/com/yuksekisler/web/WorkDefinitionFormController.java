@@ -3,7 +3,10 @@ package com.yuksekisler.web;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.DateSelectEvent;
@@ -26,6 +29,8 @@ public class WorkDefinitionFormController extends
 			.getLogger(WorkDefinitionFormController.class);
 	private Category selectedCategory;
 	private EquipmentService equipmentService;
+	private List<Equipment> availableEquipments;
+	private Boolean isAvailableEquipmentsDrity = true;
 
 	public Category getSelectedCategory() {
 		if (selectedCategory == null) {
@@ -40,14 +45,20 @@ public class WorkDefinitionFormController extends
 	}
 
 	public List<Equipment> getAvailableCategories() {
-		List<Equipment> availableEquipments = equipmentService
-				.getAvailableEquipments(new LifeTime(getStartDate(),
-						getEndDate()), getSelectedCategory().getId(), work
-						.getId());
-		for (Equipment equipment : work.getEquipments()) {
-			availableEquipments.remove(equipment);
-		}
+		refreshAvailableEquipments();
 		return availableEquipments;
+	}
+
+	protected synchronized void refreshAvailableEquipments() {
+		if (isAvailableEquipmentsDrity) {
+			availableEquipments = equipmentService.getAvailableEquipments(
+					new LifeTime(getStartDate(), getEndDate()),
+					getSelectedCategory().getId(), work.getId());
+			for (Equipment equipment : work.getEquipments()) {
+				availableEquipments.remove(equipment);
+			}
+			isAvailableEquipmentsDrity = false;
+		}
 	}
 
 	public EquipmentService getEquipmentService() {
@@ -63,6 +74,7 @@ public class WorkDefinitionFormController extends
 		Equipment eq = ((Equipment) event.getData());
 		LOGGER.info("dropped event id {} ", eq.getId());
 		work.addEquipment(eq);
+		isAvailableEquipmentsDrity = true;
 	}
 
 	public void handleClose(ActionEvent event) {
@@ -76,6 +88,7 @@ public class WorkDefinitionFormController extends
 				iterator.remove();
 				break;
 			}
+		isAvailableEquipmentsDrity = true;
 	}
 
 	public void handleDateSelect(DateSelectEvent event) {
@@ -84,6 +97,7 @@ public class WorkDefinitionFormController extends
 		} else {
 			setEndDate(event.getDate());
 		}
+		isAvailableEquipmentsDrity = true;
 	}
 
 	public String create() {
@@ -94,5 +108,12 @@ public class WorkDefinitionFormController extends
 
 	public String cancel() {
 		return "work";
+	}
+
+	@Override
+	public void loadWork() {
+		// prevents this running from partial rendering
+		if (!FacesContext.getCurrentInstance().isPostback())
+			super.loadWork();
 	}
 }

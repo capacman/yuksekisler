@@ -10,7 +10,7 @@
 <ui:composition template="/templates/mainlayout.xhtml">
 	<f:metadata>
 		<f:viewParam name="id" value="#{equipmentFormController.equipmentId}"
-			required="true" requiredMessage="#{msgs.noEquipmentSpecified}" >
+			required="true" requiredMessage="#{msgs.noEquipmentSpecified}">
 			<f:validateLongRange minimum="1" />
 		</f:viewParam>
 		<f:event type="preRenderView"
@@ -23,24 +23,52 @@
 				<ui:param name="isView" value="false" />
 				<ui:param name="ec" value="#{equipmentFormController}" />
 			</ui:include>
-			<p:dataGrid id="images" var="image"
-				value="#{equipmentFormController.equipment.images}" columns="4">
-				<p:column>
-					<p:panel header="#{image.title}" closable="true" closeSpeed="300">
-						<f:attribute name="imageID" value="#{image.id}" />
-						<p:ajax event="close"
-							listener="#{equipmentFormController.handleImageClose}"
-							update="@form">
-						</p:ajax>
-						<h:graphicImage value="/images/image/#{image.id}/thumbnail" />
-					</p:panel>
-				</p:column>
-			</p:dataGrid>
 			<p:panelGrid styleClass="borderlessPanel">
-				<p:row rendered="#{!isView}">
+				<p:row>
+					<p:column>
+						<h:outputLabel for="fileUpload" value="Upload Files" />
+					</p:column>
+					<p:column>
+						<p:fileUpload id="fileUpload"
+							fileUploadListener="#{equipmentFormController.handleFileUpload}"
+							mode="advanced" update="@form" multiple="true"
+							sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+							process="@form" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputLabel for="imageEdit" value="#{msgs.images}" />
+					</p:column>
+					<p:column>
+						<p:outputPanel id="imageEdit" autoUpdate="true">
+							<p:carousel value="#{equipmentFormController.equipment.images}"
+								var="image" headerText="#{msgs.images}">
+								<p:column>
+									<h:graphicImage value="/images/image/#{image.id}/thumbnail" />
+									<p:commandLink
+										actionListener="#{equipmentFormController.handleImageClose}"
+										immediate="true">
+										<f:attribute name="imageID" value="#{image.id}" />
+										<f:param name="id"
+											value="#{equipmentFormController.equipmentId}" />
+										<div title=".ui-icon-trash"
+											class="ui-state-default ui-corner-all"
+											style="width: 24px; height: 16px">
+											<span class="ui-icon ui-icon-trash"></span>
+										</div>
+									</p:commandLink>
+								</p:column>
+							</p:carousel>
+						</p:outputPanel>
+					</p:column>
+				</p:row>
+				<p:row>
 					<p:column>
 						<p:commandButton value="#{msgs.update}"
-							action="#{equipmentFormController.update}" update="grid" />
+							action="#{equipmentFormController.update}" update="grid">
+							<f:param name="id" value="#{equipmentFormController.equipmentId}" />
+						</p:commandButton>
 					</p:column>
 					<p:column>
 						<p:commandButton value="#{msgs.cancel}"

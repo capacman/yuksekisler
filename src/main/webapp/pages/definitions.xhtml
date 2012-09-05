@@ -32,7 +32,7 @@
 				<p:commandButton value="#{msgs.add}"
 					action="#{definitionsController.addCategory}" update="@form"
 					style="margin:10px 0" />
-				<p:dataTable value="#{equipmentController.categories}"
+				<p:dataTable value="#{equipmentViewController.categories}"
 					var="category" id="categoryTable">
 					<p:column>
 						<f:facet name="header">
@@ -70,7 +70,7 @@
 				<p:commandButton value="#{msgs.add}"
 					action="#{definitionsController.addBrand}" update="@form"
 					style="margin:10px 0" />
-				<p:dataTable value="#{equipmentController.brands}" var="brand"
+				<p:dataTable value="#{equipmentViewController.brands}" var="brand"
 					id="brandTable">
 					<p:column>
 						<f:facet name="header">

@@ -24,7 +24,36 @@
 							fileUploadListener="#{equipmentFormController.handleFileUpload}"
 							mode="advanced" update="@form" multiple="true"
 							sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-							process="@form" />
+							process="@form">
+							<p:ajax process="@this" />
+						</p:fileUpload>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputLabel for="imageEdit" value="#{msgs.images}" />
+					</p:column>
+					<p:column>
+						<p:outputPanel id="imageEdit" autoUpdate="true">
+							<p:carousel value="#{equipmentFormController.equipment.images}"
+								var="image" headerText="#{msgs.images}">
+								<p:column>
+									<h:graphicImage value="/images/image/#{image.id}/thumbnail" />
+									<p:commandLink
+										actionListener="#{equipmentFormController.handleImageClose}"
+										immediate="true">
+										<f:attribute name="imageID" value="#{image.id}" />
+										<f:param name="id"
+											value="#{equipmentFormController.equipmentId}" />
+										<div title=".ui-icon-trash"
+											class="ui-state-default ui-corner-all"
+											style="width: 24px; height: 16px">
+											<span class="ui-icon ui-icon-trash"></span>
+										</div>
+									</p:commandLink>
+								</p:column>
+							</p:carousel>
+						</p:outputPanel>
 					</p:column>
 				</p:row>
 				<p:row rendered="#{!isView}">

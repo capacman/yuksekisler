@@ -24,6 +24,7 @@ public class EquipmentRepositoryJPA extends AbstractBaseRepositoryJPA implements
 	@Override
 	public List<Equipment> findAvailable(final LifeTime lifetime,
 			Long categoryID, Long workID) {
+		LOGGER.debug("in find available");
 		List<Equipment> resultList = new ArrayList<Equipment>();
 		List<Equipment> equipments = null;
 		if (categoryID == null) {
