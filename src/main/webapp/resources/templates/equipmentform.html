@@ -1,12 +1,13 @@
-<form id='equipmentForm' class='form-horizontal' action="<%=appconfig.context%>/equipment" method="post">
+<form id='equipmentForm' name="equipmentForm" class='form-horizontal' xmlns="http://www.w3.org/1999/html">
     <fieldset>
 
-        <div class="control-group">
+        <div class="control-group" ng-class="addClass('productName','warning')">
 
             <label for='productName' class="control-label">Product Name:*</label>
 
             <div class="controls">
-                <input id='productName' name="productName" type="text" class='validate[required]'/>
+                <input id='productName' name="productName" type="text" ng-model="equipment.productName" required/>
+                <span class="help-inline" ng-show="isValidPristine('productName')">Something may have gone wrong</span>
             </div>
 
         </div>
@@ -15,7 +16,7 @@
             <label for='productCode' class="control-label">Product Code:*</label>
 
             <div class="controls">
-                <input id='productCode' name='productCode' type="text" class='validate[required]'/>
+                <input id='productCode' name='productCode' type="text" ng-model="equipment.productCode" required/>
             </div>
         </div>
 
@@ -23,48 +24,40 @@
             <label for='categories' class="control-label">Categories:*</label>
 
             <div class="controls">
-                <select id='categories' name='categories'>
-                    <% categories.each(function(category){ %>
-                    <option value="<%=category.id%>"><%=category.get('name')%></option>
-                    <% }) %>
-                </select>
+                <select id="categories" ng-model="equipment.category" ng-options="c.name for c in categories"></select>
             </div>
         </div>
         <div class="control-group">
             <label for='brands' class="control-label">Brands:*</label>
 
             <div class="controls">
-                <select id='brands' name='brands'>
-                    <% brands.each(function(brand){ %>
-                    <option value="<%=brand.id%>"><%=brand.get('name')%></option>
-                    <% }) %>
-                </select>
+                <select id="brands" ng-model="equipment.brand" ng-options="b.name for b in brands"></select>
             </div>
         </div>
         <div class="control-group">
             <label for='stockEntrance' class="control-label">StockEntrance Date:*</label>
 
             <div class="controls">
-                <input id='stockEntrance' name='stockEntrance' type='text' class='validate[required] datepicker'/>
+                <input id='stockEntrance' class="date" name='stockEntranceDate' type='text' ng-model="equipment.stockEntranceDate" required data-date-format="yy-mm-dd"/>
             </div>
         </div>
         <div class="control-group">
             <label for='bestBefore' class="control-label">BestBefore Date:*</label>
 
             <div class="controls">
-                <input id='bestBefore' name='bestBeforeDate' type='text' class='validate[required] datepicker'/>
+                <input id='bestBefore' class="date" name='bestBeforeDate' type='text'  ng-model="equipment.bestBeforeDate" required data-date-format="yy-mm-dd"/>
             </div>
         </div>
         <div class="control-group">
             <label for='production' class="control-label">Production Date:*</label>
 
             <div class="controls">
-                <input id='production' name='productionDate' class='validate[required] datepicker' type='text'/>
+                <input ui-date id='production' class="date" name='productionDate' type='text' ng-model="equipment.productionDate" required/>
             </div>
         </div>
     </fieldset>
     <div class="row">
-        <div id="submitButton" class="span3">Submit</div>
-        <div id="cancelButton" class="span3">Cancel</div>
+        <button id="submitButton" type="button" ng-disabled="!equipmentForm.$valid" class="btn btn-primary" ng-class='submitEnabled()'>Submit</button>
+        <div id="cancelButton" class="btn btn-danger">Cancel</div>
     </div>
 </form>

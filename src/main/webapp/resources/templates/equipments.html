@@ -1,6 +1,42 @@
 <div class="row">
-    <div id="newEquipmentButton">New Equipment</div>
+    <div class="btn" ng-click="newEquipment()">New Equipment</div>
 </div>
 <div class="row">
-    <div id="equipmentGrid" style="height: 400px;"></div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ProductName</th>
+            <th>ProductCode</th>
+            <th>Brand</th>
+            <th>Category</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <td colspan="6">
+            <div class="pagination pagination-centered">
+                <ul>
+                    <li ng-class="{disabled: currentPage == 0}">
+                        <a href ng-click="prevPage()">« Prev</a>
+                    </li>
+                    <li ng-repeat="n in range(maxPages)"
+                        ng-class="{active: n == currentPage}"
+                        ng-click="setPage()">
+                        <a href ng-bind="n + 1">1</a>
+                    </li>
+                    <li ng-class="{disabled: currentPage == maxPages - 1}">
+                        <a href ng-click="nextPage()">Next »</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+        </tfoot>
+        <tbody>
+        <tr ng-repeat="equipment in getPage(currentPage)" ng-click="openEquipment(equipment.id)">
+            <td>{{equipment.productName}}</td>
+            <td>{{equipment.productCode}}</td>
+            <td>{{equipment.brand.name}}</td>
+            <td>{{equipment.category.name}}</td>
+        </tr>
+        </tbody>
+    </table>
 </div>

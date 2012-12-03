@@ -5,7 +5,7 @@
                 <label for='productName' class="control-label">Product Name:</label>
 
                 <div class="controls">
-                    <span id='productName' name="productName" class='uneditable-input span3'><%=equipment.get('productName')%></span>
+                    <span id='productName' name="productName" class='uneditable-input span3'>{{equipment.productName}}</span>
                 </div>
 
             </div>
@@ -13,7 +13,7 @@
                 <label for='productCode' class="control-label">Product Code:</label>
 
                 <div class="controls">
-                    <span id='productCode' name='productCode' class='uneditable-input span3'><%=equipment.get('productCode')%></span>
+                    <span id='productCode' name='productCode' class='uneditable-input span3'>{{equipment.productCode}}></span>
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
                 <label for='categories' class="control-label">Category</label>
 
                 <div class="controls">
-                    <span id='categories' name='categories' class='uneditable-input span3'><%=equipment.get('category').name%></span>
+                    <span id='categories' name='categories' class='uneditable-input span3'>{{equipment.category.name}}</span>
                 </div>
             </div>
             <div class="control-group">
@@ -29,7 +29,7 @@
 
                 <div class="controls">
                     <span id='brands' name='brands'
-                          class='uneditable-input span3'><%=equipment.get('brand').name%></span>
+                          class='uneditable-input span3'>{{equipment.brand.name}}</span>
                 </div>
             </div>
         </div>
@@ -38,21 +38,21 @@
                 <label for='stockEntrance' class="control-label">StockEntrance Date:</label>
 
                 <div class="controls">
-                    <span id='stockEntrance' name='stockEntrance' class='uneditable-input span3'><%=$.datepicker.formatDate('yy-mm-dd', new Date(equipment.get('stockEntrance')))%></span>
+                    <span id='stockEntrance' name='stockEntrance' class='uneditable-input span3'>{{equipment.stockEntrance|date:'yy-mm-dd'}}</span>
                 </div>
             </div>
             <div class="control-group">
                 <label for='bestBefore' class="control-label">BestBefore Date:</label>
 
                 <div class="controls">
-                    <span id='bestBefore' name='bestBeforeDate' class='uneditable-input span3'><%=$.datepicker.formatDate('yy-mm-dd', new Date(equipment.get('bestBeforeDate')))%></span>
+                    <span id='bestBefore' name='bestBeforeDate' class='uneditable-input span3'>{{equipment.bestBeforeDate|date:'yy-mm-dd'}}</span>
                 </div>
             </div>
             <div class="control-group">
                 <label for='production' class="control-label">Production Date:</label>
 
                 <div class="controls">
-                    <span id='production' name='productionDate' class='uneditable-input span3'><%=$.datepicker.formatDate('yy-mm-dd', new Date(equipment.get('productionDate')))%></span>
+                    <span id='production' name='productionDate' class='uneditable-input span3'>{{equipment.productionDate|date:'yy-mm-dd'}}</span>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
         <div id="addFileButton" class="btn fileinput-button">
             <i>Upload Pictures</i>
         </div>
-        <input id="fileInput" type="file" multiple="" name="uploadedfiles[]">
+        <input id="fileInput" type="file" name="uploadedfiles[]" onchange="angular.element(this).scope().fileSelected()">
     </div>
     <div class="span3">
         <div id="uploadProgressbar" style="display: none"></div>
@@ -75,23 +75,28 @@
         </div>
     </div>
 </div>
+<div>
+    <p>
+        <div>FileName {{fileName}}</div>
+        <div>FileSize {{fileSize}}</div>
+        <div>FileType {{fileType}}</div>
+    </p>
+</div>
 <div class="row">
     <h3>Inspection Reports</h3>
-    <% _.each(equipment.get('inspectionReports'),function(inspectionReport,index){ %>
-    <div class="row">
+    <div class="row" ng-repeat="inspectionReport in equipment.inspectionReports">
         <div class="span9 offset1">
             <div class="accordion-group">
                 <div class="accordion-heading">
-                    <a href="#" data-toggle="collapse" class="accordion-toggle" data-target="#collapse<%=index%>">
-                        Report by <%=inspectionReport.inspector.name%> <%=$.datepicker.formatDate('yy-mm-dd', new Date(inspectionReport.inspectionDate))%>
+                    <a href data-toggle="collapse" class="accordion-toggle" data-target="#collapse{{$index}}">
+                        Report by {{inspectionReport.inspector.name}} {{inspectionReport.inspectionDate|date:'yy-mm-dd'}}
                     </a>
                 </div>
-                <div id="collapse<%=index%>" class="accordion-body collapse">
-                    <div class="accordion-inner"> <%=inspectionReport.report%></div>
+                <div id="collapse{{$index}}" class="accordion-body collapse">
+                    <div class="accordion-inner"> {{inspectionReport.report}}</div>
                 </div>
             </div>
         </div>
     </div>
-    <% }) %>
 </div>
 <div id="addInspectionReport">Add Report</div>
